@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/{catchall?}', static function () {
     return view('layouts.app');
 })->where('catchall', '.*');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
