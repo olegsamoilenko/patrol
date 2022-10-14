@@ -19,6 +19,27 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 window.axios.defaults.withCredentials = true
 
+// window.axios.interceptors.response.use(
+//     function(response) {
+//         return response;
+//     },
+//     function (error) {
+//         switch (error.response.status) {
+//             case 401: // Not logged in
+//             case 419: // Session expired
+//             case 503: // Down for maintenance
+//                 console.log('interceptors', error.response.status)
+//                 // window.location.reload();
+//                 break;
+//             case 500:
+//                 alert('Oops, something went wrong!  The team have been notified.');
+//                 break;
+//             default:
+//                 // Allow individual requests to handle other errors
+//                 return Promise.reject(error);
+//         }
+//     });
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

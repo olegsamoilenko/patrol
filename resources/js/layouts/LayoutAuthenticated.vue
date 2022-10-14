@@ -73,9 +73,8 @@ import { useRouter } from "vue-router";
 const store = useAuthStore();
 const router = useRouter();
 
-console.log(store.user.name);
-
 async function logout() {
+    console.log(111)
     await axios.post("/logout").then(({ data }) => {
         store.signOut();
         router.push({ name: "login" });

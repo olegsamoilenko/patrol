@@ -89,7 +89,6 @@ const store = useAuthStore();
 
 async function login()
 {
-    console.log(auth.value);
     processing.value = true
     // eslint-disable-next-line no-undef
     await axios.get('/sanctum/csrf-cookie')

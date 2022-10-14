@@ -1,0 +1,35 @@
+<template>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <span class="text-amber-accent-3">Guest</span>
+                >
+            </div>
+            <div class="d-flex">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <router-link :to="{ name: 'login' }" class="nav-link"
+                            >Login</router-link
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <router-link :to="{ name: 'register' }" class="nav-link"
+                        >Register</router-link
+                        >
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <main class="mt-3">
+            <router-view></router-view>
+        </main>
+    </div>
+</template>
+
+<script setup>
+import { useAuthStore } from "@/stores/auth";
+
+const store = useAuthStore();
+</script>
+
+<style scoped></style>

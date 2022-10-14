@@ -4,7 +4,7 @@
             <div class="col-12">
                 <div class="card shadow-sm">
                     <div class="card-header">
-                        <h3>Home</h3>
+                        <h3>Home Admin</h3>
                     </div>
                     <div class="card-body">
                         <p class="mb-0">You name is  <b>{{store.user.name}}</b></p>

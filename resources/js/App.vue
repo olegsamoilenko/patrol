@@ -1,16 +1,18 @@
 <template>
-    <div>
-        How To Install Vue 3 in Laravel 9 with Vite - TechvBlog
-        <v-btn> Button </v-btn>
-    </div>
-
     <router-view></router-view>
 </template>
 
-<script>
-export default {
-    name: "App",
-};
+<script setup>
+import { onBeforeMount } from 'vue'
+import { useAuthStore } from "@/stores/auth";
+
+const store = useAuthStore();
+
+    onBeforeMount(() => {
+        console.log(111)
+        store.signIn();
+    })
+
 </script>
 
 <style scoped></style>

@@ -8,7 +8,9 @@
     @vite('resources/css/app.css')
 </head>
 <body>
-<div id="app"></div>
+<div id="app">
+{{--    {{ dd(Auth::user()) }}--}}
+</div>
 
 @vite('resources/js/app.js')
 </body>
