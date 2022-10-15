@@ -1,15 +1,18 @@
 <template>
-    <router-view></router-view>
+    <Layout v-cloak>
+        <router-view></router-view>
+    </Layout>
+
 </template>
 
 <script setup>
+import Layout from '@/layouts/Layout.vue'
 import { onBeforeMount } from 'vue'
 import { useAuthStore } from "@/stores/auth";
 
 const store = useAuthStore();
 
     onBeforeMount(() => {
-        console.log(111)
         store.signIn();
     })
 

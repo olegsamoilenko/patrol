@@ -10,6 +10,7 @@ import * as components from 'vuetify/components'
 import Router from "@/router";
 
 import App from './App.vue'
+// import Layout from './layouts/Layout.vue'
 
 const pinia = createPinia()
 pinia
@@ -26,4 +27,5 @@ createApp(App)
     .use(pinia)
     .use(vuetify)
     .use(Router)
+    // .component('Layout', Layout)
     .mount("#app")
