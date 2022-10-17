@@ -4,7 +4,6 @@ import { ref, computed } from "vue";
 export const useAuthStore = defineStore(
     "auth",
     () => {
-        // const router = useRouter();
         const authenticated = ref(false);
         const user = ref({});
 
@@ -26,11 +25,9 @@ export const useAuthStore = defineStore(
                 });
         }
         function signOut() {
-            console.log(user)
             user.value = {};
-            console.log(user.value)
             authenticated.value = false;
-            console.log(authenticated.value)
+            this.router.push({name: "login"})
         }
         return { authenticated, user, signIn, signOut, isEmptyUser };
     },

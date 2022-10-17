@@ -1,10 +1,10 @@
 <template>
-
+<h1>Події</h1>
 </template>
 
 <script>
 export default {
-  name: "Test"
+  name: "Events"
 }
 </script>
 

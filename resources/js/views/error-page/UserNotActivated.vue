@@ -1,13 +1,25 @@
 <template>
-<h1>Ваш обліковий запис ще не активовано. Спробуйте трохи пізніше</h1>
+    <v-layout>
+        <v-container fluid>
+            <v-card class="mx-auto" max-width="600px">
+                <v-alert
+                    icon="mdi:mdi-cloud-alert"
+                    prominent
+                    type="error"
+                    variant="text"
+                >
+                    Ваш обліковий запис ще не активовано. Спробуйте трохи
+                    пізніше
+                </v-alert>
+            </v-card>
+        </v-container>
+    </v-layout>
 </template>
 
 <script>
 export default {
-  name: "UserNotActivated"
-}
+    name: "UserNotActivated",
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

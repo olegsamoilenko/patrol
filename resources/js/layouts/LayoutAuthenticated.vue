@@ -1,83 +1,99 @@
 <template>
-    <div>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a
-                    class="navbar-brand"
-                    href="https://techvblogs.com/blog/spa-authentication-laravel-9-sanctum-vue3-vite"
-                    target="_blank"
-                    >TechvBlogs</a
+        <v-app>
+            <v-app-bar app color="black">
+                <template #image>
+                    <v-img
+                        gradient="to top right, rgba(69,71,58,1), rgba(96,102,68,1)"
+                    ></v-img>
+                </template>
+                <template v-slot:prepend>
+                    <v-app-bar-nav-icon
+                        variant="text"
+                        @click.stop="drawer = !drawer"
+                    ></v-app-bar-nav-icon>
+                </template>
+<!--                <v-app-bar-nav-icon-->
+<!--                    variant="text"-->
+<!--                    @click.stop="drawer = !drawer"-->
+<!--                ></v-app-bar-nav-icon>-->
+
+                <v-app-bar-title>Патруль ДФТГ-1</v-app-bar-title>
+
+                <v-spacer></v-spacer>
+
+                <v-btn
+                    @click.prevent="logout"
+                >Вийти</v-btn
                 >
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNavDropdown"
-                    aria-controls="navbarNavDropdown"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div id="navbarNavDropdown" class="collapse navbar-collapse">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <router-link :to="{ name: 'home' }" class="nav-link"
-                                >Home
-                                <span class="sr-only"
-                                    >(current)</span
-                                ></router-link
-                            >
-                        </li>
-                    </ul>
-                    <div class="d-flex">
-                        <ul class="navbar-nav">
-                            <li class="nav-item dropdown">
-                                <a
-                                    id="navbarDropdownMenuLink"
-                                    class="nav-link dropdown-toggle"
-                                    href="#"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false"
-                                >
-                                    {{ store.user.name }}
-                                </a>
-                                <div
-                                    class="dropdown-menu dropdown-menu-end"
-                                    aria-labelledby="navbarDropdownMenuLink"
-                                >
-                                    <a
-                                        class="dropdown-item"
-                                        @click.prevent="logout"
-                                        >Logout</a
-                                    >
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <main class="mt-3">
-            <slot />
-        </main>
-    </div>
+            </v-app-bar>
+
+            <v-navigation-drawer app v-model="drawer" bottom temporary>
+                    <v-list-item
+                        v-for="(route, i) in routeList"
+                        :key="i"
+                        :value="route.name"
+                        active-color=""
+                        :to="route.path"
+                    >
+                        <v-list-item-title
+                            v-text="route.meta.title"
+                        ></v-list-item-title>
+                    </v-list-item>
+            </v-navigation-drawer>
+
+            <v-main>
+                    <slot></slot>
+            </v-main>
+
+            <v-bottom-navigation app >
+                <v-btn
+                    class="ma-2"
+                    color="blue"
+                    icon="mdi:mdi-plus"
+                    to="/add-event"
+                ><span>Додати подію</span><v-icon>mdi:mdi-plus</v-icon></v-btn>
+            </v-bottom-navigation>
+
+            <v-footer app>
+                <v-row justify="end" align="center">
+                    <v-btn
+                        class="ma-2"
+                        color="blue"
+                        icon="mdi:mdi-plus"
+                        to="/add-event"
+                    ></v-btn>
+                </v-row>
+
+            </v-footer>
+
+        </v-app>
+
 </template>
 
 <script setup>
+import { ref, computed } from "vue";
 import { useAuthStore } from "@/stores/auth";
-import { useRouter } from "vue-router";
+import routes from "@/router/routes";
 
 const store = useAuthStore();
-const router = useRouter();
+
+const drawer = ref(false);
+
+const routeList = computed(() =>
+    routes.filter(
+        (route) =>
+            route.meta &&
+            route.meta.middleware === "auth" &&
+            route.meta.layout === "Authenticated" &&
+            // store.user.roles.find(r => r.role === route.meta.role) &&
+            route.meta.type !== "error"
+    )
+);
 
 async function logout() {
-    console.log(111)
+    console.log(111);
     await axios.post("/logout").then(({ data }) => {
         store.signOut();
-        router.push({ name: "login" });
     });
 }
 </script>

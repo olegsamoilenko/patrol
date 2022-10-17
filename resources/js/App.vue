@@ -1,6 +1,10 @@
 <template>
-    <Layout v-cloak>
-        <router-view></router-view>
+    <Layout>
+        <router-view  v-slot="{ Component }">
+            <v-scale-transition>
+                <component :is="Component" />
+            </v-scale-transition>
+        </router-view>
     </Layout>
 
 </template>
@@ -13,7 +17,17 @@ import { useAuthStore } from "@/stores/auth";
 const store = useAuthStore();
 
     onBeforeMount(() => {
-        store.signIn();
+        console.log('app')
+        return axios
+            .get("/api/user")
+            .then(({ data }) => {
+                if (JSON.stringify(data.roles) !== JSON.stringify(store.user.roles)) {
+                    store.signIn();
+                }
+            })
+            .catch(() => {
+                store.signOut();
+            })
     })
 
 </script>

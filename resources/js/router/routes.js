@@ -1,21 +1,4 @@
-/* Error-page Component */
-const UserNotActivated = () =>
-    import("@/views/error-page/UserNotActivated.vue");
-
-/* Guest Component */
-const LayoutGuest = () => import("@/layouts/LayoutGuest.vue");
-const Login = () => import("@/components/auth/Login.vue");
-const Register = () => import("@/components/auth/Register.vue");
-
-/* Layouts */
-const LayoutAuthenticated = () => import("@/layouts/LayoutAuthenticated.vue");
-
-/* Authenticated Component */
-const Home = () => import("@/views/Home.vue");
-
-/* Admin Component */
-const LayoutAdmin = () => import("@/layouts/LayoutAdmin.vue");
-const HomeAdmin = () => import("@/views/admin/Home.vue");
+// const Home = () => import("@/views/Home.vue");
 
 const routes = [
 
@@ -24,7 +7,7 @@ const routes = [
     {
         path: "/login",
         name: "login",
-        component: Login,
+        component: () => import("@/views/auth/Login.vue"),
         meta: {
             title: `Login`,
             layout: 'Guest',
@@ -34,7 +17,7 @@ const routes = [
     {
         path: "/register",
         name: "register",
-        component: Register,
+        component: () => import("@/views/auth/Register.vue"),
         meta: {
             title: `Register`,
             layout: 'Guest',
@@ -47,9 +30,31 @@ const routes = [
     {
         path: "/",
         name: "home",
-        component: Home,
+        component: () => import("@/views/Home.vue"),
         meta: {
-            title: `Home`,
+            title: `Головна`,
+            layout: 'Authenticated',
+            middleware: "auth",
+            role: "user",
+        },
+    },
+    {
+        path: "/add-event",
+        name: "add-event",
+        component: () => import("@/views/AddEvent.vue"),
+        meta: {
+            title: `Додати Подію`,
+            layout: 'Authenticated',
+            middleware: "auth",
+            role: "user",
+        },
+    },
+    {
+        path: "/events",
+        name: "events",
+        component: () => import("@/views/Events.vue"),
+        meta: {
+            title: `Події`,
             layout: 'Authenticated',
             middleware: "auth",
             role: "user",
@@ -61,9 +66,9 @@ const routes = [
     {
         path: "/admin",
         name: "homeAdmin",
-        component: HomeAdmin,
+        component: () => import("@/views/admin/Home.vue"),
         meta: {
-            title: `Home Admin`,
+            title: `Головна Админ`,
             layout: 'Admin',
             middleware: "auth",
             role: "admin",
@@ -75,86 +80,16 @@ const routes = [
     {
         path: "/user-not-activated",
         name: "userNotActivated",
-        component: UserNotActivated,
+        component: () => import("@/views/error-page/UserNotActivated.vue"),
         meta: {
+            type: "error",
+            layout: 'Authenticated',
             middleware: "auth",
             title: `User Not Activated`,
             role: "none",
         },
     },
 
-
-    // {
-    //     path: "/",
-    //     component: LayoutGuest,
-    //     meta: {
-    //         middleware: "guest",
-    //     },
-    //     children: [
-    //         {
-    //             name: "login",
-    //             path: "/login",
-    //             component: Login,
-    //             meta: {
-    //                 title: `Login`,
-    //             },
-    //         },
-    //         {
-    //             name: "register",
-    //             path: "/register",
-    //             component: Register,
-    //             meta: {
-    //                 title: `Register`,
-    //             },
-    //         },
-    //     ],
-    // },
-    //
-    // {
-    //     path: "/",
-    //     component: LayoutAuthenticated,
-    //     meta: {
-    //         middleware: "auth",
-    //         role: "user",
-    //     },
-    //     children: [
-    //         {
-    //             name: "userNotActivated",
-    //             path: "/user-not-activated",
-    //             component: UserNotActivated,
-    //             meta: {
-    //                 role: "none",
-    //                 title: `User Not Activated`,
-    //             },
-    //         },
-    //         {
-    //             name: "home",
-    //             path: "/",
-    //             component: Home,
-    //             meta: {
-    //                 title: `Home`,
-    //             },
-    //         },
-    //     ],
-    // },
-    // {
-    //     path: "/admin",
-    //     component: LayoutAdmin,
-    //     meta: {
-    //         middleware: "auth",
-    //         role: "admin",
-    //     },
-    //     children: [
-    //         {
-    //             name: "homeAdmin",
-    //             path: "/admin",
-    //             component: HomeAdmin,
-    //             meta: {
-    //                 title: `Home Admin`,
-    //             },
-    //         },
-    //     ],
-    // },
 ];
 
 export default routes;

@@ -1,7 +1,7 @@
-<template v-cloak>
-    <div v-cloak>
-        <component :is="layout" v-cloak>
-            <slot v-cloak />
+<template>
+    <div>
+        <component :is="layout">
+            <slot />
         </component>
     </div>
 
