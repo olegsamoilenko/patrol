@@ -17,7 +17,6 @@ import { useAuthStore } from "@/stores/auth";
 const store = useAuthStore();
 
     onBeforeMount(() => {
-        console.log('app')
         return axios
             .get("/api/user")
             .then(({ data }) => {

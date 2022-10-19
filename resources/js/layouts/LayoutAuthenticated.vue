@@ -1,73 +1,67 @@
 <template>
-        <v-app>
-            <v-app-bar app color="black">
-                <template #image>
-                    <v-img
-                        gradient="to top right, rgba(69,71,58,1), rgba(96,102,68,1)"
-                    ></v-img>
-                </template>
-                <template v-slot:prepend>
-                    <v-app-bar-nav-icon
-                        variant="text"
-                        @click.stop="drawer = !drawer"
-                    ></v-app-bar-nav-icon>
-                </template>
-<!--                <v-app-bar-nav-icon-->
-<!--                    variant="text"-->
-<!--                    @click.stop="drawer = !drawer"-->
-<!--                ></v-app-bar-nav-icon>-->
+    <v-app>
+        <v-app-bar app color="black" prominent>
+            <template #image>
+                <v-img gradient="var(--v-app-bar-gradient)"></v-img>
+            </template>
+            <!--                <template v-slot:prepend>-->
+            <!--                    <v-app-bar-nav-icon-->
+            <!--                        variant="text"-->
+            <!--                        @click.stop="drawer = !drawer"-->
+            <!--                    ></v-app-bar-nav-icon>-->
+            <!--                </template>-->
+            <v-app-bar-nav-icon
+                variant="text"
+                @click.stop="drawer = !drawer"
+            ></v-app-bar-nav-icon>
 
-                <v-app-bar-title>Патруль ДФТГ-1</v-app-bar-title>
+            <v-app-bar-title>Патруль ДФТГ-1</v-app-bar-title>
 
-                <v-spacer></v-spacer>
+            <v-btn @click.prevent="logout">Вийти</v-btn>
+        </v-app-bar>
 
-                <v-btn
-                    @click.prevent="logout"
-                >Вийти</v-btn
+        <v-navigation-drawer app v-model="drawer" bottom temporary>
+            <v-list>
+                <v-list-subheader>Menu</v-list-subheader>
+                <v-list-item
+                    v-for="(route, i) in routeList"
+                    :key="i"
+                    class="list-item"
+                    :value="route"
+                    :to="route.path"
                 >
-            </v-app-bar>
+                    <template #prepend>
+                        <v-icon :icon="route.props.prependIcon"></v-icon>
+                    </template>
 
-            <v-navigation-drawer app v-model="drawer" bottom temporary>
-                    <v-list-item
-                        v-for="(route, i) in routeList"
-                        :key="i"
-                        :value="route.name"
-                        active-color=""
-                        :to="route.path"
-                    >
-                        <v-list-item-title
-                            v-text="route.meta.title"
-                        ></v-list-item-title>
-                    </v-list-item>
-            </v-navigation-drawer>
+                    <v-list-item-title
+                        v-text="route.meta.title"
+                    ></v-list-item-title>
+                </v-list-item>
+            </v-list>
+        </v-navigation-drawer>
 
-            <v-main>
-                    <slot></slot>
-            </v-main>
+        <v-main>
+            <slot></slot>
+        </v-main>
 
-            <v-bottom-navigation app >
+        <v-bottom-navigation app>
+            <v-btn class="ma-2" color="blue" icon="mdi:mdi-plus" to="/add-event"
+                ><span>Додати подію</span><v-icon>mdi:mdi-plus</v-icon></v-btn
+            >
+        </v-bottom-navigation>
+
+        <v-footer app>
+            <v-row justify="end" align="center">
                 <v-btn
                     class="ma-2"
-                    color="blue"
+                    color="green"
                     icon="mdi:mdi-plus"
                     to="/add-event"
-                ><span>Додати подію</span><v-icon>mdi:mdi-plus</v-icon></v-btn>
-            </v-bottom-navigation>
-
-            <v-footer app>
-                <v-row justify="end" align="center">
-                    <v-btn
-                        class="ma-2"
-                        color="blue"
-                        icon="mdi:mdi-plus"
-                        to="/add-event"
-                    ></v-btn>
-                </v-row>
-
-            </v-footer>
-
-        </v-app>
-
+                ></v-btn>
+            </v-row>
+        </v-footer>
+    </v-app>
 </template>
 
 <script setup>
@@ -98,4 +92,8 @@ async function logout() {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+/*.list-item:hover {*/
+/*    color: var(--v-navigation-drawer-list-item-title-hover-color);*/
+/*}*/
+</style>

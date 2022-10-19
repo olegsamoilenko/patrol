@@ -1,8 +1,13 @@
 <template>
         <v-layout>
-            <!--             <v-system-bar color="deep-purple darken-3"></v-system-bar>-->
-
             <v-app-bar color="black" prominent>
+
+                <template #image>
+                    <v-img
+                        gradient="var(--v-app-bar-gradient)"
+                    ></v-img>
+                </template>
+
                 <v-app-bar-nav-icon
                     variant="text"
                     @click.stop="drawer = !drawer"

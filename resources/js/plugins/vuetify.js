@@ -10,6 +10,9 @@ import { mdi } from 'vuetify/iconsets/mdi'
 
 export default createVuetify({
     components,
+    // theme: {
+    //     defaultTheme: 'light'
+    // },
     icons: {
         defaultSet: 'fa',
         aliases,

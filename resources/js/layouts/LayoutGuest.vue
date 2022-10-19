@@ -1,6 +1,11 @@
 <template>
         <v-app>
                 <v-app-bar app color="black" prominent>
+                    <template #image>
+                        <v-img
+                            gradient="var(--v-app-bar-gradient)"
+                        ></v-img>
+                    </template>
                     <v-toolbar-title>Патруль ДФТГ-1</v-toolbar-title>
 
                     <v-spacer></v-spacer>

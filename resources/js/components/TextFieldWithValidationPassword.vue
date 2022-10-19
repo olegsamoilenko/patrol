@@ -1,24 +1,29 @@
 <template>
     <v-text-field
         v-model="value"
-        :prepend-inner-icon="icon"
+        :type="visible ? 'text' : 'password'"
+        :append-inner-icon="visible ? 'mdi:mdi-eye-off-outline' : 'mdi:mdi-eye-outline'"
+        prepend-inner-icon="mdi:mdi-lock"
         :error-messages="errors"
         :label="label"
-        :type="type"
-        density="comfortable"
         @blur="handleBlur"
+        counter
+        density="comfortable"
+        @click:append-inner="visible = !visible"
     >
-        <template #details>
-            <span class="text-error text-caption" v-if="validationErrorsFromBase">{{ validationErrorsFromBase[0] }}</span>
-            <v-spacer />
-        </template>
+    <template #details>
+        <span class="text-error text-caption" v-if="validationErrorsFromBase">{{ validationErrorsFromBase[0] }}</span>
+        <v-spacer />
+    </template>
     </v-text-field>
-
 </template>
 
 <script setup>
 import { defineProps, toRef } from 'vue';
 import { useField } from 'vee-validate';
+import { ref } from "vue";
+
+const visible = ref(false);
 
 const props = defineProps({
     name: {
@@ -38,16 +43,12 @@ const props = defineProps({
         required: false,
         default: null,
     },
-    icon: {
-        type: String,
-        required: true,
-    },
 });
 
 const { value, handleBlur, errors } = useField(toRef(props, 'name'), undefined);
 </script>
 
-<style>
+<style scoped>
 .v-messages{
     flex: 0 1 auto;
 }

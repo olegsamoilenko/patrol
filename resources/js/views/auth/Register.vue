@@ -2,6 +2,16 @@
     <v-layout>
         <v-container fluid>
             <v-card class="mx-auto mt-12" max-width="400px" location="">
+
+                <v-progress-linear
+                    v-if="processing"
+                    class="position-absolute"
+                    style="z-index: 1"
+                    color="var(--v-progress-linear-color)"
+                    height="2"
+                    indeterminate
+                ></v-progress-linear>
+
                 <v-card-title>Реєстрація</v-card-title>
                 <v-card-text>
                     <Form
@@ -14,6 +24,7 @@
                             name="name"
                             label="Ім'я"
                             type="text"
+                            icon="mdi:mdi-account-tie"
                             :validation-errors-from-base="validationErrorsFromBase.name"
                         />
 
@@ -21,34 +32,37 @@
                             name="surname"
                             label="Прізвище"
                             type="text"
+                            icon="mdi:mdi-account-tie"
                             :validation-errors-from-base="validationErrorsFromBase.surname"
                         />
-
 
                         <TextFieldWithValidation
                             name="phone"
                             label="Телефон в форматі 0501234567"
                             type="text"
+                            icon="mdi:mdi-cellphone"
                             :validation-errors-from-base="validationErrorsFromBase.phone"
                         />
+
 
                         <TextFieldWithValidation
                             name="email"
                             label="Пошта"
                             type="email"
+                            icon="mdi:mdi-email"
                             :validation-errors-from-base="validationErrorsFromBase.email"
                         />
 
-                        <TextFieldWithValidation
+                        <TextFieldWithValidationPassword
                             name="password"
                             label="Пароль"
                             type="password"
                             :validation-errors-from-base="validationErrorsFromBase.password"
                         />
 
-                        <TextFieldWithValidation
+                        <TextFieldWithValidationPassword
                             name="password_confirmation"
-                            label="Підтвердження паролю"
+                            label="Підтвердіть Пароль"
                             type="password"
                             :validation-errors-from-base="validationErrorsFromBase.password_confirmation"
                         />
@@ -73,7 +87,8 @@
 import { Form } from "vee-validate";
 import * as yup from "yup";
 import "yup-phone";
-import TextFieldWithValidation from "../../components/TextFieldWithValidation.vue";
+import TextFieldWithValidation from "@/components/TextFieldWithValidation.vue";
+import TextFieldWithValidationPassword from "@/components/TextFieldWithValidationPassword.vue";
 
 import { useAuthStore } from "@/stores/auth";
 import { ref } from "vue";

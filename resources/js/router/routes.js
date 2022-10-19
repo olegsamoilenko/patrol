@@ -25,7 +25,7 @@ const routes = [
         },
     },
 
-    // Authenticated ========================================---
+    // Authenticated ========================================--
 
     {
         path: "/",
@@ -36,6 +36,9 @@ const routes = [
             layout: 'Authenticated',
             middleware: "auth",
             role: "user",
+        },
+        props: {
+            prependIcon: 'mdi:mdi-home',
         },
     },
     {
@@ -48,6 +51,9 @@ const routes = [
             middleware: "auth",
             role: "user",
         },
+        props: {
+            prependIcon: 'mdi:mdi-plus',
+        },
     },
     {
         path: "/events",
@@ -58,6 +64,10 @@ const routes = [
             layout: 'Authenticated',
             middleware: "auth",
             role: "user",
+        },
+        props: {
+            prependIcon: 'mdi:mdi-eye',
+            color: 'error',
         },
     },
 

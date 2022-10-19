@@ -1,7 +1,17 @@
 <template>
     <v-layout>
         <v-container fluid>
-            <v-card class="mx-auto mt-12" max-width="400px" location="">
+            <v-card class="mx-auto mt-12" max-width="400px">
+
+                <v-progress-linear
+                    v-if="processing"
+                    class="position-absolute"
+                    style="z-index: 1"
+                    color="var(--v-progress-linear-color)"
+                    height="2"
+                    indeterminate
+                ></v-progress-linear>
+
                 <v-card-title>Логін</v-card-title>
                 <v-card-text>
                     <Form
@@ -13,10 +23,11 @@
                             name="email"
                             label="Пошта"
                             type="email"
+                            icon="mdi:mdi-email"
                             :validation-errors-from-base="validationErrorsFromBase.email"
                         />
 
-                        <TextFieldWithValidation
+                        <TextFieldWithValidationPassword
                             name="password"
                             label="Пароль"
                             type="password"
@@ -26,7 +37,6 @@
                         <v-spacer></v-spacer>
 
                         <v-btn
-                            :loading="processing"
                             :disabled="processing"
                             color="green"
                             type="submit"
@@ -43,6 +53,7 @@
 import { Form } from "vee-validate";
 import * as yup from "yup";
 import TextFieldWithValidation from "@/components/TextFieldWithValidation.vue";
+import TextFieldWithValidationPassword from "@/components/TextFieldWithValidationPassword.vue";
 
 import { useAuthStore } from "@/stores/auth";
 import { ref } from "vue";
@@ -71,6 +82,7 @@ async function onSubmit(values) {
         .catch(({ response }) => {
             if (response.status === 422) {
                 validationErrorsFromBase.value = response.data.errors;
+                console.log(validationErrorsFromBase.value)
             } else {
                 validationErrorsFromBase.value = {};
                 alert(response.data.message);
