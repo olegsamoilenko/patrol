@@ -16,14 +16,20 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('roles')->insert([
-            'role' => 'none',
-        ]);
-        DB::table('roles')->insert([
-            'role' => 'user',
-        ]);
-        DB::table('roles')->insert([
-            'role' => 'admin',
-        ]);
+        $role = new Role();
+        $role->name = 'Немає ролі';
+        $role->slug = 'none';
+        $role->save();
+
+        $role = new Role();
+        $role->name = 'Користувач';
+        $role->slug = 'user';
+        $role->save();
+
+        $role = new Role();
+        $role->name = 'Адміністратор';
+        $role->slug = 'admin';
+        $role->save();
+
     }
 }

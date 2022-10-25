@@ -79,9 +79,27 @@ const routes = [
         component: () => import("@/views/admin/Home.vue"),
         meta: {
             title: `Головна Админ`,
-            layout: 'Admin',
+            layout: 'Authenticated',
             middleware: "auth",
             role: "admin",
+        },
+        props: {
+            prependIcon: 'mdi:mdi-home',
+        },
+    },
+
+    {
+        path: "/admin/users",
+        name: "paginatedUsers",
+        component: () => import("@/views/admin/PaginatedUsers.vue"),
+        meta: {
+            title: `Користувачі`,
+            layout: 'Authenticated',
+            middleware: "auth",
+            role: "admin",
+        },
+        props: {
+            prependIcon: 'mdi:mdi-home',
         },
     },
 
@@ -97,6 +115,19 @@ const routes = [
             middleware: "auth",
             title: `User Not Activated`,
             role: "none",
+        },
+    },
+
+    {
+        path: "/user-not-permission",
+        name: "userNotPermission",
+        component: () => import("@/views/error-page/UserNotPermission.vue"),
+        meta: {
+            type: "error",
+            layout: 'Authenticated',
+            middleware: "auth",
+            title: `User Not Permission`,
+            role: "user",
         },
     },
 

@@ -3,24 +3,29 @@
         <v-container fluid>
 
             <div>
-                <v-toolbar
-                    dark
-                    prominent
-                    src="../../images/arm-wrestling-567950__340.jpg"
-                >
-                    <v-app-bar-nav-icon></v-app-bar-nav-icon>
+                <v-banner>
+                    ...
+                </v-banner>
 
-                    <v-toolbar-title>Vuetify</v-toolbar-title>
-
-                    <v-spacer></v-spacer>
-
-                    <v-btn icon>
-                        <v-icon>mdi-export</v-icon>
-                    </v-btn>
-                </v-toolbar>
+                <v-banner mobile-breakpoint="580">
+                    ...
+                </v-banner>
             </div>
 
-            <img src="../../images/arm-wrestling-567950__340.jpg" alt="">
+            <v-btn>Ntcn</v-btn>
+
+            <div>
+                <v-text-field
+                    v-model="content"
+                    label="Content"
+                ></v-text-field>
+                <v-sheet v-mutate="onMutate" v-ripple="{ class: `primary--text` }">
+                    {{ content }}
+                </v-sheet>
+                Total mutations: {{ mutations }}
+            </div>
+
+
 
 <!--            <v-card class="">-->
 <!--                <v-card-title>Home</v-card-title>-->
@@ -40,11 +45,37 @@
 // import { useAuthStore } from "@/stores/auth";
 //
 // const store = useAuthStore();
+import { onMounted, computed } from 'vue'
+import { useDisplay, useRtl, useLayout, useLocale, useTheme} from 'vuetify'
+
 
 
 export default {
-    data () {
 
+    setup () {
+
+
+    },
+
+    data: () => ({
+        content: 'Foo',
+        mutations: 0,
+    }),
+
+
+    methods: {
+        onMutate () {
+            this.mutations++
+        },
+    },
+    mounted () {
+        this.content = 'Bar'
+
+
+        setTimeout(() => {
+            this.content = 'Foobar'
+
+        }, 200)
     },
 
 }

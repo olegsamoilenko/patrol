@@ -3,12 +3,23 @@
                 <v-app-bar app color="black" prominent>
                     <template #image>
                         <v-img
-                            gradient="var(--v-app-bar-gradient)"
+                            v-if="theme.global.name.value === 'light'"
+                            gradient="var(--v-app-bar-gradient-light)"
+                        ></v-img>
+                        <v-img
+                            v-else
+                            gradient="var(--v-app-bar-gradient-dark)"
                         ></v-img>
                     </template>
                     <v-toolbar-title>Патруль ДФТГ-1</v-toolbar-title>
 
-                    <v-spacer></v-spacer>
+                    <v-btn icon class="mr-4" @click="toggleTheme">
+                        <!--                    {{ theme }}-->
+                        <v-icon size="30" v-if="theme.global.name.value === 'dark'"
+                        >mdi:mdi-weather-sunny</v-icon
+                        >
+                        <v-icon size="30" v-else>mdi:mdi-weather-night</v-icon>
+                    </v-btn>
 
                     <v-btn
                         to="/login"
@@ -27,7 +38,19 @@
 </template>
 
 <script setup>
+import { useTheme } from "vuetify";
 
+const theme = useTheme();
+
+function toggleTheme() {
+    if (theme.global.name.value === "light") {
+        theme.global.name.value = "dark";
+        localStorage.setItem("theme", "dark");
+    } else {
+        theme.global.name.value = "light";
+        localStorage.setItem("theme", "light");
+    }
+}
 </script>
 
 <style scoped></style>

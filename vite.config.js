@@ -1,12 +1,13 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
+import vuetify from 'vite-plugin-vuetify'
 
 export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/sass/app.scss',
+                // 'resources/sass/app.scss',
                 // 'resources/css/app.css',
                 'resources/js/app.js',
             ],
@@ -19,6 +20,9 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
+        }),
+        vuetify({
+            styles: { configFile: 'resources/js/settings.scss' }
         }),
     ],
     resolve: {

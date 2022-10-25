@@ -6,10 +6,12 @@
         "dev": "vite"
     },
     "dependencies": {
+        "@hennge/vue3-pagination": "^1.0.17",
         "@vitejs/plugin-vue": "^3.1.2",
         "pinia": "^2.0.23",
         "pinia-plugin-persistedstate": "^2.3.0",
         "roboto-fontface": "*",
+        "v-pagination-3": "^0.1.7",
         "vee-validate": "^4.7.0",
         "vue": "^3.2.36",
         "vue-loader": "^17.0.0",

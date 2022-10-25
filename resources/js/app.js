@@ -3,7 +3,9 @@ import '../sass/app.scss'
 
 
 import { createApp } from 'vue'
+
 import vuetify from "@/plugins/vuetify";
+
 import pinia from "@/plugins/pinia";
 import Router from "@/router";
 import App from './App.vue'

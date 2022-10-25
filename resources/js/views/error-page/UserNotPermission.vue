@@ -1,13 +1,24 @@
 <template>
-    <h1>У Вас немає прав доступу</h1>
+    <v-layout>
+        <v-container fluid>
+            <v-card class="mx-auto" max-width="600px">
+                <v-alert
+                    icon="mdi:mdi-cloud-alert"
+                    prominent
+                    type="error"
+                    variant="text"
+                >
+                    У Вас немає прав доступу до цієї сторінки
+                </v-alert>
+            </v-card>
+        </v-container>
+    </v-layout>
 </template>
 
 <script>
 export default {
-  name: "UserNotPermission"
-}
+    name: "UserNotPermission",
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
