@@ -17,24 +17,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            RoleSeeder::class,
-        ]);
-
-        $adminRole = Role::where('slug', 'admin')->first();
-        $userRole = Role::where('slug', 'user')->first();
-
-
-        $user = new User();
-        $user->name = 'admin';
-        $user->surname = 'admin';
-        $user->phone = '050111111';
-        $user->email = 'admin@admin.com';
-        $user->email_verified_at = now();
-        $user->password = bcrypt('11111111'); // password
-        $user->remember_token = Str::random(10);
-        $user->save();
-        $user->roles()->attach($adminRole);
-        $user->roles()->attach($userRole);
+            $this->call(BasicAdminPermissionSeeder::class);
     }
 }

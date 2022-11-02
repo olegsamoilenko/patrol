@@ -17,40 +17,77 @@ router.beforeEach((to, from, next) => {
         } else {
             next();
         }
-    } else if (to.meta.middleware === "auth" && to.meta.role === "user") {
+    } else if (to.meta.middleware === "auth" && to.meta.role === "Користувач") {
         console.log("auth user", store.user);
         if (!store.authenticated) {
             next({ name: "login" });
-        } else if ((store.authenticated && store.user.roles.find(r => r.slug === "none") || (store.authenticated && Object.values(store.user.roles).length === 0))) {
-            console.log("none");
+        } else if (store.authenticated && store.user.is_activated === 0) {
+            console.log("NotActivated");
             next({ name: "userNotActivated" });
-        } else {
-            console.log('store.user.roles', Object.values(store.user.roles).length);
+        } else if (
+            (store.authenticated &&
+                store.user.roles.find((r) => r.name === "Користувач")) || (store.authenticated &&
+                store.user.roles.find((r) => r.name === "Супер Адміністратор"))
+        ) {
+            console.log('Все ок');
             next();
+
+        } else {
+            console.log('userNotPermission');
+            // next({ name: "home" });
+            next({ name: "userNotPermission" });
         }
-    }  else if (to.meta.middleware === "auth" && to.meta.role === "admin") {
+    } else if (to.meta.middleware === "auth" && to.meta.role === "Адміністратор") {
         console.log("auth admin", store.user);
         if (!store.authenticated) {
-            console.log(111)
+            console.log('!store.authenticated');
             next({ name: "login" });
-        } else if ((store.authenticated && store.user.roles.find(r => r.slug === "none") || (store.authenticated  && Object.values(store.user.roles).length === 0))) {
-            console.log(222)
+        } else if (store.authenticated && store.user.is_activated === 0) {
+            console.log('userNotActivated');
             next({ name: "userNotActivated" });
-        } else if (store.authenticated && !store.user.roles.find(r => r.slug === "admin")) {
-            console.log(333)
+        } else if (
+            (store.authenticated &&
+                store.user.roles.find((r) => r.name === "Адміністратор")) || (store.authenticated &&
+                store.user.roles.find((r) => r.name === "Супер Адміністратор"))
+        ) {
+            console.log('Все ок');
+            next();
+        } else {
+            console.log('userNotPermission');
+            // next({ name: "home" });
+            next({ name: "userNotPermission" });
+        }
+    } else if (to.meta.middleware === "auth" && to.meta.role === "Супер Адміністратор") {
+        console.log("auth admin", store.user);
+        if (!store.authenticated) {
+            console.log('!store.authenticated');
+            next({ name: "login" });
+        } else if (store.authenticated && store.user.is_activated === 0) {
+            console.log('userNotActivated');
+            next({ name: "userNotActivated" });
+        } else if (
+            (store.authenticated &&
+                store.user.roles.find((r) => r.name === "Супер Адміністратор"))
+        ) {
+            console.log('Все ок');
+            next();
+        } else {
+            console.log('userNotPermission');
             next({ name: "home" });
             // next({ name: "userNotPermission" });
+        }
+    } else if (to.meta.middleware === "auth" && to.meta.type === "error") {
+        console.log("auth error", store.user);
+        if (to.name === "userNotActivated") {
+            if (store.authenticated && store.user.is_activated === 0) {
+                next();
+            } else {
+                next({ name: "home" });
+            }
         } else {
-            console.log(444)
             next();
         }
-    } else if (to.meta.middleware === "auth" && to.meta.role === "none") {
-        console.log("auth none", store.user);
-        if ((store.authenticated && store.user.roles.find(r => r.slug === "none") || (store.authenticated  && Object.values(store.user.roles).length === 0))) {
-            next();
-        } else {
-            next({ name: "home" });
-        }
+
     }
 });
 

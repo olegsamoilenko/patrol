@@ -6,44 +6,49 @@
                     v-if="theme.global.name.value === 'light'"
                     gradient="var(--v-app-bar-gradient-light)"
                 ></v-img>
-                <v-img
-                    v-else
-                    gradient="var(--v-app-bar-gradient-dark)"
-                ></v-img>
+                <v-img v-else gradient="var(--v-app-bar-gradient-dark)"></v-img>
             </template>
 
-                <v-app-bar-nav-icon
-                    variant="text"
-                    @click.stop="drawer = !drawer"
-                ></v-app-bar-nav-icon>
+            <v-app-bar-nav-icon
+                variant="text"
+                @click.stop="drawer = !drawer"
+            ></v-app-bar-nav-icon>
 
             <v-app-bar-title>Патруль ДФТГ-1</v-app-bar-title>
 
-                <v-btn icon class="mr-3" @click="toggleTheme">
-                    <v-icon size="30" v-if="theme.global.name.value === 'dark'"
-                        >mdi:mdi-weather-sunny</v-icon
-                    >
-                    <v-icon size="28" v-else>mdi:mdi-weather-night</v-icon>
-                </v-btn>
+            <v-btn icon class="mr-3" @click="toggleTheme">
+                <v-icon size="30" v-if="theme.global.name.value === 'dark'"
+                    >mdi:mdi-weather-sunny</v-icon
+                >
+                <v-icon size="28" v-else>mdi:mdi-weather-night</v-icon>
+            </v-btn>
 
-                <v-btn icon="mdi:mdi-dots-vertical">
-                    <v-icon>mdi:mdi-dots-vertical</v-icon>
-                    <v-menu activator="parent">
-                        <v-list>
-                            <v-list-item @click.prevent="logout">
-                                <template #prepend>
-                                    <v-icon icon="mdi:mdi-logout"></v-icon>
-                                </template>
-                                <v-list-item-title>Вийти</v-list-item-title>
-                            </v-list-item>
-                        </v-list>
-                    </v-menu>
-                </v-btn>
+            <v-btn icon="mdi:mdi-dots-vertical">
+                <v-icon>mdi:mdi-dots-vertical</v-icon>
+                <v-menu activator="parent">
+                    <v-list>
+                        <v-list-item @click.prevent="logout">
+                            <template #prepend>
+                                <v-icon icon="mdi:mdi-logout"></v-icon>
+                            </template>
+                            <v-list-item-title>Вийти</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+            </v-btn>
         </v-app-bar>
 
         <v-navigation-drawer v-model="drawer" app temporary>
-            <v-list>
-                <v-list-subheader>Menu</v-list-subheader>
+            <v-list
+                v-if="
+                    Object.values(store.user).length !== 0 &&
+                    (store.user.roles.find((r) => r.name === 'Користувач') ||
+                        store.user.roles.find(
+                            (r) => r.name === 'Супер Адміністратор'
+                        ))
+                "
+            >
+                <v-list-subheader>Меню</v-list-subheader>
                 <v-list-item
                     v-for="(route, i) in routeListMain"
                     :key="i"
@@ -59,8 +64,16 @@
                     ></v-list-item-title>
                 </v-list-item>
             </v-list>
-            <v-list v-if="Object.values(store.user).length !== 0 && store.user.roles.find((r) => r.slug === 'admin')">
-                <v-list-subheader>Admin</v-list-subheader>
+            <v-list
+                v-if="
+                    Object.values(store.user).length !== 0 &&
+                    (store.user.roles.find((r) => r.name === 'Адміністратор') ||
+                        store.user.roles.find(
+                            (r) => r.name === 'Супер Адміністратор'
+                        ))
+                "
+            >
+                <v-list-subheader>Адмін</v-list-subheader>
                 <v-list-item
                     v-for="(route, i) in routeListAdmin"
                     :key="i"
@@ -127,8 +140,8 @@ const routeListMain = computed(() =>
             route.meta &&
             route.meta.middleware === "auth" &&
             route.meta.layout === "Authenticated" &&
-            route.meta.role === "user" &&
-            // store.user.roles.find(r => r.slug === route.meta.role) &&
+            route.meta.role === "Користувач" &&
+            (store.user.roles.find(r => r.name === route.meta.role) || store.user.roles.find(r => r.name === 'Супер Адміністратор')) &&
             route.meta.type !== "error"
     )
 );
@@ -139,8 +152,8 @@ const routeListAdmin = computed(() =>
             route.meta &&
             route.meta.middleware === "auth" &&
             route.meta.layout === "Authenticated" &&
-            route.meta.role === "admin" &&
-            // store.user.roles.find(r => r.slug === route.meta.role) &&
+            (route.meta.role === "Адміністратор" || route.meta.role === "Супер Адміністратор") &&
+            (store.user.roles.find(r => r.name === route.meta.role) || store.user.roles.find(r => r.name === 'Супер Адміністратор')) &&
             route.meta.type !== "error"
     )
 );
@@ -155,6 +168,4 @@ async function logout() {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

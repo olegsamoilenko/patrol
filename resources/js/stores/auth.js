@@ -13,7 +13,8 @@ export const useAuthStore = defineStore(
             return axios
                 .get("/api/user")
                 .then(({ data }) => {
-                    user.value = data;
+                    console.log(data);
+                    user.value = data
                     authenticated.value = true;
                     this.router.push({name: "home"})
                 })
@@ -29,7 +30,12 @@ export const useAuthStore = defineStore(
             authenticated.value = false;
             this.router.push({name: "login"})
         }
-        return { authenticated, user, signIn, signOut, isEmptyUser };
+
+        function checkPermission(permission) {
+            return user.value.roles.find(r => r.permissions.find(p => p.name === permission))
+        }
+
+        return { authenticated, user, signIn, signOut, isEmptyUser, checkPermission };
     },
     {
         persist: true,

@@ -14,21 +14,21 @@
 
                 </v-card-text>
                 <v-card-text v-else>
-                    <v-row :class=" {'font-weight-bold': usersWithRoleNone > 0, 'text-warning':  usersWithRoleNone > 0 }">
+                    <v-row :class=" {'font-weight-bold': notActivatedUsersCount > 0, 'text-warning':  notActivatedUsersCount > 0 }">
                         <v-col cols="9"> Не активованих користувачів: </v-col>
-                        <v-col cols="3"> {{usersWithRoleNone}} </v-col>
+                        <v-col cols="3"> {{notActivatedUsersCount}} </v-col>
                     </v-row>
                     <v-row>
                         <v-col cols="9"> Адміністраторів: </v-col>
-                        <v-col cols="3"> {{usersWithRoleAdmin}} </v-col>
+                        <v-col cols="3"> {{usersWithRoleAdminCount }} </v-col>
                     </v-row>
                     <v-row>
-                        <v-col cols="9"> Активованих користувачів: </v-col>
-                        <v-col cols="3"> {{usersWithRoleUser}} </v-col>
+                        <v-col cols="9"> Користувачів: </v-col>
+                        <v-col cols="3"> {{usersWithRoleUserCount}} </v-col>
                     </v-row>
                     <v-row>
                         <v-col cols="9"> Всього користувачів: </v-col>
-                        <v-col cols="3"> {{ numberOfUsers }} </v-col>
+                        <v-col cols="3"> {{ usersCount }} </v-col>
                     </v-row>
                 </v-card-text>
             </v-card>
@@ -42,10 +42,10 @@ import { onMounted, ref } from "vue";
 //
 // const store = useAuthStore();
 const loader = ref(false);
-const numberOfUsers = ref(null);
-const usersWithRoleNone = ref(null);
-const usersWithRoleUser = ref(null);
-const usersWithRoleAdmin = ref(null);
+const usersCount = ref(null);
+const notActivatedUsersCount = ref(null);
+const usersWithRoleUserCount = ref(null);
+const usersWithRoleAdminCount = ref(null);
 
 onMounted(() => {
     getUserStat();
@@ -54,12 +54,12 @@ onMounted(() => {
 async function getUserStat() {
     loader.value = true
     await axios
-        .get("/get-user-statistics")
+        .get("/admin/get-user-statistics")
         .then(({ data }) => {
-            numberOfUsers.value = data.numberOfUsers;
-            usersWithRoleNone.value = data.usersWithRoleNone;
-            usersWithRoleUser.value = data.usersWithRoleUser;
-            usersWithRoleAdmin.value = data.usersWithRoleAdmin;
+            usersCount.value = data.usersCount;
+            notActivatedUsersCount.value = data.notActivatedUsersCount;
+            usersWithRoleUserCount.value = data.usersWithRoleUserCount;
+            usersWithRoleAdminCount.value = data.usersWithRoleAdminCount;
             console.log("data", data);
 
         })

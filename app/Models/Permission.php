@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Spatie\Permission\Models\Role as OriginalRole;
+use Spatie\Permission\Models\Permission as OriginalPermission;
 
-class Role extends OriginalRole
+class Permission extends OriginalPermission
 {
     protected $fillable = [
         'name',

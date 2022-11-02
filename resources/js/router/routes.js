@@ -35,7 +35,7 @@ const routes = [
             title: `Головна`,
             layout: 'Authenticated',
             middleware: "auth",
-            role: "user",
+            role: "Користувач",
         },
         props: {
             prependIcon: 'mdi:mdi-home',
@@ -49,7 +49,7 @@ const routes = [
             title: `Додати Подію`,
             layout: 'Authenticated',
             middleware: "auth",
-            role: "user",
+            role: "Користувач",
         },
         props: {
             prependIcon: 'mdi:mdi-plus',
@@ -63,7 +63,7 @@ const routes = [
             title: `Події`,
             layout: 'Authenticated',
             middleware: "auth",
-            role: "user",
+            role: "Користувач",
         },
         props: {
             prependIcon: 'mdi:mdi-eye',
@@ -78,10 +78,10 @@ const routes = [
         name: "homeAdmin",
         component: () => import("@/views/admin/Home.vue"),
         meta: {
-            title: `Головна Админ`,
+            title: `Головна Адмін`,
             layout: 'Authenticated',
             middleware: "auth",
-            role: "admin",
+            role: "Адміністратор",
         },
         props: {
             prependIcon: 'mdi:mdi-home',
@@ -91,15 +91,45 @@ const routes = [
     {
         path: "/admin/users",
         name: "paginatedUsers",
-        component: () => import("@/views/admin/PaginatedUsers.vue"),
+        component: () => import("@/views/admin/Users.vue"),
         meta: {
             title: `Користувачі`,
             layout: 'Authenticated',
             middleware: "auth",
-            role: "admin",
+            role: "Адміністратор",
         },
         props: {
-            prependIcon: 'mdi:mdi-home',
+            prependIcon: 'mdi:mdi-account-group',
+        },
+    },
+
+    {
+        path: "/admin/roles",
+        name: "userRoles",
+        component: () => import("@/views/admin/UserRoles.vue"),
+        meta: {
+            title: `Ролі Користувачів`,
+            layout: 'Authenticated',
+            middleware: "auth",
+            role: "Супер Адміністратор",
+        },
+        props: {
+            prependIcon: 'mdi:mdi-account-details',
+        },
+    },
+
+    {
+        path: "/admin/permissions",
+        name: "userPermissions",
+        component: () => import("@/views/admin/UserPermissions.vue"),
+        meta: {
+            title: `Дозволи Користувачів`,
+            layout: 'Authenticated',
+            middleware: "auth",
+            role: "Супер Адміністратор",
+        },
+        props: {
+            prependIcon: 'mdi:mdi-account-details',
         },
     },
 
@@ -114,7 +144,6 @@ const routes = [
             layout: 'Authenticated',
             middleware: "auth",
             title: `User Not Activated`,
-            role: "none",
         },
     },
 
@@ -127,7 +156,9 @@ const routes = [
             layout: 'Authenticated',
             middleware: "auth",
             title: `User Not Permission`,
-            role: "user",
+        },
+        props: {
+            prependIcon: 'mdi:mdi-home',
         },
     },
 
