@@ -28,7 +28,7 @@ class UserController extends Controller
     {
         $users = User::all();
         $usersCount = $users->count();
-        $notActivatedUsers = User::where('is_activated', '0')->get();
+        $notActivatedUsers = User::where('is_activated', 'Ні')->get();
         $notActivatedUsersCount = $notActivatedUsers->count();
         $usersWithRoleAdmin = User::role('Адміністратор')->get();
         $usersWithRoleAdminCount = $usersWithRoleAdmin->count();
@@ -83,7 +83,7 @@ class UserController extends Controller
     public function activateUser(int $id): JsonResponse
     {
         $user = User::where('id', $id)->first();
-        $user->is_activated = true;
+        $user->is_activated = 'Так';
         $user->save();
 
         return response()->json([

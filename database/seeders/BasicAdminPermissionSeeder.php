@@ -67,7 +67,7 @@ class BasicAdminPermissionSeeder extends Seeder
             'name' => 'Супер Адміністратор',
             'surname' => 'Surname',
             'email' => 'superadmin@superadmin.com',
-            'is_activated' => true,
+            'is_activated' => 'Так',
         ]);
         $user->assignRole($role3);
         $user = \App\Models\User::factory()->create([

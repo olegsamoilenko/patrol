@@ -8,7 +8,7 @@ import { aliases, fa } from "vuetify/iconsets/fa";
 import { mdi } from "vuetify/iconsets/mdi";
 // import { mdi } from 'vuetify/iconsets/mdi-svg'
 
-import { uk } from "vuetify/locale";
+// import { uk } from "vuetify/locale";
 
 // const myCustomLightTheme: ThemeDefinition = {
 //     dark: false,
@@ -29,9 +29,9 @@ import { uk } from "vuetify/locale";
 export default createVuetify({
     components,
     locale: {
-        defaultLocale: "uk",
-        fallbackLocale: "uk",
-        messages: { uk },
+        // defaultLocale: "uk",
+        // fallbackLocale: "uk",
+        // messages: { uk },
     },
     theme: {
         defaultTheme: localStorage.getItem("theme") || "dark",

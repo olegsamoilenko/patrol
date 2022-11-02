@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
         console.log("auth user", store.user);
         if (!store.authenticated) {
             next({ name: "login" });
-        } else if (store.authenticated && store.user.is_activated === 0) {
+        } else if (store.authenticated && store.user.is_activated === 'Ні') {
             console.log("NotActivated");
             next({ name: "userNotActivated" });
         } else if (
@@ -42,7 +42,7 @@ router.beforeEach((to, from, next) => {
         if (!store.authenticated) {
             console.log('!store.authenticated');
             next({ name: "login" });
-        } else if (store.authenticated && store.user.is_activated === 0) {
+        } else if (store.authenticated && store.user.is_activated === 'Ні') {
             console.log('userNotActivated');
             next({ name: "userNotActivated" });
         } else if (
@@ -62,7 +62,7 @@ router.beforeEach((to, from, next) => {
         if (!store.authenticated) {
             console.log('!store.authenticated');
             next({ name: "login" });
-        } else if (store.authenticated && store.user.is_activated === 0) {
+        } else if (store.authenticated && store.user.is_activated === 'Ні') {
             console.log('userNotActivated');
             next({ name: "userNotActivated" });
         } else if (
@@ -79,7 +79,7 @@ router.beforeEach((to, from, next) => {
     } else if (to.meta.middleware === "auth" && to.meta.type === "error") {
         console.log("auth error", store.user);
         if (to.name === "userNotActivated") {
-            if (store.authenticated && store.user.is_activated === 0) {
+            if (store.authenticated && store.user.is_activated === 'Ні') {
                 next();
             } else {
                 next({ name: "home" });

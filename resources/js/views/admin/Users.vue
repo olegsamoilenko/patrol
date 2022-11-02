@@ -76,7 +76,7 @@
                                                 :key="role.id"
                                                 :class="{
                                                     'bg-warning':
-                                                        !user.is_activated,
+                                                        user.is_activated === 'Ні',
                                                     'bg-secondary':
                                                         role.name ===
                                                         'Адміністратор',
@@ -119,13 +119,13 @@
                                             <!-- Activate User-------------------------------------------------------------->
                                             <v-btn
                                                 v-if="
-                                                    (!user.is_activated &&
+                                                    (user.is_activated === 'Ні' &&
                                                         store.user.roles.find(
                                                             (r) =>
                                                                 r.name ===
                                                                 'Супер Адміністратор'
                                                         )) ||
-                                                    (!user.is_activated &&
+                                                    (user.is_activated === 'Ні' &&
                                                         store.checkPermission(
                                                             'Користувач активувати'
                                                         ))
@@ -403,21 +403,19 @@
                                                                             </div>
                                                                         </v-card-title>
                                                                         <v-radio-group
-                                                                            v-model="
-                                                                            user.is_activated
-                                                                        "
+                                                                            v-model="user.is_activated"
                                                                             inline
                                                                         >
                                                                             <v-radio
                                                                                 label="Активований"
                                                                                 :value="
-                                                                                1
+                                                                                'Так'
                                                                             "
                                                                             ></v-radio>
                                                                             <v-radio
                                                                                 label="Не активований"
                                                                                 :value="
-                                                                                0
+                                                                                'Ні'
                                                                             "
                                                                             ></v-radio>
                                                                         </v-radio-group>
