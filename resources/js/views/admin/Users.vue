@@ -261,253 +261,257 @@
                                                 <v-icon>mdi:mdi-pencil</v-icon>
                                             </v-btn>
 
-                                            <v-dialog
-                                                v-model="isEditUserModal"
-                                                max-width="600px"
-                                                persistent
-                                            >
-                                                <v-form
-                                                    ref="form"
-                                                    v-model="valid"
-                                                    @submit.prevent="
+
+                                                <v-dialog
+                                                    v-model="isEditUserModal"
+                                                    max-width="600px"
+                                                    scrollable
+                                                >
+                                                    <v-card max-height="100vh">
+                                                    <v-form
+                                                        ref="form"
+                                                        v-model="valid"
+                                                        @submit.prevent="
                                                         handleSubmit(user)
                                                     "
-                                                >
-                                                    <v-card max-width="600px">
-                                                        <v-card-title>
+                                                    >
+                                                        <v-card max-width="600px">
+                                                            <v-card-title>
                                                             <span
                                                                 class="text-h5"
                                                             >
                                                                 Редагувати
                                                                 користувача</span
                                                             >
-                                                        </v-card-title>
-                                                        <v-card-text>
-                                                            <v-row>
-                                                                <v-col
-                                                                    cols="12"
-                                                                >
-                                                                    <v-text-field
-                                                                        v-model="
+                                                            </v-card-title>
+                                                            <v-card-text>
+                                                                <v-row>
+                                                                    <v-col
+                                                                        cols="12"
+                                                                    >
+                                                                        <v-text-field
+                                                                            v-model="
                                                                             user.name
                                                                         "
-                                                                        label="Ім'я"
-                                                                    >
-                                                                        <template
-                                                                            #details
+                                                                            label="Ім'я"
                                                                         >
+                                                                            <template
+                                                                                #details
+                                                                            >
                                                                             <span
                                                                                 class="text-error text-caption"
                                                                                 v-if="
                                                                                     validationErrorsFromBase.name
                                                                                 "
-                                                                                >{{
+                                                                            >{{
                                                                                     validationErrorsFromBase
                                                                                         .name[0]
                                                                                 }}</span
                                                                             >
-                                                                            <v-spacer />
-                                                                        </template>
-                                                                    </v-text-field>
-                                                                </v-col>
-                                                                <v-col
-                                                                    cols="12"
-                                                                >
-                                                                    <v-text-field
-                                                                        v-model="
+                                                                                <v-spacer />
+                                                                            </template>
+                                                                        </v-text-field>
+                                                                    </v-col>
+                                                                    <v-col
+                                                                        cols="12"
+                                                                    >
+                                                                        <v-text-field
+                                                                            v-model="
                                                                             user.surname
                                                                         "
-                                                                        label="Прізвище"
-                                                                    >
-                                                                        <template
-                                                                            #details
+                                                                            label="Прізвище"
                                                                         >
+                                                                            <template
+                                                                                #details
+                                                                            >
                                                                             <span
                                                                                 class="text-error text-caption"
                                                                                 v-if="
                                                                                     validationErrorsFromBase.surname
                                                                                 "
-                                                                                >{{
+                                                                            >{{
                                                                                     validationErrorsFromBase
                                                                                         .surname[0]
                                                                                 }}</span
                                                                             >
-                                                                            <v-spacer />
-                                                                        </template>
-                                                                    </v-text-field>
-                                                                </v-col>
-                                                                <v-col
-                                                                    cols="12"
-                                                                >
-                                                                    <v-text-field
-                                                                        v-model="
+                                                                                <v-spacer />
+                                                                            </template>
+                                                                        </v-text-field>
+                                                                    </v-col>
+                                                                    <v-col
+                                                                        cols="12"
+                                                                    >
+                                                                        <v-text-field
+                                                                            v-model="
                                                                             user.email
                                                                         "
-                                                                        label="Email"
-                                                                    >
-                                                                        <template
-                                                                            #details
+                                                                            label="Email"
                                                                         >
+                                                                            <template
+                                                                                #details
+                                                                            >
                                                                             <span
                                                                                 class="text-error text-caption"
                                                                                 v-if="
                                                                                     validationErrorsFromBase.email
                                                                                 "
-                                                                                >{{
+                                                                            >{{
                                                                                     validationErrorsFromBase
                                                                                         .email[0]
                                                                                 }}</span
                                                                             >
-                                                                            <v-spacer />
-                                                                        </template>
-                                                                    </v-text-field>
-                                                                </v-col>
-                                                                <v-col
-                                                                    cols="12"
-                                                                >
-                                                                    <v-text-field
-                                                                        v-model="
+                                                                                <v-spacer />
+                                                                            </template>
+                                                                        </v-text-field>
+                                                                    </v-col>
+                                                                    <v-col
+                                                                        cols="12"
+                                                                    >
+                                                                        <v-text-field
+                                                                            v-model="
                                                                             user.phone
                                                                         "
-                                                                        label="Телефон"
-                                                                    >
-                                                                        <template
-                                                                            #details
+                                                                            label="Телефон"
                                                                         >
+                                                                            <template
+                                                                                #details
+                                                                            >
                                                                             <span
                                                                                 class="text-error text-caption"
                                                                                 v-if="
                                                                                     validationErrorsFromBase.phone
                                                                                 "
-                                                                                >{{
+                                                                            >{{
                                                                                     validationErrorsFromBase
                                                                                         .phone[0]
                                                                                 }}</span
                                                                             >
-                                                                            <v-spacer />
-                                                                        </template>
-                                                                    </v-text-field>
-                                                                </v-col>
-                                                                <v-col
-                                                                    cols="12"
-                                                                >
-                                                                    <v-card-title
-                                                                        as="div"
+                                                                                <v-spacer />
+                                                                            </template>
+                                                                        </v-text-field>
+                                                                    </v-col>
+                                                                    <v-col
+                                                                        cols="12"
                                                                     >
-                                                                        <div
-                                                                            class="text-h6"
+                                                                        <v-card-title
+                                                                            as="div"
                                                                         >
-                                                                            Активація
-                                                                        </div>
-                                                                    </v-card-title>
-                                                                    <v-radio-group
-                                                                        v-model="
+                                                                            <div
+                                                                                class="text-h6"
+                                                                            >
+                                                                                Активація
+                                                                            </div>
+                                                                        </v-card-title>
+                                                                        <v-radio-group
+                                                                            v-model="
                                                                             user.is_activated
                                                                         "
-                                                                        inline
-                                                                    >
-                                                                        <v-radio
-                                                                            label="Активований"
-                                                                            :value="
+                                                                            inline
+                                                                        >
+                                                                            <v-radio
+                                                                                label="Активований"
+                                                                                :value="
                                                                                 1
                                                                             "
-                                                                        ></v-radio>
-                                                                        <v-radio
-                                                                            label="Не активований"
-                                                                            :value="
+                                                                            ></v-radio>
+                                                                            <v-radio
+                                                                                label="Не активований"
+                                                                                :value="
                                                                                 0
                                                                             "
-                                                                        ></v-radio>
-                                                                    </v-radio-group>
-                                                                </v-col>
+                                                                            ></v-radio>
+                                                                        </v-radio-group>
+                                                                    </v-col>
 
-                                                                <v-col
-                                                                    cols="12"
-                                                                >
-                                                                    <v-select
-                                                                        v-model="
+                                                                    <v-col
+                                                                        cols="12"
+                                                                    >
+                                                                        <v-select
+                                                                            v-model="
                                                                             user.roles
                                                                         "
-                                                                        :items="
+                                                                            :items="
                                                                             allUsersRoles
                                                                         "
-                                                                        :item-title="
+                                                                            :item-title="
                                                                             (
                                                                                 item
                                                                             ) =>
                                                                                 item.name
                                                                         "
-                                                                        :item-value="
+                                                                            :item-value="
                                                                             (
                                                                                 item
                                                                             ) =>
                                                                                 item.id
                                                                         "
-                                                                        placeholder="Ролі"
-                                                                        multiple
-                                                                        required
-                                                                    >
-                                                                        <template
-                                                                            #details
+                                                                            placeholder="Ролі"
+                                                                            multiple
+                                                                            required
                                                                         >
+                                                                            <template
+                                                                                #details
+                                                                            >
                                                                             <span
                                                                                 class="text-error text-caption"
                                                                                 v-if="
                                                                                     validationErrorsFromBase.roles
                                                                                 "
-                                                                                >{{
+                                                                            >{{
                                                                                     validationErrorsFromBase
                                                                                         .roles[0]
                                                                                 }}</span
                                                                             >
-                                                                            <v-spacer />
-                                                                        </template>
-                                                                    </v-select>
-                                                                </v-col>
-                                                            </v-row>
-                                                        </v-card-text>
-                                                        <v-card-text>
-                                                            <v-col
-                                                                cols="12"
-                                                                class="d-flex justify-center"
-                                                            >
-                                                                <v-progress-circular
-                                                                    v-if="
+                                                                                <v-spacer />
+                                                                            </template>
+                                                                        </v-select>
+                                                                    </v-col>
+                                                                </v-row>
+                                                            </v-card-text>
+                                                            <v-card-text>
+                                                                <v-col
+                                                                    cols="12"
+                                                                    class="d-flex justify-center"
+                                                                >
+                                                                    <v-progress-circular
+                                                                        v-if="
                                                                         isEditUserModalLoader
                                                                     "
-                                                                    indeterminate
-                                                                    color="green"
-                                                                    class="justify-center"
-                                                                ></v-progress-circular>
-                                                            </v-col>
-                                                        </v-card-text>
+                                                                        indeterminate
+                                                                        color="green"
+                                                                        class="justify-center"
+                                                                    ></v-progress-circular>
+                                                                </v-col>
+                                                            </v-card-text>
 
-                                                        <v-card-actions>
-                                                            <v-spacer></v-spacer>
-                                                            <v-btn
-                                                                color="green-darken-1"
-                                                                text
-                                                                @click="
+                                                            <v-card-actions>
+                                                                <v-spacer></v-spacer>
+                                                                <v-btn
+                                                                    color="green-darken-1"
+                                                                    text
+                                                                    @click="
                                                                     isEditUserModal = false;
                                                                     isEditUserModalLoader = false;
                                                                 "
-                                                            >
-                                                                Відмінити
-                                                            </v-btn>
-                                                            <v-btn
-                                                                color="green-darken-1"
-                                                                text
-                                                                :disabled="
+                                                                >
+                                                                    Відмінити
+                                                                </v-btn>
+                                                                <v-btn
+                                                                    color="green-darken-1"
+                                                                    text
+                                                                    :disabled="
                                                                     isEditUserModalLoader
                                                                 "
-                                                                type="submit"
-                                                            >
-                                                                Редагувати
-                                                            </v-btn>
-                                                        </v-card-actions>
+                                                                    type="submit"
+                                                                >
+                                                                    Редагувати
+                                                                </v-btn>
+                                                            </v-card-actions>
+                                                        </v-card>
+                                                    </v-form>
                                                     </v-card>
-                                                </v-form>
-                                            </v-dialog>
+                                                </v-dialog>
+
 
                                             <v-dialog
                                                 v-model="

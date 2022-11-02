@@ -64,7 +64,7 @@
                                                     isEditRolePermissionsModal = true
                                                 "
                                             >
-                                                <v-icon size=""
+                                                <v-icon
                                                     >mdi:mdi-pencil</v-icon
                                                 >
                                             </v-btn>
@@ -74,7 +74,6 @@
                                                     isEditRolePermissionsModal
                                                 "
                                                 max-width="600px"
-                                                persistent
                                             >
                                                 <v-form
                                                     ref="form"

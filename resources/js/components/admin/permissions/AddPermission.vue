@@ -5,7 +5,7 @@
             <v-btn color="green" @click="isAddPermissionModal = true">
                 Додати дозвіл
             </v-btn>
-            <v-dialog v-model="isAddPermissionModal" max-width="600px" persistent>
+            <v-dialog v-model="isAddPermissionModal" max-width="600px">
                 <v-form
                     ref="form"
                     v-model="valid"

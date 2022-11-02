@@ -5,7 +5,7 @@
             <v-btn color="green" @click="isAddRoleModal = true">
                 Додати роль
             </v-btn>
-            <v-dialog v-model="isAddRoleModal" max-width="600px" persistent>
+            <v-dialog v-model="isAddRoleModal" max-width="600px">
                 <v-form
                     ref="form"
                     v-model="valid"
