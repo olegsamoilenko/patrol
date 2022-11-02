@@ -45,33 +45,40 @@ class BasicAdminPermissionSeeder extends Seeder
         $role1->givePermissionTo('Інцидент створити');
 
         $role2 = Role::create(['name' => 'Адміністратор']);
-        $role2->givePermissionTo('Інцидент список');
-        $role2->givePermissionTo('Інцидент створити');
         $role2->givePermissionTo('Користувач статистика');
         $role2->givePermissionTo('Користувач список');
         $role2->givePermissionTo('Користувач активувати');
-        $role2->givePermissionTo('Користувач редагувати');
-        $role2->givePermissionTo('Користувач видалити');
 
         $role3 = Role::create(['name' => 'Супер Адміністратор']);
+
+        $role4 = Role::create(['name' => 'Аналітик']);
+        $role4->givePermissionTo('Інцидент редагувати');
+        $role4->givePermissionTo('Інцидент видалити');
+
         // gets all permissions via Gate::before rule; see AuthServiceProvider
         // create demo users
         $user = \App\Models\User::factory()->create([
-            'name' => 'Super Admin',
-            'surname' => 'Super Admin',
-            'email' => 'superadmin@admin.com',
+            'name' => 'Аналітик',
+            'surname' => 'Surname',
+            'email' => 'analyst@analyst.com',
+        ]);
+        $user->assignRole($role4);
+        $user = \App\Models\User::factory()->create([
+            'name' => 'Супер Адміністратор',
+            'surname' => 'Surname',
+            'email' => 'superadmin@superadmin.com',
             'is_activated' => true,
         ]);
         $user->assignRole($role3);
         $user = \App\Models\User::factory()->create([
-            'name' => 'Admin',
-            'surname' => 'Admin',
+            'name' => 'Адміністратор',
+            'surname' => 'Surname',
             'email' => 'admin@admin.com',
         ]);
         $user->assignRole($role2);
         $user = \App\Models\User::factory()->create([
-            'name' => 'User',
-            'surname' => 'User',
+            'name' => 'Користувач',
+            'surname' => 'Surname',
             'email' => 'user@user.com',
         ]);
         $user->assignRole($role1);
