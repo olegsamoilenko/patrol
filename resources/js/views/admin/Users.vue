@@ -287,10 +287,9 @@
                                                                         cols="12"
                                                                     >
                                                                         <v-text-field
-                                                                            v-model="
-                                                                            user.name
-                                                                        "
+                                                                            v-model="user.name"
                                                                             label="Ім'я"
+                                                                            :rules="[v => !!v || 'Ім`я обов`язкове']"
                                                                         >
                                                                             <template
                                                                                 #details
@@ -317,6 +316,7 @@
                                                                             user.surname
                                                                         "
                                                                             label="Прізвище"
+                                                                            :rules="[v => !!v || 'Прізвище обов`язкове']"
                                                                         >
                                                                             <template
                                                                                 #details
@@ -343,6 +343,7 @@
                                                                             user.email
                                                                         "
                                                                             label="Email"
+                                                                            :rules="[v => !!v || 'Email обов`язковий']"
                                                                         >
                                                                             <template
                                                                                 #details
@@ -364,11 +365,13 @@
                                                                     <v-col
                                                                         cols="12"
                                                                     >
+                                                                    <!--TODO: Регулярку на телефон-->
                                                                         <v-text-field
                                                                             v-model="
                                                                             user.phone
                                                                         "
                                                                             label="Телефон"
+                                                                            :rules="[v => !!v || 'Телефон обов`язковий']"
                                                                         >
                                                                             <template
                                                                                 #details
@@ -443,6 +446,7 @@
                                                                             placeholder="Ролі"
                                                                             multiple
                                                                             required
+                                                                            :rules="[(v) => v.length !== 0 || 'Виберіть хоча б одну роль']"
                                                                         >
                                                                             <template
                                                                                 #details
@@ -811,9 +815,6 @@ const isEditUserModal = ref(false);
 const isEditUserConfirmationModal = ref(false);
 const isEditUserModalLoader = ref(false);
 const validationErrorsFromBase = ref({});
-// const rolesRules = ref([
-//     (v) => v.length !== 0 || "Виберіть хоча б одну роль",
-// ]);
 const valid = ref(true);
 const form = ref(null);
 function handleSubmit(user) {
