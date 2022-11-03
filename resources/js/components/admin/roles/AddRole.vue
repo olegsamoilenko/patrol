@@ -172,6 +172,8 @@ function AddRole() {
             isAddRoleModal.value = false;
             isAddRoleModalLoader.value = false;
             isAddRoleConfirmationModal.value = true;
+            newRoleName.value = "";
+            newRolePermissions.value = [];
         })
         .catch(({ response }) => {
             if (response.status === 422) {

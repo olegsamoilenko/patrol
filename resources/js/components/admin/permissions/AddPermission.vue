@@ -172,6 +172,8 @@ function AddPermission() {
             isAddPermissionModal.value = false;
             isAddPermissionModalLoader.value = false;
             isAddPermissionConfirmationModal.value = true;
+            newPermissionName.value = "";
+            newPermissionRoles.value = [];
         })
         .catch(({ response }) => {
             if (response.status === 422) {

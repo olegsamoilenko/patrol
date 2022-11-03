@@ -216,10 +216,7 @@
                                                         <v-btn
                                                             color="green-darken-1"
                                                             text
-                                                            @click="
-                                                                getPermissions();
-                                                                isEditPermissionRolesConfirmationModal = false;
-                                                            "
+                                                            @click="closeEditPermissionRolesConfirmationModal"
                                                         >
                                                             Закрити
                                                         </v-btn>
@@ -317,10 +314,7 @@
                                                         <v-btn
                                                             color="green-darken-1"
                                                             text
-                                                            @click="
-                                                                getPermissions();
-                                                                isDeletePermissionConfirmationModal = false;
-                                                            "
+                                                            @click="closeDeletePermissionConfirmationModal"
                                                         >
                                                             Закрити
                                                         </v-btn>
@@ -356,6 +350,8 @@
 <script setup>
 import { onMounted, ref, watch } from "vue";
 import AddPermission from "@/components/admin/permissions/AddPermission.vue";
+import { removeAttribute } from "@/mixins/removeAttribute";
+
 const isLoader = ref(false);
 
 onMounted(() => {
@@ -496,6 +492,12 @@ function editPermissionRoles(permission) {
         });
 }
 
+function closeEditPermissionRolesConfirmationModal() {
+    isEditPermissionRolesConfirmationModal.value = false;
+    getPermissions();
+    removeAttribute()
+}
+
 // Delete Permission ===============================================
 const isDeletePermissionModal = ref(false);
 const isDeletePermissionConfirmationModal = ref(false);
@@ -518,6 +520,12 @@ function deleteRole(permission) {
         .finally(() => {
             isDeletePermissionModalLoader.value = false;
         });
+}
+
+function closeDeletePermissionConfirmationModal() {
+    isDeletePermissionConfirmationModal.value = false;
+    getPermissions();
+    removeAttribute()
 }
 
 // Pagination ======================================

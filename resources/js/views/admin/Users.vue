@@ -136,6 +136,7 @@
                                                 "
                                                 >Активувати
                                             </v-btn>
+
                                             <v-dialog
                                                 v-model="isActivateUserModal"
                                                 max-width="600px"
@@ -220,10 +221,7 @@
                                                         <v-btn
                                                             color="green-darken-1"
                                                             text
-                                                            @click="
-                                                                getUsers();
-                                                                isActivateUserConfirmationModal = false;
-                                                            "
+                                                            @click="closeActivateUserConfirmModal"
                                                         >
                                                             Закрити
                                                         </v-btn>
@@ -261,8 +259,7 @@
                                                 <v-icon>mdi:mdi-pencil</v-icon>
                                             </v-btn>
 
-
-                                                <v-dialog
+                                            <v-dialog
                                                     v-model="isEditUserModal"
                                                     max-width="600px"
                                                     scrollable
@@ -510,7 +507,6 @@
                                                     </v-card>
                                                 </v-dialog>
 
-
                                             <v-dialog
                                                 v-model="
                                                     isEditUserConfirmationModal
@@ -534,10 +530,7 @@
                                                         <v-btn
                                                             color="green-darken-1"
                                                             text
-                                                            @click="
-                                                                getUsers();
-                                                                isEditUserConfirmationModal = false;
-                                                            "
+                                                            @click="closeEditUserConfirmModal"
                                                         >
                                                             Закрити
                                                         </v-btn>
@@ -650,10 +643,7 @@
                                                         <v-btn
                                                             color="green-darken-1"
                                                             text
-                                                            @click="
-                                                                getUsers();
-                                                                isDeleteUserConfirmationModal = false;
-                                                            "
+                                                            @click="closeDeleteUserConfirmModal"
                                                         >
                                                             Закрити
                                                         </v-btn>
@@ -686,6 +676,7 @@
 <script setup>
 import { onMounted, ref, watch, computed } from "vue";
 import { useAuthStore } from "@/stores/auth";
+import { removeAttribute } from "@/mixins/removeAttribute";
 
 const store = useAuthStore();
 
@@ -809,6 +800,11 @@ function activateUser(user) {
             isActivateUserModalLoader.value = false;
         });
 }
+function closeActivateUserConfirmModal() {
+    isActivateUserConfirmationModal.value = false;
+    getUsers()
+    removeAttribute()
+}
 
 // Edit User ===============================================
 const isEditUserModal = ref(false);
@@ -861,6 +857,14 @@ function editUser(user) {
         });
 }
 
+function closeEditUserConfirmModal() {
+    isEditUserConfirmationModal.value = false;
+    getUsers()
+    removeAttribute()
+}
+
+
+
 // Delete User ===============================================
 const isDeleteUserModal = ref(false);
 const isDeleteUserConfirmationModal = ref(false);
@@ -884,10 +888,18 @@ function deleteUser(user) {
         });
 }
 
+function closeDeleteUserConfirmModal() {
+    isDeleteUserConfirmationModal.value = false;
+    getUsers()
+    removeAttribute()
+}
+
 // Pagination ======================================
 function onPageChange() {
     getUsers();
 }
+
+
 </script>
 
 <style>

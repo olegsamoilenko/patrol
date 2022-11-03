@@ -95,12 +95,6 @@
             <slot></slot>
         </v-main>
 
-        <v-bottom-navigation app>
-            <v-btn class="ma-2" color="blue" icon="mdi:mdi-plus" to="/add-event"
-                ><span>Додати подію</span><v-icon>mdi:mdi-plus</v-icon></v-btn
-            >
-        </v-bottom-navigation>
-
         <v-footer app>
             <v-row justify="end" align="center">
                 <v-btn

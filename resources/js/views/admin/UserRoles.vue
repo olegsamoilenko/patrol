@@ -181,10 +181,7 @@
                                                         <v-btn
                                                             color="green-darken-1"
                                                             text
-                                                            @click="
-                                                                getRoles();
-                                                                isEditRolePermissionsConfirmationModal = false;
-                                                            "
+                                                            @click="closeEditRolePermissionsConfirmationModal"
                                                         >
                                                             Закрити
                                                         </v-btn>
@@ -282,10 +279,7 @@
                                                         <v-btn
                                                             color="green-darken-1"
                                                             text
-                                                            @click="
-                                                                getRoles();
-                                                                isDeleteRoleConfirmationModal = false;
-                                                            "
+                                                            @click="closeDeleteRoleConfirmationModal"
                                                         >
                                                             Закрити
                                                         </v-btn>
@@ -321,6 +315,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import AddRole from "@/components/admin/roles/AddRole.vue";
+import { removeAttribute } from "@/mixins/removeAttribute";
 
 const isLoader = ref(false);
 
@@ -417,6 +412,12 @@ function editRolePermissions(role) {
         });
 }
 
+function closeEditRolePermissionsConfirmationModal() {
+    isEditRolePermissionsConfirmationModal.value = false;
+    getRoles();
+    removeAttribute()
+}
+
 // Delete Role ===============================================
 const isDeleteRoleModal = ref(false);
 const isDeleteRoleConfirmationModal = ref(false);
@@ -439,6 +440,13 @@ function deleteRole(role) {
         .finally(() => {
             isDeleteRoleModalLoader.value = false;
         });
+}
+
+function closeDeleteRoleConfirmationModal() {
+    isDeleteRoleConfirmationModal.value = false;
+    getRoles();
+    removeAttribute()
+
 }
 
 // Pagination ======================================
