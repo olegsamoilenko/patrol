@@ -256,6 +256,7 @@ import { onMounted, ref, watch, computed } from 'vue';
 import dayjs from 'dayjs/esm/index.js';
 import uk from '../locale/dayjs/uk.js';
 import relativeTime from 'dayjs/esm/plugin/relativeTime/index.js';
+import { brandMap } from "@/utils/maps/BrandMap";
 
 // import moment from "moment/dist/moment"
 // import uk from "../locale/moment/uk.js";

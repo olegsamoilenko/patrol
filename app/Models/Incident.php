@@ -22,6 +22,8 @@ class Incident extends Model implements HasMedia
         'address',
         'name',
         'document',
+        'document_type',
+        'document_type_other',
         'car_number',
         'car_type',
         'car_brand',

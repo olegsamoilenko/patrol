@@ -47,8 +47,8 @@ class IncidentController extends Controller
      */
     public function storeIncident(StoreIncidentRequest $request)
     {
-        $data = $request->validated();
 
+        $data = $request->validated();
         DB::transaction(static function () use ($data, $request) {
             $incident = Incident::create($data);
             if ($request->files) {

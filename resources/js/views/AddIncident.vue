@@ -226,7 +226,7 @@ async function addIncident() {
         }
     }
 
-    console.log(storedImages.value)
+    console.log(data)
 
     // processing.value = true;
 
