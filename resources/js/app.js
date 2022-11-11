@@ -11,7 +11,6 @@ import Router from "@/router";
 import App from './App.vue'
 // import Layout from './layouts/Layout.vue'
 
-
 createApp(App)
     .use(pinia)
     .use(vuetify)

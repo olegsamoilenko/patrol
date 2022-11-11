@@ -49,4 +49,39 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function scopeRole($query, $role)
+    {
+        $query->whereHas('roles', function ($query) use ($role) {
+            return $query->where('name', $role);
+        });
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->where('name', 'LIKE', "%{$search}%")
+            ->orWhere('surname', 'LIKE', "%{$search}%")
+        ;
+    }
+
+    public function getCount()
+    {
+        return $this->count();
+    }
+
+    public function getNotActivatedCount()
+    {
+        return $this->where('is_activated', 'Ні')->get()->count();
+    }
+
+    public function getRoleAdminCount()
+    {
+        return $this->role('Адміністратор')->get()->count();
+    }
+
+    public function getRoleUserCount()
+    {
+        return $this->role('Користувач')->count();
+    }
 }

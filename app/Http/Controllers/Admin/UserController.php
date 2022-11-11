@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public User $user;
+
     public function __construct()
     {
+        $this->user = new User();
         $this->middleware('can:Користувач статистика', ['only' => ['getUserStatistics']]);
         $this->middleware('can:Користувач список', ['only' => ['getUserPagination']]);
         $this->middleware('can:Користувач активувати', ['only' => ['activateUser']]);
@@ -21,51 +23,27 @@ class UserController extends Controller
 
     /**
      * Get User Statistics.
-     *
-     * @return JsonResponse
      */
     public function getUserStatistics(): JsonResponse
     {
-        $users = User::all();
-        $usersCount = $users->count();
-        $notActivatedUsers = User::where('is_activated', 'Ні')->get();
-        $notActivatedUsersCount = $notActivatedUsers->count();
-        $usersWithRoleAdmin = User::role('Адміністратор')->get();
-        $usersWithRoleAdminCount = $usersWithRoleAdmin->count();
-        $usersWithRoleUser = User::role('Користувач')->get();
-        $usersWithRoleUserCount = $usersWithRoleUser->count();
-
         return response()->json([
-            'usersCount' => $usersCount,
-            'notActivatedUsersCount' => $notActivatedUsersCount,
-            'usersWithRoleAdminCount' => $usersWithRoleAdminCount,
-            'usersWithRoleUserCount' => $usersWithRoleUserCount,
+            'usersCount' => $this->user->getCount(),
+            'notActivatedUsersCount' => $this->user->getNotActivatedCount(),
+            'usersWithRoleAdminCount' => $this->user->getRoleAdminCount(),
+            'usersWithRoleUserCount' => $this->user->getRoleUserCount(),
         ], 201);
     }
 
     /**
      * Get User Pagination.
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function getUserPagination(Request $request): JsonResponse
     {
-//        TODO: Не работает фильтрация по ролям и поиск по имени пользователя одновременно
         $users = User::when($request->role, static function ($query, $role) {
-//            $role = Role::where('slug', $role)->first();
-//            return $role->users();
-//            foreach ($roles as $role) {
-
-            $query->whereHas('roles', function ($query) use ($role) {
-                return $query->where('name', $role);
-            });
-//            }
+            $query->role($role);
         })
             ->when($request->search, static function ($query, $search) {
-                return $query->where('name', 'LIKE', "%{$search}%")
-                    ->orWhere('surname', 'LIKE', "%{$search}%")
-                ;
+                return $query->search($search);
             })
             ->with('roles')->with('permissions')->orderBy($request->sortBy, $request->sortDirection)->paginate(10);
 
@@ -76,9 +54,6 @@ class UserController extends Controller
 
     /**
      * Activate user.
-     *
-     * @param int $id
-     * @return JsonResponse
      */
     public function activateUser(int $id): JsonResponse
     {
@@ -94,10 +69,6 @@ class UserController extends Controller
 
     /**
      * Edit User.
-     *
-     * @param int $id
-     * @param Request $request
-     * @return JsonResponse
      */
     public function editUser(int $id, Request $request): JsonResponse
     {
@@ -139,9 +110,6 @@ class UserController extends Controller
 
     /**
      * Delete User.
-     *
-     * @param int $id
-     * @return JsonResponse
      */
     public function deleteUser(int $id): JsonResponse
     {

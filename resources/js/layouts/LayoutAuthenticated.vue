@@ -101,7 +101,7 @@
                     class="ma-2"
                     color="green"
                     icon="mdi:mdi-plus"
-                    to="/add-event"
+                    to="/add-incident"
                 ></v-btn>
             </v-row>
         </v-footer>

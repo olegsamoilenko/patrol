@@ -2,13 +2,8 @@
 
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\User\ActivateUserController;
-use App\Http\Controllers\Admin\User\DeleteUserController;
-use App\Http\Controllers\Admin\User\EditUserController;
-use App\Http\Controllers\Admin\User\GetUserPaginationController;
-use App\Http\Controllers\Admin\User\GetUserRolesController;
-use App\Http\Controllers\Admin\User\GetUserStatisticsController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Main\IncidentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,6 +49,14 @@ Route::group([
     Route::post('/activate-user/{id}', [UserController::class, 'activateUser']);
     Route::post('/edit-user/{id}', [UserController::class, 'editUser']);
     Route::delete('/delete-user/{id}', [UserController::class, 'deleteUser']);
+});
+
+Route::group([
+    'namespace' => 'App\Http\Controllers\Main',
+    'middleware' => ['auth'],
+], static function () {
+    Route::get('/get-all-incidents', [IncidentController::class, 'index']);
+    Route::post('/store-incident', [IncidentController::class, 'storeIncident']);
 });
 
 

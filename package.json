@@ -8,6 +8,8 @@
     "dependencies": {
         "@hennge/vue3-pagination": "^1.0.17",
         "@vitejs/plugin-vue": "^3.1.2",
+        "dayjs": "^1.11.6",
+        "moment": "^2.29.4",
         "pinia": "^2.0.23",
         "pinia-plugin-persistedstate": "^2.3.0",
         "roboto-fontface": "*",

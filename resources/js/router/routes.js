@@ -42,9 +42,9 @@ const routes = [
         },
     },
     {
-        path: "/add-event",
-        name: "add-event",
-        component: () => import("@/views/AddEvent.vue"),
+        path: "/add-incident",
+        name: "add-incident",
+        component: () => import("@/views/AddIncident.vue"),
         meta: {
             title: `Додати Подію`,
             layout: 'Authenticated',
@@ -56,9 +56,9 @@ const routes = [
         },
     },
     {
-        path: "/events",
-        name: "events",
-        component: () => import("@/views/Events.vue"),
+        path: "/incidents",
+        name: "incidents",
+        component: () => import("@/views/Incidents.vue"),
         meta: {
             title: `Події`,
             layout: 'Authenticated',
