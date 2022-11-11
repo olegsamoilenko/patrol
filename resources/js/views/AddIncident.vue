@@ -142,9 +142,9 @@
 
 <script setup>
 import { ref } from "vue";
-import { patrolsMap } from "@/utils/maps/patrolsMap";
-import { carTypeMap, documentTypeMap } from "@/utils/maps/typeMap";
-import { brandMap } from "@/utils/maps/brandMap";
+import { patrolsMap } from "@/utils/maps/patrolsMap.js";
+import { carTypeMap, documentTypeMap } from "@/utils/maps/typeMap.js";
+import { brandMap } from "@/utils/maps/brandMap.js";
 
 const patrol = ref(null);
 const address = ref(null);
