@@ -10,14 +10,14 @@
                         @submit.prevent="handleSubmit()"
                     >
 
-<!--                        <v-select-->
-<!--                            v-model="patrol"-->
-<!--                            name="patrol"-->
-<!--                            :items="patrolsMap"-->
-<!--                            :rules="[v => !!v || 'Виберіть патруль']"-->
-<!--                            label="Патруль"-->
-<!--                        >-->
-<!--                        </v-select>-->
+                        <v-select
+                            v-model="patrol"
+                            name="patrol"
+                            :items="patrolsMap"
+                            :rules="[v => !!v || 'Виберіть патруль']"
+                            label="Патруль"
+                        >
+                        </v-select>
 
                         <v-text-field
                             v-model="address"
@@ -34,12 +34,12 @@
 
                             <v-row>
                                 <v-col cols="6" >
-<!--                                    <v-select-->
-<!--                                        v-model="documentType"-->
-<!--                                        :items="documentTypeMap"-->
-<!--                                        label="Документ"-->
-<!--                                    >-->
-<!--                                    </v-select>-->
+                                    <v-select
+                                        v-model="documentType"
+                                        :items="documentTypeMap"
+                                        label="Документ"
+                                    >
+                                    </v-select>
                                     <v-text-field
                                         v-if="documentType === 'Інше'"
                                         v-model="documentTypeOther"
@@ -73,20 +73,20 @@
                                     >
                                     </v-text-field>
 
-<!--                                    <v-select-->
-<!--                                        v-model="carType"-->
-<!--                                        :rules="[v => !!v || 'Виберіть тип']"-->
-<!--                                        :items="carTypeMap"-->
-<!--                                        label="Тип Автомобіля"-->
-<!--                                    >-->
-<!--                                    </v-select>-->
-<!--                                    <v-select-->
-<!--                                        v-model="brand"-->
-<!--                                        :rules="[v => !!v || 'Виберіть марку']"-->
-<!--                                        :items="brandMap"-->
-<!--                                        label="Марка Автомобіля"-->
-<!--                                    >-->
-<!--                                    </v-select>-->
+                                    <v-select
+                                        v-model="carType"
+                                        :rules="[v => !!v || 'Виберіть тип']"
+                                        :items="carTypeMap"
+                                        label="Тип Автомобіля"
+                                    >
+                                    </v-select>
+                                    <v-select
+                                        v-model="brand"
+                                        :rules="[v => !!v || 'Виберіть марку']"
+                                        :items="brandMap"
+                                        label="Марка Автомобіля"
+                                    >
+                                    </v-select>
 
                                     <v-text-field
                                         v-model="model"
@@ -142,9 +142,9 @@
 
 <script setup>
 import { ref } from "vue";
-// import { patrolsMap } from "../utils/maps/patrolsMap.js";
-// import { carTypeMap, documentTypeMap } from "../utils/maps/typeMap.js";
-// import { brandMap } from "../utils/maps/brandMap.js";
+import { patrolsMap } from "@/utils/maps/patrolsMap";
+import { carTypeMap, documentTypeMap } from "@/utils/maps/typeMap";
+import { brandMap } from "@/utils/maps/BrandMap";
 
 const patrol = ref(null);
 const address = ref(null);
