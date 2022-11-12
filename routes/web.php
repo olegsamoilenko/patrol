@@ -55,7 +55,8 @@ Route::group([
     'namespace' => 'App\Http\Controllers\Main',
     'middleware' => ['auth'],
 ], static function () {
-    Route::get('/get-all-incidents', [IncidentController::class, 'index']);
+    Route::get('/get-incident-statistics', [IncidentController::class, 'getIncidentStatistics']);
+    Route::get('/get-all-incidents', [IncidentController::class, 'getIncidentsPagination']);
     Route::post('/store-incident', [IncidentController::class, 'storeIncident']);
 });
 

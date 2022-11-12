@@ -350,11 +350,10 @@ function getRoles() {
             );
             paginationCurrentPage.value = data.roles.current_page;
             paginationLastPage.value = data.roles.last_page;
-            console.log(paginationRoles.value);
             isLoader.value = false;
         })
         .catch((error) => {
-            console.log(error);
+            console.log('error', error);
         });
 }
 
@@ -365,10 +364,9 @@ function getAllPermissions() {
         .get("/admin/get-all-permissions")
         .then(({ data }) => {
             allPermissions.value = data.permissions;
-            console.log(allPermissions.value);
         })
         .catch((error) => {
-            console.log(error);
+            console.log('error', error);
         });
 }
 
@@ -392,20 +390,18 @@ function handleSubmit(role) {
 
 function editRolePermissions(role) {
     isEditRolePermissionsModalLoader.value = true;
-    console.log(role);
     axios
         .post(`/admin/edit-role-permissions`, {
             id: role.id,
             permissions: role.permissions,
         })
         .then(({ data }) => {
-            console.log("data", data);
             isEditRolePermissionsModal.value = false;
             isEditRolePermissionsModalLoader.value = false;
             isEditRolePermissionsConfirmationModal.value = true;
         })
-        .catch(({ response }) => {
-            console.log(response);
+        .catch((error) => {
+            console.log('error', error);
         })
         .finally(() => {
             isEditRolePermissionsModalLoader.value = false;
@@ -425,17 +421,15 @@ const isDeleteRoleModalLoader = ref(false);
 
 function deleteRole(role) {
     isDeleteRoleModalLoader.value = true;
-    console.log(role);
     axios
         .delete(`/admin/delete-role/${role.id}`)
         .then(({ data }) => {
-            console.log("data", data);
             isDeleteRoleModal.value = false;
             isDeleteRoleModalLoader.value = false;
             isDeleteRoleConfirmationModal.value = true;
         })
-        .catch(({ response }) => {
-            console.log(response);
+        .catch((error) => {
+            console.log('error', error);
         })
         .finally(() => {
             isDeleteRoleModalLoader.value = false;

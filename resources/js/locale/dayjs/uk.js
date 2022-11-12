@@ -56,7 +56,7 @@ var locale = {
     hh: relativeTimeWithPlural,
     d: 'день',
     dd: relativeTimeWithPlural,
-    M: 'місяців',
+    M: 'місяць',
     MM: relativeTimeWithPlural,
     y: 'рік',
     yy: relativeTimeWithPlural

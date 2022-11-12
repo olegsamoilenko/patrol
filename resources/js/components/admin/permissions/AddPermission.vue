@@ -164,11 +164,9 @@ function AddPermission() {
         name: newPermissionName.value,
         roles: newPermissionRoles.value,
     };
-    console.log(params);
     axios
         .post(`/admin/add-permission`, params)
         .then(({ data }) => {
-            console.log("data", data);
             isAddPermissionModal.value = false;
             isAddPermissionModalLoader.value = false;
             isAddPermissionConfirmationModal.value = true;
@@ -178,7 +176,6 @@ function AddPermission() {
         .catch(({ response }) => {
             if (response.status === 422) {
                 validationErrorsFromBase.value = response.data.errors;
-                console.log(validationErrorsFromBase.value);
             } else {
                 validationErrorsFromBase.value = {};
                 alert(response.data.message);

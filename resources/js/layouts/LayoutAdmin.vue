@@ -110,7 +110,6 @@ const routeList = computed(() =>
 const store = useAuthStore();
 
 async function logout() {
-    console.log(111);
     await axios.post("/logout").then(({ data }) => {
         store.signOut();
     });

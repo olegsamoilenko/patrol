@@ -430,11 +430,10 @@ function getPermissions() {
             paginationPermissions.value = data.permissions.data;
             paginationCurrentPage.value = data.permissions.current_page;
             paginationLastPage.value = data.permissions.last_page;
-            console.log(paginationPermissions.value);
             isLoader.value = false;
         })
         .catch((error) => {
-            console.log(error);
+            console.log('error', error);
         });
 }
 
@@ -445,10 +444,9 @@ function getAllRoles() {
         .get("/admin/get-all-roles")
         .then(({ data }) => {
             allRoles.value = data.roles.filter(r => r.name !== 'Супер Адміністратор');
-            console.log(allRoles.value);
         })
         .catch((error) => {
-            console.log(error);
+            console.log('error', error);
         });
 }
 
@@ -472,20 +470,18 @@ function handleSubmit(permission) {
 
 function editPermissionRoles(permission) {
     isEditPermissionRolesModalLoader.value = true;
-    console.log(permission);
     axios
         .post(`/admin/edit-permission-roles`, {
             id: permission.id,
             roles: permission.roles,
         })
         .then(({ data }) => {
-            console.log("data", data);
             isEditPermissionRolesModal.value = false;
             isEditPermissionRolesModalLoader.value = false;
             isEditPermissionRolesConfirmationModal.value = true;
         })
-        .catch(({ response }) => {
-            console.log(response);
+        .catch((error) => {
+            console.log('error', error);
         })
         .finally(() => {
             isEditPermissionRolesModalLoader.value = false;
@@ -505,17 +501,15 @@ const isDeletePermissionModalLoader = ref(false);
 
 function deleteRole(permission) {
     isDeletePermissionModalLoader.value = true;
-    console.log(permission);
     axios
         .delete(`/admin/delete-permission/${permission.id}`)
         .then(({ data }) => {
-            console.log("data", data);
             isDeletePermissionModal.value = false;
             isDeletePermissionModalLoader.value = false;
             isDeletePermissionConfirmationModal.value = true;
         })
-        .catch(({ response }) => {
-            console.log(response);
+        .catch((error) => {
+            console.log('error', error);
         })
         .finally(() => {
             isDeletePermissionModalLoader.value = false;

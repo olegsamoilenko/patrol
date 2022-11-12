@@ -112,7 +112,6 @@ const schema = yup.object({
 });
 
 async function onSubmit(values) {
-    console.log("Submitted with", values);
     processing.value = true;
     await axios.get("/sanctum/csrf-cookie");
     await axios
@@ -125,7 +124,6 @@ async function onSubmit(values) {
             console.log(response);
             if (response.status === 422) {
                 validationErrorsFromBase.value = response.data.errors;
-                console.log(validationErrorsFromBase.value);
             } else {
                 validationErrorsFromBase.value = {};
                 alert(response.data.message);

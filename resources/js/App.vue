@@ -20,7 +20,6 @@ const store = useAuthStore();
         return axios
             .get("/api/user")
             .then(({ data }) => {
-                console.log(store.user.roles)
                 if (JSON.stringify(data.roles) !== JSON.stringify(store.user.roles) || data.is_activated !== store.user.is_activated) {
                     store.signIn();
                 }

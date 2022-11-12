@@ -9,19 +9,19 @@
                         v-model="valid"
                         @submit.prevent="handleSubmit()"
                     >
-
                         <v-select
                             v-model="patrol"
                             name="patrol"
                             :items="patrolsMap"
-                            :rules="[v => !!v || 'Виберіть патруль']"
+                            :rules="[(v) => !!v || 'Виберіть патруль']"
                             label="Патруль"
                         >
                         </v-select>
 
+                        <!--                        TODO: Добавить автоматом определение адреса по координатам-->
                         <v-text-field
                             v-model="address"
-                            :rules="[v => !!v || 'Введіть адресу']"
+                            :rules="[(v) => !!v || 'Введіть адресу']"
                             label="Адреса"
                             required
                         ></v-text-field>
@@ -32,27 +32,27 @@
                             required
                         ></v-text-field>
 
-                            <v-row>
-                                <v-col cols="6" >
-                                    <v-select
-                                        v-model="documentType"
-                                        :items="documentTypeMap"
-                                        label="Документ"
-                                    >
-                                    </v-select>
-                                    <v-text-field
-                                        v-if="documentType === 'Інше'"
-                                        v-model="documentTypeOther"
-                                        label="Назва документу"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col cols="6">
-                                    <v-text-field
-                                        v-model="document"
-                                        label="Серія та номер"
-                                    ></v-text-field>
-                                </v-col>
-                            </v-row>
+                        <v-row>
+                            <v-col cols="6">
+                                <v-select
+                                    v-model="documentType"
+                                    :items="documentTypeMap"
+                                    label="Документ"
+                                >
+                                </v-select>
+                                <v-text-field
+                                    v-if="documentType === 'Інше'"
+                                    v-model="documentTypeOther"
+                                    label="Назва документу"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col cols="6">
+                                <v-text-field
+                                    v-model="document"
+                                    label="Серія та номер"
+                                ></v-text-field>
+                            </v-col>
+                        </v-row>
 
                         <v-expansion-panels class="mb-5">
                             <v-expansion-panel bg-color="#F6F6F6" elevation="1">
@@ -60,13 +60,16 @@
                                     >Додати Авто</v-expansion-panel-title
                                 >
                                 <v-expansion-panel-text>
-
                                     <v-text-field
                                         v-model="number"
                                         :rules="[
-                                            v => !!v || 'Введіть номер',
-                                            v => /^[а-яА-Яа-щА-ЩЬьЮюЯяЇїІіЄєҐґ0-9]+$/.test(v) || 'Введіть номер українськими літерами без пробілів та спецсимволів'
-                                            ]"
+                                            (v) => !!v || 'Введіть номер',
+                                            (v) =>
+                                                /^[а-яА-Яа-щА-ЩЬьЮюЯяЇїІіЄєҐґ0-9]+$/.test(
+                                                    v
+                                                ) ||
+                                                'Введіть номер українськими літерами без пробілів та спецсимволів',
+                                        ]"
                                         prepend-inner-icon="mdi:mdi-car"
                                         label="Номер Автомобіля"
                                         type="text"
@@ -75,14 +78,16 @@
 
                                     <v-select
                                         v-model="carType"
-                                        :rules="[v => !!v || 'Виберіть тип']"
+                                        :rules="[(v) => !!v || 'Виберіть тип']"
                                         :items="carTypeMap"
                                         label="Тип Автомобіля"
                                     >
                                     </v-select>
                                     <v-select
                                         v-model="brand"
-                                        :rules="[v => !!v || 'Виберіть марку']"
+                                        :rules="[
+                                            (v) => !!v || 'Виберіть марку',
+                                        ]"
                                         :items="brandMap"
                                         label="Марка Автомобіля"
                                     >
@@ -97,13 +102,15 @@
                                         v-model="color"
                                         name="color"
                                         hide-inputs
-                                        :rules="[v => !!v || 'Виберіть марку']"
+                                        :rules="[
+                                            (v) => !!v || 'Виберіть марку',
+                                        ]"
                                     ></v-color-picker>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
                         </v-expansion-panels>
 
-<!--                        <input type="file" name="file" @change="onFileChange">-->
+                        <!--                        <input type="file" name="file" @change="onFileChange">-->
 
                         <v-file-input
                             name="files[]"
@@ -115,13 +122,27 @@
                         ></v-file-input>
 
                         <v-row class="mb-3">
-                            <v-col v-for="image in imagesPreview" :key="image" cols="6" class="relative">
+                            <v-col
+                                v-for="image in imagesPreview"
+                                :key="image"
+                                cols="6"
+                                class="relative"
+                            >
                                 <v-img
                                     class="bg-white rounded border"
                                     :aspect-ratio="1"
                                     :src="image.f"
                                 ></v-img>
-                                <v-btn icon size="x-small" class="absolute bg-red-accent-2" @click="removeImage(image)"><v-icon class="text-white bg-red-accent-2" icon="mdi:mdi-close"></v-icon></v-btn>
+                                <v-btn
+                                    icon
+                                    size="x-small"
+                                    class="absolute bg-red-accent-2"
+                                    @click="removeImage(image)"
+                                    ><v-icon
+                                        class="text-white bg-red-accent-2"
+                                        icon="mdi:mdi-close"
+                                    ></v-icon
+                                ></v-btn>
                             </v-col>
                         </v-row>
 
@@ -129,10 +150,55 @@
                             v-model="comment"
                             name="comment"
                             label="Коментар"
-                            :rules="[v => !!v || 'Коментар обов`язково']"
+                            :rules="[(v) => !!v || 'Коментар обов`язково']"
                         />
 
                         <v-btn type="submit" color="green">Додати</v-btn>
+
+                        <v-dialog
+                            v-model="isAddIncidentModal"
+                            max-hight="600px"
+                            scrollable
+                        >
+                            <v-card>
+                                <v-card max-width="600px">
+                                    <v-card-title>
+                                        <span class="text-h5"
+                                            >Ви успішно додали подію</span
+                                        >
+                                    </v-card-title>
+                                    <v-card-item>
+                                        <v-btn
+                                            color="green-darken-1"
+                                            text
+                                            @click="isAddIncidentModal = false, removeAttribute()"
+                                            block
+                                            class="mb-3"
+                                        >
+                                            Додати Ще Подію
+                                        </v-btn>
+                                        <v-btn
+                                            color="green-darken-1"
+                                            text
+                                            @click="router.push({ name: 'incidents' }), removeAttribute()"
+                                            block
+                                            class="mb-3"
+                                        >
+                                            Переглянути Всі Події
+                                        </v-btn>
+                                        <v-btn
+                                            color="green-darken-1"
+                                            text
+                                            @click="router.push({ name: 'home' }), removeAttribute()"
+                                            block
+                                            class="mb-3"
+                                        >
+                                            На Головну
+                                        </v-btn>
+                                    </v-card-item>
+                                </v-card>
+                            </v-card>
+                        </v-dialog>
                     </v-form>
                 </v-card-text>
             </v-card>
@@ -143,8 +209,13 @@
 <script setup>
 import { ref } from "vue";
 import { patrolsMap } from "@/utils/maps/patrolsMap";
-import { carTypeMap, documentTypeMap } from "@/utils/maps/typeMap";
-import { brandMap } from "@/utils/maps/BrandMap";
+import { carTypeMap } from "@/utils/maps/carTypeMap";
+import { documentTypeMap } from "@/utils/maps/documentTypeMap";
+import { brandMap } from "@/utils/maps/brandMap";
+import { useRouter } from 'vue-router'
+import { removeAttribute } from "@/mixins/removeAttribute";
+
+const router = useRouter()
 
 const patrol = ref(null);
 const address = ref(null);
@@ -167,43 +238,38 @@ function handleSubmit(data) {
     if (!valid.value) {
         return;
     }
-    console.log(form.value)
-    addIncident()
+    addIncident();
 }
 
 const showPreview = ref(false);
 const imagesPreview = ref([]);
 const storedImages = ref([]);
 function onFileChange(e) {
-    console.log(e);
-    // loadedImages.value = e.target.files[0];
     let files = Array.from(e.target.files);
     if (!files) {
         return;
     }
-
-    files.forEach(f => {
-        let reader = new FileReader()
-        reader.onload = e => {
+    files.forEach((f) => {
+        let reader = new FileReader();
+        reader.onload = (e) => {
             showPreview.value = true;
-            imagesPreview.value.push({f: e.target.result, file: f})
-            storedImages.value.push(f)
+            imagesPreview.value.push({ f: e.target.result, file: f });
+            storedImages.value.push(f);
         };
 
-        reader.readAsDataURL(f)
-    })
-
-    console.log('imagesPreview.value', imagesPreview.value)
-    console.log(' storedImages.value',  storedImages.value)
+        reader.readAsDataURL(f);
+    });
 }
 
 function removeImage(image) {
-    imagesPreview.value = imagesPreview.value.filter(i => i.f !== image.f)
-    storedImages.value = storedImages.value.filter(i => i.name !== image.file.name)
+    imagesPreview.value = imagesPreview.value.filter((i) => i.f !== image.f);
+    storedImages.value = storedImages.value.filter(
+        (i) => i.name !== image.file.name
+    );
 }
 
+const isAddIncidentModal = ref(false);
 async function addIncident() {
-
     let data = {
         patrol: patrol.value,
         address: address.value,
@@ -211,33 +277,42 @@ async function addIncident() {
         document_type: documentType.value,
         document_type_other: documentTypeOther.value,
         document: document.value,
-        car_number: number.value ? number.value.toUpperCase() : '',
+        car_number: number.value ? number.value.toUpperCase() : "",
         car_type: carType.value,
         car_brand: brand.value,
         car_model: model.value,
         car_color: color.value,
         comment: comment.value,
         files: storedImages.value,
-    }
+    };
 
     const config = {
         headers: {
-            'content-type': 'multipart/form-data'
-        }
-    }
-
-    console.log(data)
-
-    // processing.value = true;
+            "content-type": "multipart/form-data",
+        },
+    };
 
     await axios
         .post("/store-incident", data, config)
         .then((data) => {
-            console.log(`data`, data)
-
+            isAddIncidentModal.value = true;
+            patrol.value = null;
+            address.value = null;
+            name.value = null;
+            documentType.value = null;
+            documentTypeOther.value = null;
+            document.value = null;
+            number.value = null;
+            carType.value = null;
+            brand.value = null;
+            model.value = null;
+            color.value = null;
+            comment.value = null;
+            storedImages.value = [];
+            imagesPreview.value = [];
         })
-        .catch(({ response }) => {
-            console.log(`response`, response)
+        .catch((error) => {
+            console.log(`error`, error);
         })
         .finally(() => {
             // processing.value = false;

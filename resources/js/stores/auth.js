@@ -13,13 +13,11 @@ export const useAuthStore = defineStore(
             return axios
                 .get("/api/user")
                 .then(({ data }) => {
-                    console.log(data);
                     user.value = data
                     authenticated.value = true;
                     this.router.push({name: "home"})
                 })
                 .catch((err) => {
-                    console.log(err);
                     user.value = {};
                     authenticated.value = false;
                     this.router.push({name: "login"})

@@ -32,15 +32,35 @@ class Incident extends Model implements HasMedia
         'comment',
     ];
 
-//    public function registerMediaCollections(): void
-//    {
-//        $this->addMediaCollection('file');
-//        //add options
-//        ...
-//
-//    // you can define as many collections as needed
-//    $this->addMediaCollection('my-other-collection')
-//        //add options
-//        ...
-//}
+    public function scopePatrol($query, $patrol)
+    {
+        return $query->where('patrol', $patrol);
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->where('name', 'LIKE', "%{$search}%")
+            ->orWhere('car_number', 'LIKE', "%{$search}%")
+        ;
+    }
+
+    public function getCount()
+    {
+        return $this->count();
+    }
+
+    public function getTodayIncidentCount()
+    {
+        return $this->where('updated_at', '>', now()->today())->count();
+    }
+
+    public function getLastWeekIncidentCount()
+    {
+        return $this->where('updated_at', '>', now()->subWeek())->count();
+    }
+
+    public function getLastMonthIncidentCount()
+    {
+        return $this->where('updated_at', '>', now()->subMonth())->count();
+    }
 }

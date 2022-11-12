@@ -76,7 +76,8 @@
                                                 :key="role.id"
                                                 :class="{
                                                     'bg-warning':
-                                                        user.is_activated === 'Ні',
+                                                        user.is_activated ===
+                                                        'Ні',
                                                     'bg-secondary':
                                                         role.name ===
                                                         'Адміністратор',
@@ -88,7 +89,6 @@
                                         </v-col>
                                     </v-row>
                                 </v-expansion-panel-title>
-                                <!--TODO: Адаптивный дизайн немного гуляет-->
                                 <v-expansion-panel-text>
                                     <v-row no-gutters>
                                         <v-col
@@ -119,13 +119,15 @@
                                             <!-- Activate User-------------------------------------------------------------->
                                             <v-btn
                                                 v-if="
-                                                    (user.is_activated === 'Ні' &&
+                                                    (user.is_activated ===
+                                                        'Ні' &&
                                                         store.user.roles.find(
                                                             (r) =>
                                                                 r.name ===
                                                                 'Супер Адміністратор'
                                                         )) ||
-                                                    (user.is_activated === 'Ні' &&
+                                                    (user.is_activated ===
+                                                        'Ні' &&
                                                         store.checkPermission(
                                                             'Користувач активувати'
                                                         ))
@@ -221,7 +223,9 @@
                                                         <v-btn
                                                             color="green-darken-1"
                                                             text
-                                                            @click="closeActivateUserConfirmModal"
+                                                            @click="
+                                                                closeActivateUserConfirmModal
+                                                            "
                                                         >
                                                             Закрити
                                                         </v-btn>
@@ -260,26 +264,28 @@
                                             </v-btn>
 
                                             <v-dialog
-                                                    v-model="isEditUserModal"
-                                                    max-width="600px"
-                                                    scrollable
-                                                >
-                                                    <v-card max-height="100vh">
+                                                v-model="isEditUserModal"
+                                                max-width="600px"
+                                                scrollable
+                                            >
+                                                <v-card max-height="100vh">
                                                     <v-form
                                                         ref="form"
                                                         v-model="valid"
                                                         @submit.prevent="
-                                                        handleSubmit(user)
-                                                    "
+                                                            handleSubmit(user)
+                                                        "
                                                     >
-                                                        <v-card max-width="600px">
+                                                        <v-card
+                                                            max-width="600px"
+                                                        >
                                                             <v-card-title>
-                                                            <span
-                                                                class="text-h5"
-                                                            >
-                                                                Редагувати
-                                                                користувача</span
-                                                            >
+                                                                <span
+                                                                    class="text-h5"
+                                                                >
+                                                                    Редагувати
+                                                                    користувача</span
+                                                                >
                                                             </v-card-title>
                                                             <v-card-text>
                                                                 <v-row>
@@ -287,23 +293,31 @@
                                                                         cols="12"
                                                                     >
                                                                         <v-text-field
-                                                                            v-model="user.name"
+                                                                            v-model="
+                                                                                user.name
+                                                                            "
                                                                             label="Ім'я"
-                                                                            :rules="[v => !!v || 'Ім`я обов`язкове']"
+                                                                            :rules="[
+                                                                                (
+                                                                                    v
+                                                                                ) =>
+                                                                                    !!v ||
+                                                                                    'Ім`я обов`язкове',
+                                                                            ]"
                                                                         >
                                                                             <template
                                                                                 #details
                                                                             >
-                                                                            <span
-                                                                                class="text-error text-caption"
-                                                                                v-if="
-                                                                                    validationErrorsFromBase.name
-                                                                                "
-                                                                            >{{
-                                                                                    validationErrorsFromBase
-                                                                                        .name[0]
-                                                                                }}</span
-                                                                            >
+                                                                                <span
+                                                                                    class="text-error text-caption"
+                                                                                    v-if="
+                                                                                        validationErrorsFromBase.name
+                                                                                    "
+                                                                                    >{{
+                                                                                        validationErrorsFromBase
+                                                                                            .name[0]
+                                                                                    }}</span
+                                                                                >
                                                                                 <v-spacer />
                                                                             </template>
                                                                         </v-text-field>
@@ -313,24 +327,30 @@
                                                                     >
                                                                         <v-text-field
                                                                             v-model="
-                                                                            user.surname
-                                                                        "
+                                                                                user.surname
+                                                                            "
                                                                             label="Прізвище"
-                                                                            :rules="[v => !!v || 'Прізвище обов`язкове']"
+                                                                            :rules="[
+                                                                                (
+                                                                                    v
+                                                                                ) =>
+                                                                                    !!v ||
+                                                                                    'Прізвище обов`язкове',
+                                                                            ]"
                                                                         >
                                                                             <template
                                                                                 #details
                                                                             >
-                                                                            <span
-                                                                                class="text-error text-caption"
-                                                                                v-if="
-                                                                                    validationErrorsFromBase.surname
-                                                                                "
-                                                                            >{{
-                                                                                    validationErrorsFromBase
-                                                                                        .surname[0]
-                                                                                }}</span
-                                                                            >
+                                                                                <span
+                                                                                    class="text-error text-caption"
+                                                                                    v-if="
+                                                                                        validationErrorsFromBase.surname
+                                                                                    "
+                                                                                    >{{
+                                                                                        validationErrorsFromBase
+                                                                                            .surname[0]
+                                                                                    }}</span
+                                                                                >
                                                                                 <v-spacer />
                                                                             </template>
                                                                         </v-text-field>
@@ -340,24 +360,30 @@
                                                                     >
                                                                         <v-text-field
                                                                             v-model="
-                                                                            user.email
-                                                                        "
+                                                                                user.email
+                                                                            "
                                                                             label="Email"
-                                                                            :rules="[v => !!v || 'Email обов`язковий']"
+                                                                            :rules="[
+                                                                                (
+                                                                                    v
+                                                                                ) =>
+                                                                                    !!v ||
+                                                                                    'Email обов`язковий',
+                                                                            ]"
                                                                         >
                                                                             <template
                                                                                 #details
                                                                             >
-                                                                            <span
-                                                                                class="text-error text-caption"
-                                                                                v-if="
-                                                                                    validationErrorsFromBase.email
-                                                                                "
-                                                                            >{{
-                                                                                    validationErrorsFromBase
-                                                                                        .email[0]
-                                                                                }}</span
-                                                                            >
+                                                                                <span
+                                                                                    class="text-error text-caption"
+                                                                                    v-if="
+                                                                                        validationErrorsFromBase.email
+                                                                                    "
+                                                                                    >{{
+                                                                                        validationErrorsFromBase
+                                                                                            .email[0]
+                                                                                    }}</span
+                                                                                >
                                                                                 <v-spacer />
                                                                             </template>
                                                                         </v-text-field>
@@ -365,27 +391,39 @@
                                                                     <v-col
                                                                         cols="12"
                                                                     >
-                                                                    <!--TODO: Регулярку на телефон-->
                                                                         <v-text-field
                                                                             v-model="
-                                                                            user.phone
-                                                                        "
+                                                                                user.phone
+                                                                            "
                                                                             label="Телефон"
-                                                                            :rules="[v => !!v || 'Телефон обов`язковий']"
+                                                                            :rules="[
+                                                                                (
+                                                                                    v
+                                                                                ) =>
+                                                                                    !!v ||
+                                                                                    'Телефон обов`язковий',
+                                                                                (
+                                                                                    v
+                                                                                ) =>
+                                                                                    /^((\+?3)?8)?0\d{9}$/.test(
+                                                                                        v
+                                                                                    ) ||
+                                                                                    'Введіть коректний номер телефону',
+                                                                            ]"
                                                                         >
                                                                             <template
                                                                                 #details
                                                                             >
-                                                                            <span
-                                                                                class="text-error text-caption"
-                                                                                v-if="
-                                                                                    validationErrorsFromBase.phone
-                                                                                "
-                                                                            >{{
-                                                                                    validationErrorsFromBase
-                                                                                        .phone[0]
-                                                                                }}</span
-                                                                            >
+                                                                                <span
+                                                                                    class="text-error text-caption"
+                                                                                    v-if="
+                                                                                        validationErrorsFromBase.phone
+                                                                                    "
+                                                                                    >{{
+                                                                                        validationErrorsFromBase
+                                                                                            .phone[0]
+                                                                                    }}</span
+                                                                                >
                                                                                 <v-spacer />
                                                                             </template>
                                                                         </v-text-field>
@@ -403,20 +441,18 @@
                                                                             </div>
                                                                         </v-card-title>
                                                                         <v-radio-group
-                                                                            v-model="user.is_activated"
+                                                                            v-model="
+                                                                                user.is_activated
+                                                                            "
                                                                             inline
                                                                         >
                                                                             <v-radio
                                                                                 label="Активований"
-                                                                                :value="
-                                                                                'Так'
-                                                                            "
+                                                                                :value="'Так'"
                                                                             ></v-radio>
                                                                             <v-radio
                                                                                 label="Не активований"
-                                                                                :value="
-                                                                                'Ні'
-                                                                            "
+                                                                                :value="'Ні'"
                                                                             ></v-radio>
                                                                         </v-radio-group>
                                                                     </v-col>
@@ -426,41 +462,48 @@
                                                                     >
                                                                         <v-select
                                                                             v-model="
-                                                                            user.roles
-                                                                        "
+                                                                                user.roles
+                                                                            "
                                                                             :items="
-                                                                            allUsersRoles
-                                                                        "
+                                                                                allUsersRoles
+                                                                            "
                                                                             :item-title="
-                                                                            (
-                                                                                item
-                                                                            ) =>
-                                                                                item.name
-                                                                        "
+                                                                                (
+                                                                                    item
+                                                                                ) =>
+                                                                                    item.name
+                                                                            "
                                                                             :item-value="
-                                                                            (
-                                                                                item
-                                                                            ) =>
-                                                                                item.id
-                                                                        "
+                                                                                (
+                                                                                    item
+                                                                                ) =>
+                                                                                    item.id
+                                                                            "
                                                                             placeholder="Ролі"
                                                                             multiple
                                                                             required
-                                                                            :rules="[(v) => v.length !== 0 || 'Виберіть хоча б одну роль']"
+                                                                            :rules="[
+                                                                                (
+                                                                                    v
+                                                                                ) =>
+                                                                                    v.length !==
+                                                                                        0 ||
+                                                                                    'Виберіть хоча б одну роль',
+                                                                            ]"
                                                                         >
                                                                             <template
                                                                                 #details
                                                                             >
-                                                                            <span
-                                                                                class="text-error text-caption"
-                                                                                v-if="
-                                                                                    validationErrorsFromBase.roles
-                                                                                "
-                                                                            >{{
-                                                                                    validationErrorsFromBase
-                                                                                        .roles[0]
-                                                                                }}</span
-                                                                            >
+                                                                                <span
+                                                                                    class="text-error text-caption"
+                                                                                    v-if="
+                                                                                        validationErrorsFromBase.roles
+                                                                                    "
+                                                                                    >{{
+                                                                                        validationErrorsFromBase
+                                                                                            .roles[0]
+                                                                                    }}</span
+                                                                                >
                                                                                 <v-spacer />
                                                                             </template>
                                                                         </v-select>
@@ -474,8 +517,8 @@
                                                                 >
                                                                     <v-progress-circular
                                                                         v-if="
-                                                                        isEditUserModalLoader
-                                                                    "
+                                                                            isEditUserModalLoader
+                                                                        "
                                                                         indeterminate
                                                                         color="green"
                                                                         class="justify-center"
@@ -489,9 +532,9 @@
                                                                     color="green-darken-1"
                                                                     text
                                                                     @click="
-                                                                    isEditUserModal = false;
-                                                                    isEditUserModalLoader = false;
-                                                                "
+                                                                        isEditUserModal = false;
+                                                                        isEditUserModalLoader = false;
+                                                                    "
                                                                 >
                                                                     Відмінити
                                                                 </v-btn>
@@ -499,8 +542,8 @@
                                                                     color="green-darken-1"
                                                                     text
                                                                     :disabled="
-                                                                    isEditUserModalLoader
-                                                                "
+                                                                        isEditUserModalLoader
+                                                                    "
                                                                     type="submit"
                                                                 >
                                                                     Редагувати
@@ -508,8 +551,8 @@
                                                             </v-card-actions>
                                                         </v-card>
                                                     </v-form>
-                                                    </v-card>
-                                                </v-dialog>
+                                                </v-card>
+                                            </v-dialog>
 
                                             <v-dialog
                                                 v-model="
@@ -534,7 +577,9 @@
                                                         <v-btn
                                                             color="green-darken-1"
                                                             text
-                                                            @click="closeEditUserConfirmModal"
+                                                            @click="
+                                                                closeEditUserConfirmModal
+                                                            "
                                                         >
                                                             Закрити
                                                         </v-btn>
@@ -647,7 +692,9 @@
                                                         <v-btn
                                                             color="green-darken-1"
                                                             text
-                                                            @click="closeDeleteUserConfirmModal"
+                                                            @click="
+                                                                closeDeleteUserConfirmModal
+                                                            "
                                                         >
                                                             Закрити
                                                         </v-btn>
@@ -729,14 +776,12 @@ watch(sortUsers, () => {
 watch(selectedUsersRole, () => {
     paginationCurrentPage.value = 1;
     getUsers();
-    console.log(selectedUsersRole.value);
 });
 
 const searchUsersInput = ref(null);
 watch(searchUsersInput, () => {
     paginationCurrentPage.value = 1;
     getUsers();
-    console.log(selectedUsersRole.value);
 });
 
 // Load Users ========================================
@@ -759,10 +804,9 @@ function getUsers() {
             paginationUsers.value = data.users.data;
             paginationCurrentPage.value = data.users.current_page;
             paginationLastPage.value = data.users.last_page;
-            console.log("data", data.users);
         })
-        .catch(({ response }) => {
-            console.log(response);
+        .catch((error) => {
+            console.log("error", error);
         })
         .finally(() => {
             isLoader.value = false;
@@ -774,10 +818,9 @@ function getUserRoles() {
         .get("/admin/get-all-roles")
         .then(({ data }) => {
             allUsersRoles.value = data.roles;
-            console.log("data", data);
         })
-        .catch(({ response }) => {
-            console.log(response);
+        .catch((error) => {
+            console.log("error", error);
         })
         .finally(() => {});
 }
@@ -792,13 +835,12 @@ function activateUser(user) {
     axios
         .post(`/admin/activate-user/${user.id}`)
         .then(({ data }) => {
-            console.log("data", data);
             isActivateUserModal.value = false;
             isActivateUserModalLoader.value = false;
             isActivateUserConfirmationModal.value = true;
         })
-        .catch(({ response }) => {
-            console.log(response);
+        .catch((error) => {
+            console.log("error", error);
         })
         .finally(() => {
             isActivateUserModalLoader.value = false;
@@ -806,8 +848,8 @@ function activateUser(user) {
 }
 function closeActivateUserConfirmModal() {
     isActivateUserConfirmationModal.value = false;
-    getUsers()
-    removeAttribute()
+    getUsers();
+    removeAttribute();
 }
 
 // Edit User ===============================================
@@ -815,9 +857,15 @@ const isEditUserModal = ref(false);
 const isEditUserConfirmationModal = ref(false);
 const isEditUserModalLoader = ref(false);
 const validationErrorsFromBase = ref({});
+const phoneRules = ref([
+    (v) => !!v || "Поле обов'язкове",
+    (v) => v.length >= 10 || "Мінімум 10 символів",
+    (v) => v.length <= 10 || "Максимум 10 символів",
+]);
 const valid = ref(true);
 const form = ref(null);
 function handleSubmit(user) {
+    console.log(form.value)
     form.value[0].validate();
     if (!valid.value) {
         return;
@@ -827,7 +875,6 @@ function handleSubmit(user) {
 
 function editUser(user) {
     isEditUserModalLoader.value = true;
-    console.log(user);
     let params = {
         name: user.name,
         surname: user.surname,
@@ -839,7 +886,6 @@ function editUser(user) {
     axios
         .post(`/admin/edit-user/${user.id}`, params)
         .then(({ data }) => {
-            console.log("data", data);
             isEditUserModal.value = false;
             isEditUserModalLoader.value = false;
             isEditUserConfirmationModal.value = true;
@@ -847,7 +893,6 @@ function editUser(user) {
         .catch(({ response }) => {
             if (response.status === 422) {
                 validationErrorsFromBase.value = response.data.errors;
-                console.log(validationErrorsFromBase.value);
             } else {
                 validationErrorsFromBase.value = {};
                 alert(response.data.message);
@@ -860,11 +905,9 @@ function editUser(user) {
 
 function closeEditUserConfirmModal() {
     isEditUserConfirmationModal.value = false;
-    getUsers()
-    removeAttribute()
+    getUsers();
+    removeAttribute();
 }
-
-
 
 // Delete User ===============================================
 const isDeleteUserModal = ref(false);
@@ -876,13 +919,12 @@ function deleteUser(user) {
     axios
         .delete(`/admin/delete-user/${user.id}`)
         .then(({ data }) => {
-            console.log("data", data);
             isDeleteUserModal.value = false;
             isDeleteUserModalLoader.value = false;
             isDeleteUserConfirmationModal.value = true;
         })
-        .catch(({ response }) => {
-            console.log(response);
+        .catch((error) => {
+            console.log("error", error);
         })
         .finally(() => {
             isDeleteUserModalLoader.value = false;
@@ -891,16 +933,14 @@ function deleteUser(user) {
 
 function closeDeleteUserConfirmModal() {
     isDeleteUserConfirmationModal.value = false;
-    getUsers()
-    removeAttribute()
+    getUsers();
+    removeAttribute();
 }
 
 // Pagination ======================================
 function onPageChange() {
     getUsers();
 }
-
-
 </script>
 
 <style>

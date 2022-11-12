@@ -82,7 +82,6 @@ async function onSubmit(values) {
         .catch(({ response }) => {
             if (response.status === 422) {
                 validationErrorsFromBase.value = response.data.errors;
-                console.log(validationErrorsFromBase.value)
             } else {
                 validationErrorsFromBase.value = {};
                 alert(response.data.message);

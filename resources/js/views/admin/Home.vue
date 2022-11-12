@@ -60,11 +60,9 @@ async function getUserStat() {
             notActivatedUsersCount.value = data.notActivatedUsersCount;
             usersWithRoleUserCount.value = data.usersWithRoleUserCount;
             usersWithRoleAdminCount.value = data.usersWithRoleAdminCount;
-            console.log("data", data);
-
-        })
-        .catch(({ response }) => {
-            console.log(response);
+                  })
+        .catch((error) => {
+            console.log('error', error);
         })
         .finally(() => {
             loader.value = false

@@ -95,8 +95,22 @@
             <slot></slot>
         </v-main>
 
-        <v-footer app>
-            <v-row justify="end" align="center">
+        <v-footer app color="transparent" height="75px">
+            <v-row justify="space-around" align="center">
+                <v-btn
+                    class="ma-2"
+                    color="green"
+                    icon="mdi:mdi-eye-outline"
+                    to="/incidents"
+                ></v-btn>
+
+                <v-btn
+                    class="ma-2"
+                    color="green"
+                    icon="mdi:mdi-home"
+                    to="/"
+                ></v-btn>
+
                 <v-btn
                     class="ma-2"
                     color="green"
@@ -155,7 +169,6 @@ const routeListAdmin = computed(() =>
 const store = useAuthStore();
 
 async function logout() {
-    console.log(111);
     await axios.post("/logout").then(({ data }) => {
         store.signOut();
     });

@@ -8,32 +8,50 @@ use App\Models\Incident;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class IncidentController extends Controller
 {
+    public Incident $incident;
+
     public function __construct()
     {
-        $this->middleware('can:incident list', ['only' => ['index', 'show']]);
+        $this->incident = new Incident();
+        $this->middleware('can:incident list', ['only' => ['getIncidentsPagination']]);
         $this->middleware('can:incident create', ['only' => ['storeIncident']]);
 //        $this->middleware('can:incident edit', ['only' => ['edit', 'update']]);
 //        $this->middleware('can:incident delete', ['only' => ['destroy']]);
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return JsonResponse
+     * Get Incident Statistics.
      */
-    public function index(): JsonResponse
+    public function getIncidentStatistics(): JsonResponse
     {
-        $incidents = (new Incident())->newQuery();
-        $incidents->latest();
-        $incidents->with('media');
-//        $carbondate = Carbon::parse($incidents->created_at);
-        $incidents = $incidents->paginate(10)->onEachSide(2)->appends(request()->query());
+        return response()->json([
+            'incidentCount' => $this->incident->getCount(),
+            'todayIncidentCount' => $this->incident->getTodayIncidentCount(),
+            'lastWeekIncidentCount' => $this->incident->getLastWeekIncidentCount(),
+            'lastMonthIncidentCount' => $this->incident->getLastMonthIncidentCount(),
+        ], 201);
+    }
+
+    /**
+     * Get Incident Pagination.
+     */
+    public function getIncidentsPagination(Request $request): JsonResponse
+    {
+        $incidents = Incident::when($request->patrol, static function ($query, $patrol) {
+            if ('Всі патрулі' === $patrol) {
+                return $query;
+            }
+            $query->patrol($patrol);
+        })
+            ->when($request->search, static function ($query, $search) {
+                return $query->search($search);
+            })
+            ->with('media')->orderBy($request->sortBy, $request->sortDirection)->paginate(10);
 
         return response()->json([
             'incidents' => $incidents,
@@ -42,12 +60,9 @@ class IncidentController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return Response
      */
-    public function storeIncident(StoreIncidentRequest $request)
+    public function storeIncident(StoreIncidentRequest $request): JsonResponse
     {
-
         $data = $request->validated();
         DB::transaction(static function () use ($data, $request) {
             $incident = Incident::create($data);
@@ -63,9 +78,9 @@ class IncidentController extends Controller
             }
         });
 
-
-//        $getIncident = Incident::find($incident->id);
-//        dd($incident->getMedia());
+        return response()->json([
+            'message' => 'Подія успішно додана',
+        ], 201);
     }
 
     /**
