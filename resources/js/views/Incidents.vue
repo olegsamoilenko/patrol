@@ -32,6 +32,8 @@
                                 append-inner-icon="mdi:mdi-magnify"
                                 single-line
                                 hide-details
+                                @update:modelValue="getIncidents()"
+                                @click:appendInner="getIncidents()"
                             ></v-text-field>
                         </v-col>
                     </v-row>
