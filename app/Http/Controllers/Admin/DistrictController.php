@@ -72,18 +72,20 @@ class DistrictController extends Controller
             ]
         );
 
-        $district = District::create([
-            'title' => $request->title,
-            'streets' => $request->streets,
-            'order' => $request->order,
-        ]);
-
         $districts = District::where('order', '>=', $request->order)->get();
         foreach ($districts as $d) {
             $d->update([
                 'order' => $d->order + 1,
             ]);
         }
+
+        $district = District::create([
+            'title' => $request->title,
+            'streets' => $request->streets,
+            'order' => $request->order,
+        ]);
+
+
 
         return response()->json([
             'message' => 'Район успішно створениі',

@@ -16,7 +16,8 @@
                             <span class="text-h5"> Додати район</span>
                         </v-card-title>
                         <v-card-text>
-                            <div class="pb-2" v-if="makeChoiceError"><span class="text-red">Введіть Номер Патруля або Район</span></div>
+                            <div class="pb-2" v-if="makeChoiceError"><span class="text-red">Введіть Номер Патруля або Район</span>
+                            </div>
                             <v-expansion-panels
                                 v-model="panel"
                                 class="mb-5"
@@ -26,10 +27,14 @@
                             >
                                 <v-expansion-panel bg-color="#F6F6F6" elevation="1" value="ifPatrol">
                                     <v-expansion-panel-title
-                                    >Додати Патруль</v-expansion-panel-title
+                                    >Додати Патруль
+                                    </v-expansion-panel-title
                                     >
                                     <v-expansion-panel-text>
-                                        Патруль №: <v-text-field
+                                        <div class="" v-if="validationErrorsFromBase"><span class="text-error">{{ validationErrorsFromBase.title[0] }}</span>
+                                        </div>
+                                        Патруль №:
+                                        <v-text-field
                                             v-model="patrolNumber"
                                             :rules="[
                                             (v) => !!v || 'Введіть номер',
@@ -79,12 +84,13 @@
                                 <div class="my-3"><span>Або</span></div>
                                 <v-expansion-panel bg-color="#F6F6F6" elevation="1" value="ifDistrict">
                                     <v-expansion-panel-title
-                                    >Додати Район</v-expansion-panel-title
+                                    >Додати Район
+                                    </v-expansion-panel-title
                                     >
                                     <v-expansion-panel-text>
                                         <v-text-field
-                                        v-model="nameDistrict"
-                                        :rules="[
+                                            v-model="nameDistrict"
+                                            :rules="[
                                             (v) => !!v || 'Введіть район',
                                             (v) =>
                                                 /^[а-яА-Яа-щА-ЩЬьЮюЯяЇїІіЄєҐґ0-9]+$/.test(
@@ -92,11 +98,11 @@
                                                 ) ||
                                                 'Введіть назву району українською',
                                         ]"
-                                        prepend-inner-icon="mdi:mdi-car"
-                                        label="Назва району"
-                                        type="text"
-                                    >
-                                    </v-text-field>
+                                            prepend-inner-icon="mdi:mdi-car"
+                                            label="Назва району"
+                                            type="text"
+                                        >
+                                        </v-text-field>
                                         <v-select
                                             v-model="insertAfterOrder"
                                             :rules="[(v) =>
@@ -167,8 +173,8 @@
 
 <script setup>
 // Add Role ===============================================
-import { ref, onMounted, watch } from "vue";
-import { getAllDistricts } from "@/mixins/getAllDistricts";
+import {ref, onMounted, watch} from "vue";
+import {getAllDistricts} from "@/mixins/getAllDistricts";
 
 onMounted(() => {
     getAllDistricts();
@@ -176,7 +182,7 @@ onMounted(() => {
 
 defineEmits(["getDistrictsPagination"]);
 
-const { allDistricts } = getAllDistricts();
+const {allDistricts} = getAllDistricts();
 
 const panel = ref(null);
 watch(panel, async (newValue, oldValue) => {
@@ -194,11 +200,12 @@ const insertAfterOrder = ref(null);
 const isAddDistrictModal = ref(false);
 const isAddDistrictConfirmationModal = ref(false);
 const isAddDistrictModalLoader = ref(false);
-const validationErrorsFromBase = ref({});
+const validationErrorsFromBase = ref(null);
 const makeChoiceError = ref(false);
 
 const valid = ref(true);
 const form = ref(null);
+
 function handleSubmit() {
     form.value.validate();
     if (!valid.value) {
@@ -222,12 +229,12 @@ function AddDistrict() {
     let params = {
         title: newDistrictTitle.value,
         streets: newDistrictStreets.value,
-        order: insertAfterOrder.value + 1,
+        order: Number(insertAfterOrder.value)+1,
     };
     console.log(params)
     axios
         .post(`/api/admin/add-district`, params)
-        .then(({ data }) => {
+        .then(({data}) => {
             isAddDistrictModal.value = false;
             isAddDistrictModalLoader.value = false;
             isAddDistrictConfirmationModal.value = true;
@@ -235,9 +242,10 @@ function AddDistrict() {
             newDistrictStreets.value = [];
             newDistrictOrder.value = null;
         })
-        .catch(({ response }) => {
+        .catch(({response}) => {
             if (response.status === 422) {
                 validationErrorsFromBase.value = response.data.errors;
+                console.log(validationErrorsFromBase.value)
             } else {
                 validationErrorsFromBase.value = {};
                 alert(response.data.message);
