@@ -10,11 +10,13 @@
                         @submit.prevent="handleSubmit()"
                     >
                         <v-select
-                            v-model="patrol"
-                            name="patrol"
-                            :items="patrolsMap"
+                            v-model="district"
+                            name="district"
+                            :items="allDistricts"
+                            item-title="title"
+                            item-value="id"
                             :rules="[(v) => !!v || 'Виберіть патруль']"
-                            label="Патруль"
+                            label="Район"
                         >
                         </v-select>
 
@@ -207,17 +209,21 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { patrolsMap } from "@/utils/maps/patrolsMap";
+import { ref, onMounted  } from "vue";
 import { carTypeMap } from "@/utils/maps/carTypeMap";
 import { documentTypeMap } from "@/utils/maps/documentTypeMap";
 import { brandMap } from "@/utils/maps/brandMap";
 import { useRouter } from 'vue-router'
 import { removeAttribute } from "@/mixins/removeAttribute";
+import { getAllDistricts } from "@/mixins/getAllDistricts";
+
+onMounted(() => {
+    getAllDistricts();
+})
 
 const router = useRouter()
 
-const patrol = ref(null);
+const district = ref(null);
 const address = ref(null);
 const name = ref(null);
 const documentType = ref(null);
@@ -233,6 +239,9 @@ const color = ref(null);
 
 const valid = ref(true);
 const form = ref(null);
+
+const { allDistricts } = getAllDistricts();
+
 function handleSubmit(data) {
     form.value.validate();
     if (!valid.value) {
@@ -271,7 +280,7 @@ function removeImage(image) {
 const isAddIncidentModal = ref(false);
 async function addIncident() {
     let data = {
-        patrol: patrol.value,
+        district_id: district.value,
         address: address.value,
         name: name.value,
         document_type: documentType.value,
@@ -293,10 +302,10 @@ async function addIncident() {
     };
 
     await axios
-        .post("/store-incident", data, config)
+        .post("/api/store-incident", data, config)
         .then((data) => {
             isAddIncidentModal.value = true;
-            patrol.value = null;
+            district.value = null;
             address.value = null;
             name.value = null;
             documentType.value = null;

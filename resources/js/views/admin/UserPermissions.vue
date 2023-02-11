@@ -422,7 +422,7 @@ function getPermissions() {
     };
     axios
         .get(
-            "/admin/get-permissions-pagination?page=" +
+            "/api/admin/get-permissions-pagination?page=" +
             paginationCurrentPage.value,
             { params }
         )
@@ -441,7 +441,7 @@ function getPermissions() {
 const allRoles = ref(null);
 function getAllRoles() {
     axios
-        .get("/admin/get-all-roles")
+        .get("/api/admin/get-all-roles")
         .then(({ data }) => {
             allRoles.value = data.roles.filter(r => r.name !== 'Супер Адміністратор');
         })
@@ -471,7 +471,7 @@ function handleSubmit(permission) {
 function editPermissionRoles(permission) {
     isEditPermissionRolesModalLoader.value = true;
     axios
-        .post(`/admin/edit-permission-roles`, {
+        .post(`/api/admin/edit-permission-roles`, {
             id: permission.id,
             roles: permission.roles,
         })
@@ -502,7 +502,7 @@ const isDeletePermissionModalLoader = ref(false);
 function deleteRole(permission) {
     isDeletePermissionModalLoader.value = true;
     axios
-        .delete(`/admin/delete-permission/${permission.id}`)
+        .delete(`/api/admin/delete-permission/${permission.id}`)
         .then(({ data }) => {
             isDeletePermissionModal.value = false;
             isDeletePermissionModalLoader.value = false;

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('incidents', static function (Blueprint $table) {
             $table->id();
-            $table->string('patrol');
+            $table->integer('district_id')->unsigned();
             $table->string('address');
             $table->string('name')->nullable();
             $table->string('document_type')->nullable();

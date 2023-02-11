@@ -799,7 +799,7 @@ function getUsers() {
         sortDirection: sortUsersDirection.value,
     };
     axios
-        .get(`/admin/get-users?page=` + paginationCurrentPage.value, { params })
+        .get(`/api/admin/get-users?page=` + paginationCurrentPage.value, { params })
         .then(({ data }) => {
             paginationUsers.value = data.users.data;
             paginationCurrentPage.value = data.users.current_page;
@@ -815,7 +815,7 @@ function getUsers() {
 
 function getUserRoles() {
     axios
-        .get("/admin/get-all-roles")
+        .get("/api/admin/get-all-roles")
         .then(({ data }) => {
             allUsersRoles.value = data.roles;
         })
@@ -833,7 +833,7 @@ const isActivateUserModalLoader = ref(false);
 function activateUser(user) {
     isActivateUserModalLoader.value = true;
     axios
-        .post(`/admin/activate-user/${user.id}`)
+        .post(`/api/admin/activate-user/${user.id}`)
         .then(({ data }) => {
             isActivateUserModal.value = false;
             isActivateUserModalLoader.value = false;
@@ -884,7 +884,7 @@ function editUser(user) {
         is_activated: user.is_activated,
     };
     axios
-        .post(`/admin/edit-user/${user.id}`, params)
+        .post(`/api/admin/edit-user/${user.id}`, params)
         .then(({ data }) => {
             isEditUserModal.value = false;
             isEditUserModalLoader.value = false;
@@ -917,7 +917,7 @@ const isDeleteUserModalLoader = ref(false);
 function deleteUser(user) {
     isDeleteUserModalLoader.value = true;
     axios
-        .delete(`/admin/delete-user/${user.id}`)
+        .delete(`/api/admin/delete-user/${user.id}`)
         .then(({ data }) => {
             isDeleteUserModal.value = false;
             isDeleteUserModalLoader.value = false;

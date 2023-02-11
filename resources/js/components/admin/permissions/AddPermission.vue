@@ -165,7 +165,7 @@ function AddPermission() {
         roles: newPermissionRoles.value,
     };
     axios
-        .post(`/admin/add-permission`, params)
+        .post(`/api/admin/add-permission`, params)
         .then(({ data }) => {
             isAddPermissionModal.value = false;
             isAddPermissionModalLoader.value = false;

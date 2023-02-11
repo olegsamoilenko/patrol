@@ -18,7 +18,7 @@ class Incident extends Model implements HasMedia
      * @var array<int, string>
      */
     protected $fillable = [
-        'patrol',
+        'district_id',
         'address',
         'name',
         'document',
@@ -62,5 +62,10 @@ class Incident extends Model implements HasMedia
     public function getLastMonthIncidentCount()
     {
         return $this->where('updated_at', '>', now()->subMonth())->count();
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
     }
 }

@@ -2,14 +2,13 @@
     <v-layout column>
         <v-container fluid>
             <v-card>
-                <v-card-title> Ролі користувачів</v-card-title>
-                <!--Add Role-->
-                <add-role
-                    :all-permissions="allPermissions"
-                    @get-roles="getRoles"
+                <v-card-title>Райони Міста</v-card-title>
+<!--                Add Districts-->
+                <add-district
+                    @get-districts-pagination="getDistrictsPagination"
                 />
-                <!--End Add Role-->
-                <v-card-title> Всі ролі</v-card-title>
+<!--                End Add Districts-->
+                <v-card-title> Всі райони</v-card-title>
                 <v-card-text v-if="isLoader">
                     <v-col cols="12" class="d-flex justify-center">
                         <v-progress-circular
@@ -19,12 +18,12 @@
                         ></v-progress-circular>
                     </v-col>
                 </v-card-text>
-                <!--Cards Roles-->
+<!--                Cards Districts-->
                 <div v-else>
                     <v-card-text>
                         <v-expansion-panels>
                             <v-expansion-panel
-                                v-for="(role, i) in paginationRoles"
+                                v-for="(district, i) in paginationDistricts"
                                 :key="i"
                                 elevation="1"
                             >
@@ -34,26 +33,25 @@
                                             cols="12"
                                             class="d-flex align-self-center"
                                         >
-                                            <span>{{ role.name }}</span>
+                                            <span>{{ district.title }}</span>
                                         </v-col>
                                     </v-row>
                                 </v-expansion-panel-title>
                                 <v-expansion-panel-text>
                                     <v-row>
-                                        <v-col cols="12" class="">
-                                            <v-chip
-                                                v-for="permission in role.permissions"
-                                                :key="permission.id"
-                                                density="comfortable"
-                                            >
-                                                {{ permission.name }}</v-chip
-                                            >
-                                        </v-col>
+<!--                                        <v-col cols="12" class="">-->
+<!--                                            <v-chip-->
+<!--                                                v-for="permission in role.permissions"-->
+<!--                                                :key="permission.id"-->
+<!--                                                density="comfortable"-->
+<!--                                            >-->
+<!--                                                {{ permission.name }}</v-chip-->
+<!--                                            >-->
+<!--                                        </v-col>-->
                                         <v-col
                                             cols="12"
                                             class="d-flex justify-center"
                                         >
-                                            <!--Edit Role Permissions-->
                                             <v-btn
                                                 icon
                                                 color="green"
@@ -61,17 +59,17 @@
                                                 width="var(--v-button-width)"
                                                 height="var(--v-button-height)"
                                                 @click="
-                                                    isEditRolePermissionsModal = true
+                                                    isEditDistrictModal = true
                                                 "
                                             >
                                                 <v-icon
-                                                    >mdi:mdi-pencil</v-icon
+                                                >mdi:mdi-pencil</v-icon
                                                 >
                                             </v-btn>
 
                                             <v-dialog
                                                 v-model="
-                                                    isEditRolePermissionsModal
+                                                    isEditDistrictModal
                                                 "
                                                 max-width="600px"
                                             >
@@ -79,7 +77,7 @@
                                                     ref="form"
                                                     v-model="valid"
                                                     @submit.prevent="
-                                                        handleSubmit(role)
+                                                        handleSubmit(district)
                                                     "
                                                 >
                                                     <v-card max-width="600px">
@@ -88,35 +86,34 @@
                                                                 class="text-h5"
                                                             >
                                                                 Редагувати
-                                                                дозволи
-                                                                ролей</span
+                                                                район</span
                                                             >
                                                         </v-card-title>
-                                                        <v-card-text>
-                                                            <v-row>
-                                                                <v-col
-                                                                    cols="12"
-                                                                >
-                                                                    <v-select
-                                                                        v-model="
-                                                                            role.permissions
-                                                                        "
-                                                                        :items="
-                                                                            allPermissions
-                                                                        "
-                                                                        item-title="name"
-                                                                        item-value="id"
-                                                                        label="Дозволи"
-                                                                        :rules="
-                                                                            permissionsRules
-                                                                        "
-                                                                        multiple
-                                                                        chips
-                                                                    >
-                                                                    </v-select>
-                                                                </v-col>
-                                                            </v-row>
-                                                        </v-card-text>
+<!--                                                        <v-card-text>-->
+<!--                                                            <v-row>-->
+<!--                                                                <v-col-->
+<!--                                                                    cols="12"-->
+<!--                                                                >-->
+<!--                                                                    <v-select-->
+<!--                                                                        v-model="-->
+<!--                                                                            role.permissions-->
+<!--                                                                        "-->
+<!--                                                                        :items="-->
+<!--                                                                            allPermissions-->
+<!--                                                                        "-->
+<!--                                                                        item-title="name"-->
+<!--                                                                        item-value="id"-->
+<!--                                                                        label="Дозволи"-->
+<!--                                                                        :rules="-->
+<!--                                                                            permissionsRules-->
+<!--                                                                        "-->
+<!--                                                                        multiple-->
+<!--                                                                        chips-->
+<!--                                                                    >-->
+<!--                                                                    </v-select>-->
+<!--                                                                </v-col>-->
+<!--                                                            </v-row>-->
+<!--                                                        </v-card-text>-->
                                                         <v-card-text>
                                                             <v-col
                                                                 cols="12"
@@ -124,7 +121,7 @@
                                                             >
                                                                 <v-progress-circular
                                                                     v-if="
-                                                                        isEditRolePermissionsModalLoader
+                                                                        isEditDistrictModalLoader
                                                                     "
                                                                     indeterminate
                                                                     color="green"
@@ -139,8 +136,8 @@
                                                                 color="green-darken-1"
                                                                 text
                                                                 @click="
-                                                                    isEditRolePermissionsModal = false;
-                                                                    isEditRolePermissionsModalLoader = false;
+                                                                    isEditDistrictModal = false;
+                                                                    isEditDistrictModalLoader = false;
                                                                 "
                                                             >
                                                                 Відмінити
@@ -149,7 +146,7 @@
                                                                 color="green-darken-1"
                                                                 text
                                                                 :disabled="
-                                                                    isEditRolePermissionsModalLoader
+                                                                    isEditDistrictModalLoader
                                                                 "
                                                                 type="submit"
                                                             >
@@ -162,18 +159,16 @@
 
                                             <v-dialog
                                                 v-model="
-                                                    isEditRolePermissionsConfirmationModal
+                                                    isEditDistrictConfirmationModal
                                                 "
                                                 max-width="600px"
                                             >
                                                 <v-card>
                                                     <v-card-text>
                                                         <span class="text-h5"
-                                                            >Ви успішно
+                                                        >Ви успішно
                                                             відредагували
-                                                            {{
-                                                                role.name
-                                                            }}</span
+                                                            район</span
                                                         >
                                                     </v-card-text>
                                                     <v-card-actions>
@@ -181,37 +176,37 @@
                                                         <v-btn
                                                             color="green-darken-1"
                                                             text
-                                                            @click="closeEditRolePermissionsConfirmationModal"
+                                                            @click="closeEditDistrictConfirmationModal"
                                                         >
                                                             Закрити
                                                         </v-btn>
                                                     </v-card-actions>
                                                 </v-card>
                                             </v-dialog>
-                                            <!--End Edit Role Permissions-->
-                                            <!--Delete Roles-->
+                                            <!--End Edit District-->
+                                            <!--Delete District-->
                                             <v-btn
                                                 icon
                                                 color="red"
                                                 width="var(--v-button-width)"
                                                 height="var(--v-button-height)"
                                                 @click="
-                                                    isDeleteRoleModal = true
+                                                    isDeleteDistrictModal = true
                                                 "
                                             >
                                                 <v-icon>mdi:mdi-delete</v-icon>
                                             </v-btn>
 
                                             <v-dialog
-                                                v-model="isDeleteRoleModal"
+                                                v-model="isDeleteDistrictModal"
                                                 max-width="600px"
                                             >
                                                 <v-card>
                                                     <v-card-text>
                                                         <span class="text-h5"
-                                                            >Бажаєте видалити
+                                                        >Бажаєте видалити
                                                             {{
-                                                                role.name
+                                                                district.title
                                                             }}?</span
                                                         >
                                                     </v-card-text>
@@ -222,7 +217,7 @@
                                                         >
                                                             <v-progress-circular
                                                                 v-if="
-                                                                    isDeleteRoleModalLoader
+                                                                    isDeleteDistrictModalLoader
                                                                 "
                                                                 indeterminate
                                                                 color="green"
@@ -237,8 +232,8 @@
                                                             color="green-darken-1"
                                                             text
                                                             @click="
-                                                                isDeleteRoleModal = false;
-                                                                isDeleteRoleModalLoader = false;
+                                                                isDeleteDistrictModal = false;
+                                                                isDeleteDistrictModalLoader = false;
                                                             "
                                                         >
                                                             Відмінити
@@ -247,10 +242,10 @@
                                                             color="green-darken-1"
                                                             text
                                                             :disabled="
-                                                                isDeleteRoleModalLoader
+                                                                isDeleteDistrictModalLoader
                                                             "
                                                             @click="
-                                                                deleteRole(role)
+                                                                deleteDistrict(district)
                                                             "
                                                         >
                                                             Видалити
@@ -261,16 +256,16 @@
 
                                             <v-dialog
                                                 v-model="
-                                                    isDeleteRoleConfirmationModal
+                                                    isDeleteDistrictConfirmationModal
                                                 "
                                                 max-width="600px"
                                             >
                                                 <v-card>
                                                     <v-card-text>
                                                         <span class="text-h5"
-                                                            >Ви успішно видалили
+                                                        >Ви успішно видалили
                                                             {{
-                                                                role.name
+                                                                district.title
                                                             }}</span
                                                         >
                                                     </v-card-text>
@@ -279,22 +274,22 @@
                                                         <v-btn
                                                             color="green-darken-1"
                                                             text
-                                                            @click="closeDeleteRoleConfirmationModal"
+                                                            @click="closeDeleteDistrictConfirmationModal"
                                                         >
                                                             Закрити
                                                         </v-btn>
                                                     </v-card-actions>
                                                 </v-card>
                                             </v-dialog>
-                                            <!--End Delete Roles-->
+                                            <!--End Delete District-->
                                         </v-col>
                                     </v-row>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
                         </v-expansion-panels>
                     </v-card-text>
-                    <!--End Cards Roles-->
-                    <!--Pagination Roles-->
+                    <!--End Cards Districts-->
+                    <!--Pagination Districts-->
                     <v-card-text>
                         <v-col cols="12">
                             <v-pagination
@@ -305,7 +300,7 @@
                             ></v-pagination>
                         </v-col>
                     </v-card-text>
-                    <!--End Pagination Roles-->
+                    <!--End Pagination Districts-->
                 </div>
             </v-card>
         </v-container>
@@ -314,139 +309,126 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import AddRole from "@/components/admin/roles/AddRole.vue";
+import { getAllDistricts } from "@/mixins/getAllDistricts";
 import { removeAttribute } from "@/mixins/removeAttribute";
-
-const isLoader = ref(false);
+import AddDistrict from "@/components/admin/districts/AddDistrict.vue";
 
 onMounted(() => {
-    getRoles();
-    getAllPermissions();
+    getDistrictsPagination();
 });
 
-// Load Roles ========================================
+const isLoader = ref(false);
+const { allDistricts } = getAllDistricts();
+
+// Load Districts ========================================
 const paginationCurrentPage = ref(null);
 const paginationLastPage = ref(null);
-const paginationRoles = ref(null);
+const paginationDistricts = ref(null);
 
-function getRoles() {
+function getDistrictsPagination() {
     isLoader.value = true;
-    let params = {
-        // perPage: permissionPerPage.value,
-        // search: searchRolesInput.value,
-        // sortBy: sortRolesBy.value,
-        // sortDirection: sortRolesDirection.value,
-    };
+    let params = {};
     axios
         .get(
-            "/api/admin/get-roles-pagination?page=" + paginationCurrentPage.value,
+            "/api/admin/get-districts-pagination?page=" + paginationCurrentPage.value,
             {
                 params,
             }
         )
         .then(({ data }) => {
-            paginationRoles.value = data.roles.data.filter(
-                (r) => r.name !== "Супер Адміністратор"
-            );
-            paginationCurrentPage.value = data.roles.current_page;
-            paginationLastPage.value = data.roles.last_page;
+            paginationDistricts.value = data.districts.data;
+            paginationCurrentPage.value = data.districts.current_page;
+            paginationLastPage.value = data.districts.last_page;
             isLoader.value = false;
+            console.log(paginationDistricts.value)
         })
         .catch((error) => {
             console.log('error', error);
         });
 }
 
-// Load Permissions ========================================
-const allPermissions = ref(null);
-function getAllPermissions() {
-    axios
-        .get("/api/admin/get-all-permissions")
-        .then(({ data }) => {
-            allPermissions.value = data.permissions;
-        })
-        .catch((error) => {
-            console.log('error', error);
-        });
-}
-
-// Edit Role Permissions ===============================================
-const isEditRolePermissionsModal = ref(false);
-const isEditRolePermissionsConfirmationModal = ref(false);
-const isEditRolePermissionsModalLoader = ref(false);
+// Edit District ===============================================
+const isEditDistrictModal = ref(false);
+const isEditDistrictConfirmationModal = ref(false);
+const isEditDistrictModalLoader = ref(false);
 const permissionsRules = ref([
     (v) => typeof v[0] !== "object" || "Ви не змінили дозволи ролей",
     (v) => v.length !== 0 || "Виберіть хоча б один дозвіл",
 ]);
 const valid = ref(true);
 const form = ref(null);
-function handleSubmit(role) {
+function handleSubmit(district) {
     form.value[0].validate();
     if (!valid.value) {
         return;
     }
-    editRolePermissions(role);
+    editDistrict(district);
 }
 
-function editRolePermissions(role) {
-    isEditRolePermissionsModalLoader.value = true;
+function editDistrict(district) {
+    isEditDistrictModalLoader.value = true;
     axios
-        .post(`/api/admin/edit-role-permissions`, {
-            id: role.id,
-            permissions: role.permissions,
+        .post(`/api/admin/edit-district`, {
+            id: district.id,
+            title: district.title,
+            address: district.address,
+            order: district.order,
         })
         .then(({ data }) => {
-            isEditRolePermissionsModal.value = false;
-            isEditRolePermissionsModalLoader.value = false;
-            isEditRolePermissionsConfirmationModal.value = true;
+            isEditDistrictModal.value = false;
+            isEditDistrictModalLoader.value = false;
+            isEditDistrictConfirmationModal.value = true;
         })
         .catch((error) => {
             console.log('error', error);
         })
         .finally(() => {
-            isEditRolePermissionsModalLoader.value = false;
+            isEditDistrictModalLoader.value = false;
         });
 }
 
-function closeEditRolePermissionsConfirmationModal() {
-    isEditRolePermissionsConfirmationModal.value = false;
-    getRoles();
+function closeEditDistrictConfirmationModal() {
+    isEditDistrictConfirmationModal.value = false;
+    getDistrictsPagination();
     removeAttribute()
 }
 
-// Delete Role ===============================================
-const isDeleteRoleModal = ref(false);
-const isDeleteRoleConfirmationModal = ref(false);
-const isDeleteRoleModalLoader = ref(false);
+// Delete District ===============================================
+const isDeleteDistrictModal = ref(false);
+const isDeleteDistrictConfirmationModal = ref(false);
+const isDeleteDistrictModalLoader = ref(false);
 
-function deleteRole(role) {
-    isDeleteRoleModalLoader.value = true;
+function deleteDistrict(district) {
+    isDeleteDistrictModalLoader.value = true;
     axios
-        .delete(`/api/admin/delete-role/${role.id}`)
+        .delete(`/api/admin/delete-district/${district.id}`)
         .then(({ data }) => {
-            isDeleteRoleModal.value = false;
-            isDeleteRoleModalLoader.value = false;
-            isDeleteRoleConfirmationModal.value = true;
+            isDeleteDistrictModal.value = false;
+            isDeleteDistrictModalLoader.value = false;
+            isDeleteDistrictConfirmationModal.value = true;
         })
         .catch((error) => {
             console.log('error', error);
         })
         .finally(() => {
-            isDeleteRoleModalLoader.value = false;
+            isDeleteDistrictModalLoader.value = false;
         });
 }
 
-function closeDeleteRoleConfirmationModal() {
-    isDeleteRoleConfirmationModal.value = false;
-    getRoles();
+function closeDeleteDistrictConfirmationModal() {
+    isDeleteDistrictConfirmationModal.value = false;
+    getDistrictsPagination();
     removeAttribute()
 
 }
 
 // Pagination ======================================
 function onPageChange() {
-    getRoles();
+    getDistrictsPagination();
 }
+
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

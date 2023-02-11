@@ -53,7 +53,7 @@ const lastMonthIncidentCount = ref(0)
 async function getIncidentStat() {
     loader.value = true
     await axios
-        .get("/get-incident-statistics")
+        .get("/api/get-incident-statistics")
         .then(({ data }) => {
             incidentCount.value = data.incidentCount;
             todayIncidentCount.value = data.todayIncidentCount;

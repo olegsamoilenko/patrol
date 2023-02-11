@@ -27,40 +27,6 @@ use Illuminate\Support\Facades\Route;
 // //    Route::resource('incident', 'IncidentController');
 // });
 
-Route::group([
-    'namespace' => 'App\Http\Controllers\Admin',
-    'prefix' => 'admin',
-    'middleware' => ['auth'],
-], static function () {
-    Route::get('/get-permissions-pagination', [PermissionController::class, 'getPermissionsPagination']);
-    Route::get('/get-all-permissions', [PermissionController::class, 'getAllPermissions']);
-    Route::post('/add-permission', [PermissionController::class, 'addPermission']);
-    Route::post('/edit-permission-roles', [PermissionController::class, 'editPermissionRoles']);
-    Route::delete('/delete-permission/{id}', [PermissionController::class, 'deletePermission']);
-
-    Route::get('/get-roles-pagination', [RoleController::class, 'getRolesPagination']);
-    Route::get('/get-all-roles', [RoleController::class, 'getAllRoles']);
-    Route::post('/add-role', [RoleController::class, 'addRole']);
-    Route::post('/edit-role-permissions', [RoleController::class, 'editRolePermissions']);
-    Route::delete('/delete-role/{id}', [RoleController::class, 'deleteRole']);
-
-    Route::get('/get-user-statistics', [UserController::class, 'getUserStatistics']);
-    Route::get('/get-users', [UserController::class, 'getUserPagination']);
-    Route::post('/activate-user/{id}', [UserController::class, 'activateUser']);
-    Route::post('/edit-user/{id}', [UserController::class, 'editUser']);
-    Route::delete('/delete-user/{id}', [UserController::class, 'deleteUser']);
-});
-
-Route::group([
-    'namespace' => 'App\Http\Controllers\Main',
-    'middleware' => ['auth'],
-], static function () {
-    Route::get('/get-incident-statistics', [IncidentController::class, 'getIncidentStatistics']);
-    Route::get('/get-all-incidents', [IncidentController::class, 'getIncidentsPagination']);
-    Route::post('/store-incident', [IncidentController::class, 'storeIncident']);
-});
-
-
 Route::get('/{catchall?}', static function () {
     return view('layouts.app');
 })->where('catchall', '.*');

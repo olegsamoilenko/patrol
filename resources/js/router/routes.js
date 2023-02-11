@@ -104,6 +104,21 @@ const routes = [
     },
 
     {
+        path: "/admin/districts",
+        name: "cityDistricts",
+        component: () => import("@/views/admin/Districts.vue"),
+        meta: {
+            title: `Райони Міста`,
+            layout: 'Authenticated',
+            middleware: "auth",
+            role: "Адміністратор",
+        },
+        props: {
+            prependIcon: 'mdi:mdi-city-variant-outline',
+        },
+    },
+
+    {
         path: "/admin/roles",
         name: "userRoles",
         component: () => import("@/views/admin/UserRoles.vue"),

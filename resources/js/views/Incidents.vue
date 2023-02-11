@@ -64,7 +64,7 @@
                                             sm="6"
                                             class="align-self-center mb-3"
                                         >
-                                            Патруль №: {{ incident.patrol }} | {{ humanizeDate(incident.created_at) }}
+                                            {{ allDistricts.find(d => d.id === incident.district_id).title }} | {{ humanizeDate(incident.created_at) }}
                                         </v-col>
                                         <v-spacer></v-spacer>
                                         <v-col
@@ -268,6 +268,10 @@ import { patrolsMap } from "@/utils/maps/patrolsMap";
 // import moment from "moment/dist/moment"
 // import uk from "../locale/moment/uk.js";
 
+import { getAllDistricts } from "@/mixins/getAllDistricts";
+
+const { allDistricts } = getAllDistricts();
+
 onMounted(() => {
     dayjs.extend(relativeTime);
     getIncidents()
@@ -326,7 +330,7 @@ async function getIncidents() {
         sortDirection: sortIncidentsDirection.value,
     };
     await axios
-        .get(`/get-all-incidents?page=` + paginationCurrentPage.value, { params })
+        .get(`/api/get-all-incidents?page=` + paginationCurrentPage.value, { params })
         .then(({data}) => {
             paginationIncidents.value = data.incidents.data;
             paginationCurrentPage.value = data.incidents.current_page;

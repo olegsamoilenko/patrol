@@ -54,7 +54,7 @@ onMounted(() => {
 async function getUserStat() {
     loader.value = true
     await axios
-        .get("/admin/get-user-statistics")
+        .get("/api/admin/get-user-statistics")
         .then(({ data }) => {
             usersCount.value = data.usersCount;
             notActivatedUsersCount.value = data.notActivatedUsersCount;

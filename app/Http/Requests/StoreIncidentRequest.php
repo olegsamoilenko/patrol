@@ -24,7 +24,7 @@ class StoreIncidentRequest extends FormRequest
     public function rules()
     {
         return [
-            'patrol' => 'required|string',
+            'district_id' => 'required|string',
             'address' => 'required|string',
             'name' => 'string|nullable',
             'document_type_other' => 'string|nullable',
