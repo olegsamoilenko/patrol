@@ -2,25 +2,23 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class DeleteNonActivatedUsers extends Command
+class DemoCron extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'users:delete';
+    protected $signature = 'demo:cron';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Delete non-activated user';
+    protected $description = 'Command description';
 
     /**
      * Create a new command instance.
@@ -33,6 +31,7 @@ class DeleteNonActivatedUsers extends Command
         parent::__construct();
     }
 
+
     /**
      * Execute the console command.
      *
@@ -40,12 +39,6 @@ class DeleteNonActivatedUsers extends Command
      */
     public function handle()
     {
-        $date = Carbon::now()->subDay(3);
-
-        $users = User::where('is_activated', '=', 'Ні')->where('created_at', '<', $date)->get();
-
-        foreach ($users as $user) {
-            $user->forceDelete();
-        }
+        \Log::info("Cron is working fine!");
     }
 }

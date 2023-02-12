@@ -113,12 +113,9 @@
                                         <v-col
                                             cols="12"
                                             sm="6"
-                                            md="3"
+                                            md="4"
                                             class="mb-3 d-md-flex justify-md-end"
-                                        >
-                                            <!-- Activate User-------------------------------------------------------------->
-                                            <v-btn
-                                                v-if="
+                                            v-if="
                                                     (user.is_activated ===
                                                         'Ні' &&
                                                         store.user.roles.find(
@@ -132,6 +129,9 @@
                                                             'Користувач активувати'
                                                         ))
                                                 "
+                                        >
+                                            <!-- Activate User-------------------------------------------------------------->
+                                            <v-btn
                                                 color="warning"
                                                 @click="
                                                     isActivateUserModal = true
@@ -235,10 +235,42 @@
                                             <!--End Activate User----------------------------------------------------------->
                                         </v-col>
 
+<!--                                        <div v-if="user.is_activated === 'Так'">-->
+
+                                            <v-col
+                                                v-if="user.is_activated === 'Так'"
+                                                cols="12"
+                                                sm="6"
+                                                md="4"
+                                                class="mb-3 d-md-flex justify-md-end"
+                                            >
+                                                <v-row><v-col cols="12">Активован:</v-col></v-row>
+
+                                                <v-row><v-col cols="12"><v-icon>mdi:mdi-account</v-icon>{{ user.activated_by.user_name + " " + user.activated_by.user_surname}}</v-col></v-row>
+                                                <v-row><v-col cols="12"><v-icon>mdi:mdi-phone</v-icon>{{user.activated_by.user_phone}}</v-col></v-row>
+<!--                                                <v-card>-->
+<!--                                                    <v-card-text>Активован:</v-card-text>-->
+<!--                                                    <v-card-text>-->
+<!--                                                        <v-icon>mdi:mdi-account</v-icon>-->
+<!--                                                        {{ user.activated_by.user_name + " " + user.activated_by.user_surname}} {{user.activated_by.user_phone}}-->
+<!--                                                    </v-card-text>-->
+
+<!--                                                </v-card>-->
+<!--                                                <v-sheet class="">-->
+<!--                                                    Активован:-->
+<!--                                                </v-sheet>-->
+<!--                                                <v-sheet class="">-->
+<!--                                                    Активован:-->
+<!--                                                </v-sheet>-->
+<!--                                                <span><v-icon>mdi:mdi-account</v-icon></span>-->
+<!--                                                <span>{{ user.activated_by[0] + " " + user.activated_by.user_surname}} {{user.activated_by.user_phone}}</span>-->
+                                            </v-col>
+<!--                                        </div>-->
+
                                         <v-col
                                             cols="12"
                                             sm="6"
-                                            md="3"
+                                            md="2"
                                             class="mb-3 d-sm-flex justify-sm-end"
                                         >
                                             <!--Edit User--------------------------------------------->

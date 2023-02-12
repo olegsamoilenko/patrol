@@ -55,10 +55,16 @@ class UserController extends Controller
     /**
      * Activate user.
      */
-    public function activateUser(int $id): JsonResponse
+    public function activateUser(int $id, Request $request): JsonResponse
     {
         $user = User::where('id', $id)->first();
         $user->is_activated = 'Так';
+        $user->activated_by = [
+            'user_id' => $request->user()->id,
+            'user_name' => $request->user()->name,
+            'user_surname' => $request->user()->surname,
+            'user_phone' => $request->user()->phone,
+        ];
         $user->save();
 
         return response()->json([

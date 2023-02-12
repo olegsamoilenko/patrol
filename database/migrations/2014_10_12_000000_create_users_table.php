@@ -23,7 +23,10 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('is_activated')->default('Ні');
+            $table->json('activated_by')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+            $table->json('deleted_by')->nullable();
         });
     }
 

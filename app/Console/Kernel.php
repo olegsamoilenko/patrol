@@ -10,6 +10,17 @@ use Carbon\Carbon;
 class Kernel extends ConsoleKernel
 {
     /**
+     * The Artisan commands provided by your application.
+     *
+     * @var array
+     */
+
+    protected $commands = [
+        Commands\DemoCron::class,
+        Commands\DeleteNonActivatedUsers::class,
+    ];
+
+    /**
      * Define the application's command schedule.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
@@ -17,16 +28,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('demo:cron')
+            ->everyMinute();
         $schedule->command('users:delete')->everyMinute();
-//        $schedule->call(function () {
-//            $date = Carbon::now()->subDay(3);
-//            dump($date);
-//            $users = User::where('is_activated', '=', 'Ні')->where('created_at', '<', $date)->get();
-//            dump($users);
-//            foreach ($users as $user) {
-//                $user->delete();
-//            }
-//        })->everyMinute();
     }
 
     /**
