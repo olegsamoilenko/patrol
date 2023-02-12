@@ -240,7 +240,11 @@ function AddDistrict() {
             isAddDistrictConfirmationModal.value = true;
             newDistrictTitle.value = "";
             newDistrictStreets.value = [];
-            newDistrictOrder.value = null;
+            patrolNumber.value = null;
+            nameDistrict.value = "";
+            insertAfterOrder.value = null;
+            validationErrorsFromBase.value = null;
+            panel.value = null;
         })
         .catch(({response}) => {
             if (response.status === 422) {

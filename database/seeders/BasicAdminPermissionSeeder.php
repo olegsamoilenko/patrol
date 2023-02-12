@@ -61,6 +61,8 @@ class BasicAdminPermissionSeeder extends Seeder
             'name' => 'Аналітик',
             'surname' => 'Surname',
             'email' => 'analyst@analyst.com',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
         $user->assignRole($role4);
         $user = \App\Models\User::factory()->create([
@@ -68,18 +70,24 @@ class BasicAdminPermissionSeeder extends Seeder
             'surname' => 'Surname',
             'email' => 'superadmin@superadmin.com',
             'is_activated' => 'Так',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
         $user->assignRole($role3);
         $user = \App\Models\User::factory()->create([
             'name' => 'Адміністратор',
             'surname' => 'Surname',
             'email' => 'admin@admin.com',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
         $user->assignRole($role2);
         $user = \App\Models\User::factory()->create([
             'name' => 'Користувач',
             'surname' => 'Surname',
             'email' => 'user@user.com',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
         $user->assignRole($role1);
     }
