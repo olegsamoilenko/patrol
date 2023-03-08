@@ -30,7 +30,7 @@ class IncidentFactory extends Factory
         $documentType = $this->faker->randomElement(['Паспорт', 'ID Картка', 'Посвідчення водія', 'Інше']);
 
         return [
-            'region_id' => fake()->numberBetween(1, 10),
+            'district_id' => fake()->numberBetween(1, 10),
             'address' => fake()->address(),
             'name' => fake()->name($gender = null),
             'document_type' => $documentType,
@@ -106,6 +106,7 @@ class IncidentFactory extends Factory
                 ['#000000', '#ffffff', '#6464F6', '#F63F3C', '#4DF627', '#006262', '#F4CA16']
             ),
             'comment' => fake()->text(100),
+            'user_id' => fake()->numberBetween(1, 10),
             'created_at' => fake()->dateTimeBetween('-1 month', 'now'),
             'updated_at' => fake()->dateTimeBetween('-1 month', 'now'),
         ];

@@ -20,7 +20,7 @@ class District extends Model
         'order',
     ];
 
-    public function incident()
+    public function incidents()
     {
         return $this->hasMany(Incident::class);
     }

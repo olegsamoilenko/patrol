@@ -13,7 +13,7 @@ class DeleteNonActivatedUsers extends Command
      *
      * @var string
      */
-    protected $signature = 'users:delete';
+    protected $signature = 'nonActivatedUsers:delete';
 
     /**
      * The console command description.

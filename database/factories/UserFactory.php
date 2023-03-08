@@ -22,8 +22,12 @@ class UserFactory extends Factory
             'surname' => fake()->lastName(),
             'phone' => fake()->unique()->e164PhoneNumber(),
             'email' => fake()->unique()->safeEmail(),
+            'formation_id' => 1,
+            'battalion' => fake()->numberBetween(1, 3),
+            'company' => fake()->numberBetween(1, 3),
+            'platoon' => fake()->numberBetween(1, 3),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => bcrypt('password'), // password
             'remember_token' => Str::random(10),
             'created_at' => fake()->dateTimeBetween('-3 month', 'now'),
             'updated_at' => fake()->dateTimeBetween('-3 month', 'now'),

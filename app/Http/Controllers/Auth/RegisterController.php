@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Formation;
 use App\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -51,6 +52,10 @@ class RegisterController extends Controller
                 'phone' => ['required', 'string', 'max:255', 'unique:users'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'is_headquarters' => ['boolean'],
+                'battalion_id' => ['required_if:is_headquarters,false'],
+                'company_id' => ['required_if:is_headquarters,false'],
+                'platoon_id' => ['required_if:is_headquarters,false'],
             ],
             [
                 'name.required' => 'Поле "Ім\'я" обов\'язкове для заповнення',
@@ -66,6 +71,9 @@ class RegisterController extends Controller
                 'password.required' => 'Поле "Пароль" обов\'язкове для заповнення',
                 'password.min' => 'Поле "Пароль" має бути не менше 8 символів',
                 'password.confirmed' => 'Поле "Пароль" має збігатися з полем "Підтвердження пароля"',
+                'battalion_id.required_if' => 'Виберіть Батальон',
+                'company_id.required_if' => 'Виберіть Роту',
+                'platoon_id.required_if' => 'Виберіть Взвод',
             ]
         );
     }
@@ -75,10 +83,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data): User
     {
+        $formation = Formation::first();
         $user = User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],
             'phone' => $data['phone'],
+            'formation_id' => $formation->id,
+            'battalion' => $data['battalion'] ?? null,
+            'company' => $data['company'] ?? null,
+            'platoon' => $data['platoon'] ?? null,
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);

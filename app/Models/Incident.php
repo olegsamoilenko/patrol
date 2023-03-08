@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -11,6 +12,7 @@ class Incident extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -30,11 +32,18 @@ class Incident extends Model implements HasMedia
         'car_model',
         'car_color',
         'comment',
+        'user_id',
+        'deleted_by',
     ];
 
-    public function scopePatrol($query, $patrol)
+    public function scopeOnlyTheirOwn($query, $district)
     {
-        return $query->where('patrol', $patrol);
+        return $query->where('user_id', auth()->user()->id);
+    }
+
+    public function scopeDistrict($query, $district)
+    {
+        return $query->where('district_id', $district);
     }
 
     public function scopeSearch($query, $search)
@@ -64,8 +73,13 @@ class Incident extends Model implements HasMedia
         return $this->where('updated_at', '>', now()->subMonth())->count();
     }
 
-    public function region()
+    public function district()
     {
-        return $this->belongsTo(Region::class);
+        return $this->belongsTo(District::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -31,7 +32,13 @@ class User extends Authenticatable
         'email',
         'password',
         'is_activated',
+        'is_headquarters',
+        'formation_id',
+        'battalion',
+        'company',
+        'platoon',
         'activated_by',
+        'deleted_by',
     ];
 
     /**
@@ -59,7 +66,7 @@ class User extends Authenticatable
     public function scopeRole($query, $role)
     {
         $query->whereHas('roles', function ($query) use ($role) {
-            return $query->where('name', $role);
+            return $query->where('id', $role);
         });
     }
 
@@ -68,6 +75,26 @@ class User extends Authenticatable
         return $query->where('name', 'LIKE', "%{$search}%")
             ->orWhere('surname', 'LIKE', "%{$search}%")
         ;
+    }
+
+    public function scopeFilterUsers($query)
+    {
+        foreach (Auth::user()->roles as $role) {
+            if ($role->name === 'Супер Адміністратор') {
+                return $query;
+            } elseif ($role->name === 'Адміністратор') {
+                return $query->when(Auth::user()->battalion, static function ($query, $battalion) {
+                    $query->where('battalion', $battalion);
+                })->
+                when(Auth::user()->company, static function ($query, $company) {
+                    $query->where('company', $company);
+                })->
+                when(Auth::user()->platoon, static function ($query, $platoon) {
+                    $query->where('platoon', $platoon);
+                });
+            }
+        }
+
     }
 
     public function getCount()
@@ -88,5 +115,35 @@ class User extends Authenticatable
     public function getRoleUserCount()
     {
         return $this->role('Користувач')->count();
+    }
+
+    public function incidents()
+    {
+        return $this->hasMany(Incident::class);
+    }
+
+    public function mainPageIncidents()
+    {
+        return $this->hasMany(Incident::class);
+    }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
+    }
+
+    public function formation()
+    {
+        return $this->belongsTo(Formation::class);
+    }
+
+    public function chats()
+    {
+        return $this->hasMany(Chat::class);
+    }
+
+    public function chatActions()
+    {
+        return $this->hasMany(ChatAction::class);
     }
 }

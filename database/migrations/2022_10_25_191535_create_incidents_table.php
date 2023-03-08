@@ -27,7 +27,10 @@ return new class extends Migration
             $table->string('car_model')->nullable();
             $table->string('car_color')->nullable();
             $table->longText('comment');
+            $table->integer('user_id')->unsigned();
             $table->timestamps();
+            $table->softDeletes();
+            $table->json('deleted_by')->nullable();
         });
     }
 

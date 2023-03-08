@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreIncidentRequest;
+use App\Http\Requests\IncidentRequest;
 use App\Models\Incident;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,10 +18,11 @@ class IncidentController extends Controller
     public function __construct()
     {
         $this->incident = new Incident();
-        $this->middleware('can:incident list', ['only' => ['getIncidentsPagination']]);
-        $this->middleware('can:incident create', ['only' => ['storeIncident']]);
-//        $this->middleware('can:incident edit', ['only' => ['edit', 'update']]);
-//        $this->middleware('can:incident delete', ['only' => ['destroy']]);
+        $this->middleware('can:Подія список', ['only' => ['getIncidentsPagination']]);
+        $this->middleware('can:Подія створити', ['only' => ['storeIncident']]);
+        $this->middleware('can:Подія редагувати', ['only' => ['editIncident']]);
+        $this->middleware('can:Подія видалити тимчасово', ['only' => ['softDeleteIncident']]);
+        $this->middleware('can:Подія видалити', ['only' => ['deleteIncident']]);
     }
 
     /**
@@ -42,16 +43,17 @@ class IncidentController extends Controller
      */
     public function getIncidentsPagination(Request $request): JsonResponse
     {
-        $incidents = Incident::when($request->patrol, static function ($query, $patrol) {
-            if ('Всі патрулі' === $patrol) {
-                return $query;
-            }
-            $query->patrol($patrol);
+        $incidents = Incident::when($request->onlyTrashed === 'true', static function ($query) {
+            return $query->onlyTrashed();
+        })->when($request->onlyTheirOwn === 'true', static function ($query) {
+            return $query->where('user_id', auth()->user()->id);
+        })->when($request->district, static function ($query, $district) {
+            $query->district($district);
         })
             ->when($request->search, static function ($query, $search) {
                 return $query->search($search);
             })
-            ->with('media')->orderBy($request->sortBy, $request->sortDirection)->paginate(10);
+            ->with('media')->with('user')->orderBy($request->sortBy, $request->sortDirection)->paginate(10);
 
         return response()->json([
             'incidents' => $incidents,
@@ -59,11 +61,14 @@ class IncidentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store incident.
      */
-    public function storeIncident(StoreIncidentRequest $request): JsonResponse
+    public function storeIncident(IncidentRequest $request): JsonResponse
     {
         $data = $request->validated();
+
+//        TODO Сжать изображения перед сохранением на диск
+
         DB::transaction(static function () use ($data, $request) {
             $incident = Incident::create($data);
             if ($request->files) {
@@ -84,46 +89,79 @@ class IncidentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Update incident.
      *
      * @param int $id
      *
-     * @return Response
+     * @return JsonResponse
      */
-    public function show($id)
+    public function editIncident(int $id, IncidentRequest $request)
     {
+        $data = $request->validated();
+
+//        TODO Сжать изображения перед сохранением на диск
+        DB::transaction(static function () use ($data, $id, $request) {
+            $incident = Incident::find($id);
+            $incident->update($data);
+            if ($request->deleteImagesIncident) {
+                $mediaItems = $incident->getMedia('incident');
+                $delImg = json_decode($request->deleteImagesIncident);
+                for ($i = 0; $i < count($mediaItems); $i++) {
+                    for ($j = 0; $j < count($delImg); $j++) {
+                        if ($mediaItems[$i]['id'] === $delImg[$j]) {
+                            $mediaItems[$i]->delete();
+                        }
+                    }
+                }
+            }
+            if ($request->files) {
+                foreach ($request->files as $img) {
+                    if ('image/png' !== $img->getClientMimeType()
+                        && 'image/jpg' !== $img->getClientMimeType()
+                        && 'image/jpeg' !== $img->getClientMimeType()) {
+                        throw ValidationException::withMessages(['Не коректний тип файлу']);
+                    }
+                    $incident->addMedia($img)->toMediaCollection('incident');
+                }
+            }
+        });
+
+        return response()->json([
+            'message' => 'Подія успішно додана',
+        ], 201);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     *
-     * @return Response
+     * Soft Delete Incident.
      */
-    public function edit($id)
+    public function softDeleteIncident(int $id): JsonResponse
     {
+        $incident = Incident::where('id', $id)->first();
+        $incident->deleted_by = [
+            'user_id' => auth()->user()->id,
+            'user_name' => auth()->user()->name,
+            'user_surname' => auth()->user()->surname,
+            'user_phone' => auth()->user()->phone,
+        ];
+        $incident->save();
+        $incident->delete();
+
+        return response()->json([
+            'message' => 'Користувача успішно видалено',
+        ], 201);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param int $id
-     *
-     * @return Response
+     * Delete Incident.
      */
-    public function update(Request $request, $id)
+    public function deleteIncident(int $id): JsonResponse
     {
-    }
+        $incident = Incident::withTrashed()->where('id', $id)->first();
+        $incident->clearMediaCollection('incident');
+        $incident->forceDelete();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     *
-     * @return Response
-     */
-    public function destroy($id)
-    {
+        return response()->json([
+            'message' => 'Користувача успішно видалено',
+        ], 201);
     }
 }

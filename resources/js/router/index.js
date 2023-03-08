@@ -30,7 +30,21 @@ router.beforeEach((to, from, next) => {
         } else {
             next({ name: "userNotPermission" });
         }
-    } else if (to.meta.middleware === "auth" && to.meta.role === "Адміністратор") {
+    } else if (to.meta.middleware === "auth" && to.meta.role === "Аналітик") {
+        if (!store.authenticated) {
+            next({ name: "login" });
+        } else if (store.authenticated && store.user.is_activated === 'Ні') {
+            next({ name: "userNotActivated" });
+        } else if (
+            (store.authenticated &&
+                store.user.roles.find((r) => r.name === "Аналітик")) || (store.authenticated &&
+                store.user.roles.find((r) => r.name === "Супер Адміністратор"))
+        ) {
+            next();
+        } else {
+            next({ name: "userNotPermission" });
+        }
+    }else if (to.meta.middleware === "auth" && to.meta.role === "Адміністратор") {
         if (!store.authenticated) {
             next({ name: "login" });
         } else if (store.authenticated && store.user.is_activated === 'Ні') {

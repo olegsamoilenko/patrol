@@ -1,10 +1,17 @@
 <?php
 
+use App\Http\Controllers\Admin\BattalionController;
+use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\DistrictController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\PlatoonController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\Main\IncidentController;
+use App\Http\Controllers\MainPageIncidentController;
+use App\Http\Controllers\SummaryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -47,6 +54,7 @@ Route::group([
     Route::get('/get-users', [UserController::class, 'getUserPagination']);
     Route::post('/activate-user/{id}', [UserController::class, 'activateUser']);
     Route::post('/edit-user/{id}', [UserController::class, 'editUser']);
+    Route::delete('/soft-delete-user/{id}', [UserController::class, 'softDeleteUser']);
     Route::delete('/delete-user/{id}', [UserController::class, 'deleteUser']);
 
     Route::get('/get-districts-pagination', [DistrictController::class, 'getDistrictsPagination']);
@@ -54,6 +62,10 @@ Route::group([
     Route::post('/add-district', [DistrictController::class, 'addDistrict']);
     Route::post('/edit-district', [DistrictController::class, 'editDistrict']);
     Route::delete('/delete-district/{id}', [DistrictController::class, 'deleteDistrict']);
+
+    Route::get('/get-feedbacks-pagination', [FeedbackController::class, 'getFeedbacksPagination']);
+    Route::post('/edit-feedback/{id}', [FeedbackController::class, 'editFeedback']);
+    Route::delete('/delete-feedback/{id}', [FeedbackController::class, 'deleteFeedback']);
 });
 
 Route::group([
@@ -61,6 +73,22 @@ Route::group([
     'middleware' => ['auth'],
 ], static function () {
     Route::get('/get-incident-statistics', [IncidentController::class, 'getIncidentStatistics']);
+    Route::get('/get-summary', [SummaryController::class, 'getSummary']);
+    Route::post('/edit-summary', [SummaryController::class, 'editSummary']);
+
     Route::get('/get-all-incidents', [IncidentController::class, 'getIncidentsPagination']);
     Route::post('/store-incident', [IncidentController::class, 'storeIncident']);
+    Route::post('/edit-incident/{id}', [IncidentController::class, 'editIncident']);
+    Route::delete('/soft-delete-incident/{id}', [IncidentController::class, 'softDeleteIncident']);
+    Route::delete('/delete-incident/{id}', [IncidentController::class, 'deleteIncident']);
+
+    Route::get('/get-all-main-page-incidents', [MainPageIncidentController::class, 'getIncidents']);
+    Route::post('/store-main-page-incident', [MainPageIncidentController::class, 'storeIncident']);
+    Route::post('/edit-main-page-incident/{id}', [MainPageIncidentController::class, 'editIncident']);
+    Route::delete('/delete-main-page-incident/{id}', [MainPageIncidentController::class, 'deleteIncident']);
+
+    Route::post('/store-feedback', [FeedbackController::class, 'storeFeedback']);
+
+    Route::get('/get-all-chats', [ChatController::class, 'getAllChats']);
+    Route::post('/store-chat', [ChatController::class, 'storeChat']);
 });

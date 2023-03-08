@@ -23,13 +23,19 @@
                         <!--                        TODO: Добавить автоматом определение адреса по координатам-->
                         <v-text-field
                             v-model="address"
-                            :rules="[(v) => !!v || 'Введіть адресу']"
+                            :rules="[(v) => !!v || 'Введіть адресу',
+                                    (v) => /^[а-яА-Яа-щА-ЩЬьЮюЯяЇїІіЄєҐґ0-9]+$/.test(v) ||
+                                                'Введіть адресу українською'
+                                    ]"
                             label="Адреса"
                             required
                         ></v-text-field>
 
                         <v-text-field
                             v-model="name"
+                            :rules="[(v) => /^[а-яА-Яа-щА-ЩЬьЮюЯяЇїІіЄєҐґ0-9]+$/.test(v) ||
+                                                'Введіть ПІБ українською'
+                                    ]"
                             label="ПІБ"
                             required
                         ></v-text-field>
@@ -70,7 +76,7 @@
                                                 /^[а-яА-Яа-щА-ЩЬьЮюЯяЇїІіЄєҐґ0-9]+$/.test(
                                                     v
                                                 ) ||
-                                                'Введіть номер українськими літерами без пробілів та спецсимволів',
+                                                'Введіть номер українськими літерами та цифрами без пробілів та спецсимволів',
                                         ]"
                                         prepend-inner-icon="mdi:mdi-car"
                                         label="Номер Автомобіля"
@@ -105,7 +111,7 @@
                                         name="color"
                                         hide-inputs
                                         :rules="[
-                                            (v) => !!v || 'Виберіть марку',
+                                            (v) => !!v || 'Виберіть колір',
                                         ]"
                                     ></v-color-picker>
                                 </v-expansion-panel-text>
@@ -152,7 +158,10 @@
                             v-model="comment"
                             name="comment"
                             label="Коментар"
-                            :rules="[(v) => !!v || 'Коментар обов`язково']"
+                            :rules="[(v) => !!v || 'Коментар обов`язково',
+                                    (v) => /^[а-яА-Яа-щА-ЩЬьЮюЯяЇїІіЄєҐґ0-9]+$/.test(v) ||
+                                                'Напишіть коментар українською'
+                                    ]"
                         />
 
                         <v-btn type="submit" color="green">Додати</v-btn>
@@ -210,6 +219,7 @@
 
 <script setup>
 import { ref, onMounted  } from "vue";
+import { useAuthStore } from "@/stores/auth";
 import { carTypeMap } from "@/utils/maps/carTypeMap";
 import { documentTypeMap } from "@/utils/maps/documentTypeMap";
 import { brandMap } from "@/utils/maps/brandMap";
@@ -220,6 +230,8 @@ import { getAllDistricts } from "@/mixins/getAllDistricts";
 onMounted(() => {
     getAllDistricts();
 })
+
+const authStore = useAuthStore();
 
 const router = useRouter()
 
@@ -292,6 +304,7 @@ async function addIncident() {
         car_model: model.value,
         car_color: color.value,
         comment: comment.value,
+        user_id: authStore.user.id,
         files: storedImages.value,
     };
 

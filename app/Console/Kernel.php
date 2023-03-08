@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\DemoCron::class,
         Commands\DeleteNonActivatedUsers::class,
+        Commands\PermanentlyDeleteTrashedUsers::class,
     ];
 
     /**
@@ -30,7 +31,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('demo:cron')
             ->everyMinute();
-        $schedule->command('users:delete')->everyMinute();
+        $schedule->command('nonActivatedUsers:delete')->everyMinute();
+        $schedule->command('trashedUsers:permanentlyDelete')->everyMinute();
     }
 
     /**

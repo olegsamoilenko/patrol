@@ -25,7 +25,7 @@
                                                 !!v ||
                                                 'Поле не може бути порожнім',
                                         ]"
-                                        label="Назва ролі"
+                                        label="Назва дозволу"
                                         required
                                     >
                                         <template #details>

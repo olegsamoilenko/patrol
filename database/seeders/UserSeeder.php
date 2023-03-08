@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     {
         $role = Role::where('name', 'Користувач')->first();
         User::factory()
-            ->count(30)
+            ->count(5)
             ->hasAttached($role)
             ->create()
         ;

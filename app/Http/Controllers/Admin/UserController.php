@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -39,13 +40,20 @@ class UserController extends Controller
      */
     public function getUserPagination(Request $request): JsonResponse
     {
-        $users = User::when($request->role, static function ($query, $role) {
+        $users = User::when($request->onlyTrashed === 'true', static function ($query) {
+            return $query->onlyTrashed();
+        })->when($request->role, static function ($query, $role) {
             $query->role($role);
-        })
-            ->when($request->search, static function ($query, $search) {
-                return $query->search($search);
-            })
-            ->with('roles')->with('permissions')->orderBy($request->sortBy, $request->sortDirection)->paginate(10);
+        })->when($request->search, static function ($query, $search) {
+            return $query->search($search);
+        })->with('roles')
+            ->with('permissions')
+            ->filterUsers($request->batalion, $request->company, $request->platoon)
+            ->orderBy($request->sortBy, $request->sortDirection)
+            ->paginate(10);
+
+//            dump(array_search(Auth::user()->roles));
+
 
         return response()->json([
             'users' => $users,
@@ -83,8 +91,8 @@ class UserController extends Controller
             [
                 'name' => 'required|string|max:255',
                 'surname' => 'required|string|max:255',
-                'phone' => 'required|string|max:255|unique:users,phone,'.$user->id,
-                'email' => 'required|email|unique:users,email,'.$user->id,
+                'phone' => 'required|string|max:255|unique:users,phone,' . $user->id,
+                'email' => 'required|email|unique:users,email,' . $user->id,
                 'roles' => 'required|array',
             ],
             [
@@ -104,6 +112,16 @@ class UserController extends Controller
 
         $user->update($request->all());
 
+        if ($user->wasChanged('is_activated') && $user->is_activated === 'Так') {
+            $user->activated_by = [
+                'user_id' => $request->user()->id,
+                'user_name' => $request->user()->name,
+                'user_surname' => $request->user()->surname,
+                'user_phone' => $request->user()->phone,
+            ];
+            $user->save();
+        }
+
         if (count($request->roles) && is_int($request->roles[0])) {
             $user->syncRoles($request->roles);
         }
@@ -117,10 +135,30 @@ class UserController extends Controller
     /**
      * Delete User.
      */
-    public function deleteUser(int $id): JsonResponse
+    public function softDeleteUser(int $id): JsonResponse
     {
         $user = User::where('id', $id)->first();
+        $user->deleted_by = [
+            'user_id' => auth()->user()->id,
+            'user_name' => auth()->user()->name,
+            'user_surname' => auth()->user()->surname,
+            'user_phone' => auth()->user()->phone,
+        ];
+        $user->save();
         $user->delete();
+
+        return response()->json([
+            'message' => 'Користувача успішно видалено',
+        ], 201);
+    }
+
+    /**
+     * Delete User.
+     */
+    public function deleteUser(int $id): JsonResponse
+    {
+        $user = User::withTrashed()->where('id', $id)->first();
+        $user->forceDelete();
         $user->roles()->detach();
 
         return response()->json([

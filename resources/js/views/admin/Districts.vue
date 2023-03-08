@@ -184,104 +184,10 @@
                                                 </v-card>
                                             </v-dialog>
                                             <!--End Edit District-->
-                                            <!--Delete District-->
-                                            <v-btn
-                                                icon
-                                                color="red"
-                                                width="var(--v-button-width)"
-                                                height="var(--v-button-height)"
-                                                @click="
-                                                    isDeleteDistrictModal = true
-                                                "
-                                            >
-                                                <v-icon>mdi:mdi-delete</v-icon>
-                                            </v-btn>
-
-                                            <v-dialog
-                                                v-model="isDeleteDistrictModal"
-                                                max-width="600px"
-                                            >
-                                                <v-card>
-                                                    <v-card-text>
-                                                        <span class="text-h5"
-                                                        >Бажаєте видалити
-                                                            {{
-                                                                district.title
-                                                            }}?</span
-                                                        >
-                                                    </v-card-text>
-                                                    <v-card-text>
-                                                        <v-col
-                                                            cols="12"
-                                                            class="d-flex justify-center"
-                                                        >
-                                                            <v-progress-circular
-                                                                v-if="
-                                                                    isDeleteDistrictModalLoader
-                                                                "
-                                                                indeterminate
-                                                                color="green"
-                                                                class="justify-center"
-                                                            ></v-progress-circular>
-                                                        </v-col>
-                                                    </v-card-text>
-
-                                                    <v-card-actions>
-                                                        <v-spacer></v-spacer>
-                                                        <v-btn
-                                                            color="green-darken-1"
-                                                            text
-                                                            @click="
-                                                                isDeleteDistrictModal = false;
-                                                                isDeleteDistrictModalLoader = false;
-                                                            "
-                                                        >
-                                                            Відмінити
-                                                        </v-btn>
-                                                        <v-btn
-                                                            color="green-darken-1"
-                                                            text
-                                                            :disabled="
-                                                                isDeleteDistrictModalLoader
-                                                            "
-                                                            @click="
-                                                                deleteDistrict(district)
-                                                            "
-                                                        >
-                                                            Видалити
-                                                        </v-btn>
-                                                    </v-card-actions>
-                                                </v-card>
-                                            </v-dialog>
-
-                                            <v-dialog
-                                                v-model="
-                                                    isDeleteDistrictConfirmationModal
-                                                "
-                                                max-width="600px"
-                                            >
-                                                <v-card>
-                                                    <v-card-text>
-                                                        <span class="text-h5"
-                                                        >Ви успішно видалили
-                                                            {{
-                                                                district.title
-                                                            }}</span
-                                                        >
-                                                    </v-card-text>
-                                                    <v-card-actions>
-                                                        <v-spacer></v-spacer>
-                                                        <v-btn
-                                                            color="green-darken-1"
-                                                            text
-                                                            @click="closeDeleteDistrictConfirmationModal"
-                                                        >
-                                                            Закрити
-                                                        </v-btn>
-                                                    </v-card-actions>
-                                                </v-card>
-                                            </v-dialog>
-                                            <!--End Delete District-->
+                                            <DeleteDistrict
+                                                :district="district"
+                                                @get-districts="getDistrictsPagination"
+                                            />
                                         </v-col>
                                     </v-row>
                                 </v-expansion-panel-text>
@@ -312,6 +218,7 @@ import { onMounted, ref } from "vue";
 import { getAllDistricts } from "@/mixins/getAllDistricts";
 import { removeAttribute } from "@/mixins/removeAttribute";
 import AddDistrict from "@/components/admin/districts/AddDistrict.vue";
+import DeleteDistrict from "@/components/admin/districts/DeleteDistrict.vue";
 
 onMounted(() => {
     getDistrictsPagination();
@@ -340,7 +247,6 @@ function getDistrictsPagination() {
             paginationCurrentPage.value = data.districts.current_page;
             paginationLastPage.value = data.districts.last_page;
             isLoader.value = false;
-            console.log(paginationDistricts.value)
         })
         .catch((error) => {
             console.log('error', error);

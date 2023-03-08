@@ -40,7 +40,6 @@ const props = defineProps({
     },
     icon: {
         type: String,
-        required: true,
     },
 });
 

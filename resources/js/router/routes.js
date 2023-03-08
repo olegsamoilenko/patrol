@@ -71,6 +71,36 @@ const routes = [
         },
     },
 
+    {
+        path: "/feedback",
+        name: "feedback",
+        component: () => import("@/views/Feedback.vue"),
+        meta: {
+            title: `Зворотній зв'язок`,
+            layout: 'Authenticated',
+            middleware: "auth",
+            role: "Користувач",
+        },
+        props: {
+            prependIcon: 'mdi:mdi-message-text',
+        },
+    },
+
+    {
+        path: "/chat",
+        name: "chat",
+        component: () => import("@/views/Chat.vue"),
+        meta: {
+            title: `Чат`,
+            layout: 'Authenticated',
+            middleware: "auth",
+            role: "Користувач",
+        },
+        props: {
+            prependIcon: 'mdi:mdi-chat',
+        },
+    },
+
     // Admin =====================================================
 
     {
@@ -111,7 +141,7 @@ const routes = [
             title: `Райони Міста`,
             layout: 'Authenticated',
             middleware: "auth",
-            role: "Адміністратор",
+            role: "Супер Адміністратор",
         },
         props: {
             prependIcon: 'mdi:mdi-city-variant-outline',
@@ -145,6 +175,21 @@ const routes = [
         },
         props: {
             prependIcon: 'mdi:mdi-account-details',
+        },
+    },
+
+    {
+        path: "/feedbacks",
+        name: "feedbacks",
+        component: () => import("@/views/admin/Feedbacks.vue"),
+        meta: {
+            title: `Повідомлення`,
+            layout: 'Authenticated',
+            middleware: "auth",
+            role: "Супер Адміністратор",
+        },
+        props: {
+            prependIcon: 'mdi:mdi-message-text',
         },
     },
 

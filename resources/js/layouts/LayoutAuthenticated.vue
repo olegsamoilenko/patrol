@@ -95,7 +95,7 @@
             <slot></slot>
         </v-main>
 
-        <v-footer app color="transparent" height="75px">
+        <v-footer app color="white" height="75px">
             <v-row justify="space-around" align="center">
                 <v-btn
                     class="ma-2"

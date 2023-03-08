@@ -16,7 +16,7 @@ class IncidentSeeder extends Seeder
     public function run()
     {
         Incident::factory()
-            ->count(18)
+            ->count(23)
             ->create()
         ;
     }

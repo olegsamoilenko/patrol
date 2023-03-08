@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('surname');
             $table->string('phone', 100)->unique();
             $table->string('email')->unique();
+            $table->integer('formation_id');
+            $table->integer('battalion')->nullable();
+            $table->integer('company')->nullable();
+            $table->integer('platoon')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
