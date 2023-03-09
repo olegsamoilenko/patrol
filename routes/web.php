@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Main\IncidentController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,8 +30,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/{catchall?}', [HomeController::class, 'index'])->where('catchall', '.*');
-Route::patch('/fcm-token', [HomeController::class, 'updateToken'])->name('fcmToken');
-Route::post('/send-notification',[HomeController::class,'notification'])->name('notification');
+Route::patch('/fcm-token', [NotificationController::class, 'updateToken'])->name('fcmToken');
+Route::post('/send-notification',[NotificationController::class,'notification'])->name('notification');
 
 Auth::routes();
 
