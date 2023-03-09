@@ -13,10 +13,23 @@
 import Layout from '@/layouts/Layout.vue'
 import { onBeforeMount } from 'vue'
 import { useAuthStore } from "@/stores/auth";
+// import {useFirebase} from "./firebase.js";
+
+import {useChatsStore} from "@/stores/chats";
+const chatsStore = useChatsStore();
+
+// const firebase = useFirebase();
+
+Echo.private('chat')
+    .listen('ChatMessage', (e) => {
+        console.log(e)
+        chatsStore.getMessages();
+    });
 
 const store = useAuthStore();
 
     onBeforeMount(() => {
+        // firebase.firebaseInit()
         return axios
             .get("/api/user")
             .then(({ data }) => {

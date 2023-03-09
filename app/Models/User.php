@@ -31,6 +31,7 @@ class User extends Authenticatable
         'phone',
         'email',
         'password',
+        'fcm_token',
         'is_activated',
         'is_headquarters',
         'formation_id',
@@ -137,13 +138,13 @@ class User extends Authenticatable
         return $this->belongsTo(Formation::class);
     }
 
-    public function chats()
+    public function messages()
     {
-        return $this->hasMany(Chat::class);
+        return $this->hasMany(Message::class);
     }
 
-    public function chatActions()
-    {
-        return $this->hasMany(ChatAction::class);
-    }
+//    public function chatActions()
+//    {
+//        return $this->hasMany(ChatAction::class);
+//    }
 }

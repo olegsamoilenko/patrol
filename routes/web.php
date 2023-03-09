@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Main\IncidentController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,10 +28,10 @@ use Illuminate\Support\Facades\Route;
 // //    Route::resource('incident', 'IncidentController');
 // });
 
-Route::get('/{catchall?}', static function () {
-    return view('layouts.app');
-})->where('catchall', '.*');
+Route::get('/{catchall?}', [HomeController::class, 'index'])->where('catchall', '.*');
+Route::patch('/fcm-token', [HomeController::class, 'updateToken'])->name('fcmToken');
+Route::post('/send-notification',[HomeController::class,'notification'])->name('notification');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

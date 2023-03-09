@@ -7,19 +7,19 @@
                 </div>
                 <div v-else>
                     <v-card
-                        v-for="chat in chatsStore.allChats"
-                        :key="chat.id"
+                        v-for="message in chatsStore.allMessages"
+                        :key="message.id"
                         rounded="3"
                         class="mb-3 message"
                     >
                         <v-col>
-                            {{ chat.user.name }} {{ chat.user.surname }}
+                            {{ message.user.name }} {{ message.user.surname }}
                         </v-col>
                         <v-col>
-                            {{ chat.message }}
+                            {{ message.message }}
                         </v-col>
                         <v-col class="date">
-                            {{ humanizeDate(chat.created_at) }}
+                            {{ humanizeDate(message.created_at) }}
                         </v-col>
 
                     </v-card>
@@ -49,7 +49,7 @@ const authStore = useAuthStore();
 const {humanizeDate, formattedDate} = date()
 
 onMounted(() => {
-    chatsStore.getChats();
+    chatsStore.getMessages();
 });
 
 const message = ref('')
@@ -63,8 +63,8 @@ async function handleSubmit() {
             "content-type": "multipart/form-data",
         },
     };
-    await chatsStore.storeChat(data, config)
-    chatsStore.getChats();
+    await chatsStore.storeMessage(data, config)
+    chatsStore.getMessages();
 }
 
 const isLoader = computed(() => {

@@ -2,26 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ChatMessage;
 use App\Models\Chat;
+use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\SendChatNotification;
 
 class ChatController extends Controller
 {
-    public function getAllChats()
+    public function getAllMessages()
     {
-        $chats = Chat::with('user')->get();
+        $messages = Message::with('user')->get();
 
         return response()->json([
-            'chats' => $chats,
+            'messages' => $messages,
         ], 201);
     }
 
-    public function storeChat(Request $request)
+    public function storeMessage(Request $request)
     {
-        $chat = Chat::create($request->all());
+        $user = Auth::user();
+        $message = Message::create($request->all());
+
+        broadcast(new ChatMessage($user, $message))->toOthers();
+        $user->notify(new SendChatNotification('Повідомлення','Отримано нове повідомлення в чаті', $user->fcm_token));
 
         return response()->json([
-            'chat' => $chat,
+            'message' => $message,
         ], 201);
     }
 }

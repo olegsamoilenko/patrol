@@ -2,15 +2,15 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useChatsStore = defineStore('chats', () => {
-    const allChats = ref(null);
+    const allMessages = ref(null);
     const isLoadedChats = ref(false)
 
-    function getChats() {
+    function getMessages() {
         axios
-            .get("/api/get-all-chats")
+            .get("/api/messages")
             .then(({data}) => {
-                allChats.value = data.chats;
-                console.log('allChats', allChats.value)
+                allMessages.value = data.messages;
+                console.log('allMessages', allMessages.value)
             })
             .catch((error) => {
                 console.log('error', error);
@@ -20,9 +20,9 @@ export const useChatsStore = defineStore('chats', () => {
             });
     }
 
-    function storeChat(data, config) {
+    function storeMessage(data, config) {
         axios
-            .post("/api/store-chat", data, config)
+            .post("/api/message", data, config)
             .then(({data}) => {
                 console.log('data', data)
             })
@@ -35,5 +35,5 @@ export const useChatsStore = defineStore('chats', () => {
     }
 
 
-    return { allChats, isLoadedChats, getChats, storeChat }
+    return { allMessages, isLoadedChats, getMessages, storeMessage }
 })

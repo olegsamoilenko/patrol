@@ -26,6 +26,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->text('fcm_token')->nullable();
             $table->string('is_activated')->default('Ні');
             $table->json('activated_by')->nullable();
             $table->timestamps();

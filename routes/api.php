@@ -89,6 +89,6 @@ Route::group([
 
     Route::post('/store-feedback', [FeedbackController::class, 'storeFeedback']);
 
-    Route::get('/get-all-chats', [ChatController::class, 'getAllChats']);
-    Route::post('/store-chat', [ChatController::class, 'storeChat']);
+    Route::get('messages', [ChatController::class, 'getAllMessages']);
+    Route::post('message', [ChatController::class, 'storeMessage']);
 });
