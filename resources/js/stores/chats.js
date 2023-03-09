@@ -10,7 +10,6 @@ export const useChatsStore = defineStore('chats', () => {
             .get("/api/messages")
             .then(({data}) => {
                 allMessages.value = data.messages;
-                console.log('allMessages', allMessages.value)
             })
             .catch((error) => {
                 console.log('error', error);
@@ -24,7 +23,7 @@ export const useChatsStore = defineStore('chats', () => {
         axios
             .post("/api/message", data, config)
             .then(({data}) => {
-                console.log('data', data)
+
             })
             .catch((error) => {
                 console.log('error', error);

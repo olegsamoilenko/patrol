@@ -24,13 +24,51 @@
 
                     </v-card>
                     <v-card position="fixed" class="test" elevation="0">
+                        <v-card-title>Нове повідомлення</v-card-title>
+                        <v-card-text>
                             <v-form @submit.prevent="handleSubmit()">
                                 <v-textarea name="message" rows="1" v-model="message"></v-textarea>
                                 <div class="buttons">
-                                    <v-btn>+</v-btn>
-                                    <v-btn type="submit">Додати</v-btn>
+<!--                                    <v-file-input-->
+<!--                                        name="files[]"-->
+<!--                                        type="file"-->
+<!--                                        label="Додати фото або файл"-->
+<!--                                        prepend-icon="mdi:mdi-camera"-->
+<!--                                        multiple-->
+<!--                                        density="compact"-->
+<!--                                        hint-->
+<!--                                        @change="onFileChange"-->
+<!--                                        class="mr-3"-->
+<!--                                    ></v-file-input>-->
+                                    <v-btn type="submit">Відправити</v-btn>
+<!--                                    <v-row class="mb-3">-->
+<!--                                        <v-col-->
+<!--                                            v-for="image in imagesPreview"-->
+<!--                                            :key="image"-->
+<!--                                            cols="6"-->
+<!--                                            class="relative"-->
+<!--                                        >-->
+<!--                                            <v-img-->
+<!--                                                class="bg-white rounded border"-->
+<!--                                                :aspect-ratio="1"-->
+<!--                                                :src="image.f"-->
+<!--                                            ></v-img>-->
+<!--                                            <v-btn-->
+<!--                                                icon-->
+<!--                                                size="x-small"-->
+<!--                                                class="absolute bg-red-accent-2"-->
+<!--                                                @click="removeImage(image)"-->
+<!--                                            ><v-icon-->
+<!--                                                class="text-white bg-red-accent-2"-->
+<!--                                                icon="mdi:mdi-close"-->
+<!--                                            ></v-icon-->
+<!--                                            ></v-btn>-->
+<!--                                        </v-col>-->
+<!--                                    </v-row>-->
                                 </div>
                             </v-form>
+                        </v-card-text>
+
                     </v-card>
                 </div>
         </v-container>
