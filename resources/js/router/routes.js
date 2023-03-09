@@ -72,6 +72,21 @@ const routes = [
     },
 
     {
+        path: "/chat",
+        name: "chat",
+        component: () => import("@/views/Chat.vue"),
+        meta: {
+            title: `Чат`,
+            layout: 'Authenticated',
+            middleware: "auth",
+            role: "Користувач",
+        },
+        props: {
+            prependIcon: 'mdi:mdi-chat',
+        },
+    },
+
+    {
         path: "/feedback",
         name: "feedback",
         component: () => import("@/views/Feedback.vue"),
@@ -86,20 +101,7 @@ const routes = [
         },
     },
 
-    {
-        path: "/chat",
-        name: "chat",
-        component: () => import("@/views/Chat.vue"),
-        meta: {
-            title: `Чат`,
-            layout: 'Authenticated',
-            middleware: "auth",
-            role: "Користувач",
-        },
-        props: {
-            prependIcon: 'mdi:mdi-chat',
-        },
-    },
+
 
     // Admin =====================================================
 

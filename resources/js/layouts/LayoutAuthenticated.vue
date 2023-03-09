@@ -100,13 +100,6 @@
                 <v-btn
                     class="ma-2"
                     color="green"
-                    icon="mdi:mdi-eye-outline"
-                    to="/incidents"
-                ></v-btn>
-
-                <v-btn
-                    class="ma-2"
-                    color="green"
                     icon="mdi:mdi-home"
                     to="/"
                 ></v-btn>
@@ -116,6 +109,20 @@
                     color="green"
                     icon="mdi:mdi-plus"
                     to="/add-incident"
+                ></v-btn>
+
+                <v-btn
+                    class="ma-2"
+                    color="green"
+                    icon="mdi:mdi-eye-outline"
+                    to="/incidents"
+                ></v-btn>
+
+                <v-btn
+                    class="ma-2"
+                    color="green"
+                    icon="mdi:mdi-chat"
+                    to="/chat"
                 ></v-btn>
             </v-row>
         </v-footer>
