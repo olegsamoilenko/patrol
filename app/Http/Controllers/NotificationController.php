@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Notifications\SendChatNotification;
 use Illuminate\Http\Request;
+use Notification;
 use Kutia\Larafirebase\Facades\Larafirebase;
 
 //use Kutia\Larafirebase\Serveces\Larafirebase;
@@ -45,11 +47,11 @@ class NotificationController extends Controller
         try {
             $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
 
-            //Notification::send(null,new SendPushNotification($request->title,$request->message,$fcmTokens));
+            Notification::send(null,new SendChatNotification($request->title, $request->message, $fcmTokens));
 
             /* or */
 
-            //auth()->user()->notify(new SendPushNotification($title,$message,$fcmTokens));
+//            auth()->user()->notify(new SendChatNotification($request->title,$request->message,$fcmTokens));
 
             /* or */
 

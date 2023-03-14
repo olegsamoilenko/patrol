@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\ChatMessage;
 use App\Models\Chat;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\SendChatNotification;
@@ -26,7 +27,14 @@ class ChatController extends Controller
         $message = Message::create($request->all());
 
         broadcast(new ChatMessage($user, $message));
-        $user->notify(new SendChatNotification('Повідомлення','Отримано нове повідомлення в чаті', $user->fcm_token));
+        $users = User::all();
+        foreach ($users as $user) {
+            if ($user->fcm_token == null) {
+                continue;
+            } else {
+                $user->notify(new SendChatNotification('Повідомлення','Отримано нове повідомлення в чаті', $user->fcm_token));
+            }
+        }
 
 
 

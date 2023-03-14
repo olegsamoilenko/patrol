@@ -21,7 +21,7 @@ class SendChatNotification extends Notification
      *
      * @return void
      */
-    public function __construct($message,$title,$fcmTokens)
+    public function __construct($message, $title, $fcmTokens)
     {
         $this->title = $title;
         $this->message = $message;
