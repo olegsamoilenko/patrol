@@ -85,7 +85,6 @@
                                 </v-col>
                             </v-row>
 
-
                         </v-form>
                     </v-card-text>
 
@@ -113,7 +112,6 @@ onMounted(() => {
 const message = ref('')
 
 async function handleSubmit() {
-    console.log(111)
     const data = {
         message: message.value,
         user_id: authStore.user.id
