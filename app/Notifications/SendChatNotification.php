@@ -14,6 +14,7 @@ class SendChatNotification extends Notification
 
     protected $title;
     protected $message;
+    protected $url;
     protected $fcmTokens;
 
     /**
@@ -21,10 +22,12 @@ class SendChatNotification extends Notification
      *
      * @return void
      */
-    public function __construct($message, $title, $fcmTokens)
+    public function __construct($message, $title, $url, $fcmTokens)
     {
         $this->title = $title;
         $this->message = $message;
+        $this->url = $url;
+
         $this->fcmTokens = $fcmTokens;
     }
 
@@ -44,6 +47,7 @@ class SendChatNotification extends Notification
         return (new FirebaseMessage)
             ->withTitle($this->title)
             ->withBody($this->message)
+            ->withClickAction($this->url)
             ->withPriority('high')->asMessage($this->fcmTokens);
     }
 }

@@ -32,7 +32,7 @@ class ChatController extends Controller
             if ($user->fcm_token == null) {
                 continue;
             } else {
-                $user->notify(new SendChatNotification('Повідомлення','Отримано нове повідомлення в чаті', $user->fcm_token));
+                $user->notify(new SendChatNotification('Отримано нове повідомлення в чаті','Повідомлення', 'https://dftg.uareg.com', $user->fcm_token));
             }
         }
 
