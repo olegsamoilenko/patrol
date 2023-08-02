@@ -17,7 +17,7 @@
         "pusher-js": "^8.0.1",
         "roboto-fontface": "*",
         "v-pagination-3": "^0.1.7",
-        "vee-validate": "^4.7.0",
+        "vee-validate": "^4.10.6",
         "vue": "^3.2.36",
         "vue-loader": "^17.0.0",
         "vue-router": "^4.1.5",
