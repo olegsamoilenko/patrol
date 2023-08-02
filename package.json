@@ -18,7 +18,7 @@
         "roboto-fontface": "*",
         "v-pagination-3": "^0.1.7",
         "vee-validate": "^4.7.0",
-        "vue": "^3.2.36",
+        "vue": "^3.3.4",
         "vue-loader": "^17.0.0",
         "vue-router": "^4.1.5",
         "vuetify": "^3.0.0-beta.0",
@@ -45,7 +45,7 @@
         "sass": "^1.32.11",
         "vite": "^3.0.8",
         "vite-plugin-vuetify": "^1.0.0-alpha.12",
-        "vue": "^3.2.37",
+        "vue": "^3.3.4",
         "vue-cli-plugin-vuetify": "~2.5.8"
     }
 }
