@@ -12,7 +12,7 @@
         "firebase": "^9.17.2",
         "laravel-echo": "^1.15.0",
         "moment": "^2.29.4",
-        "pinia": "^2.0.23",
+        "pinia": "^2.1.4",
         "pinia-plugin-persistedstate": "^2.3.0",
         "pusher-js": "^8.0.1",
         "roboto-fontface": "*",
