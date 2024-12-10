@@ -9,7 +9,7 @@
         "@hennge/vue3-pagination": "^1.0.17",
         "@vitejs/plugin-vue": "^3.1.2",
         "dayjs": "^1.11.6",
-        "firebase": "^9.17.2",
+        "firebase": "^10.2.0",
         "laravel-echo": "^1.15.0",
         "moment": "^2.29.4",
         "pinia": "^2.0.23",
